@@ -1,15 +1,15 @@
 === AddQuicktag ===
 Contributors: Bueltge
 Donate link: http://bueltge.de/wunschliste/
-Tags: copyright, feed, protection, content, theft, related, posts, comment, rss, more, full text, atom
+Tags: quicktag, editor
 Requires at least: 1.5
-Tested up to: 2.1.3
-Stable tag: 3.1
+Tested up to: 2.3
+Stable tag: 0.3
 
 This plugin make it easy, Quicktags add to the editor. It is possible to ex- and import your Quicktags.
 
 == Description ==
-WP-AddQuicktag for Wordpress is in originally by Roel Meurders. AddQuicktag is an newer version with more functions and worked in WP 2.1
+WP-AddQuicktag for Wordpress is in originally by [Roel Meurders](http://roel.meurders.nl/ "Roel Meurders"). AddQuicktag is an newer version with more functions and worked in WP 2.1
 
 Please visit [the official website](http://bueltge.de/wp-addquicktags-de-plugin/120 "AddQuicktag") for further details and the latest information on this plugin.
 
