@@ -1,0 +1,97 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AddQuicktag\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-05-04 12:31+0100\n"
+"Last-Translator: Frank Bueltge <frank@bueltge.de>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+
+
+#: addquicktag.php:76
+msgid "Options saved."
+msgstr ""
+
+#: addquicktag.php:82
+msgid "wpaq_export.wpaq is exist!"
+msgstr ""
+
+#: addquicktag.php:85
+msgid "AddQuicktag options saved!"
+msgstr ""
+
+#: addquicktag.php:86
+msgid "Saved in: "
+msgstr ""
+
+#: addquicktag.php:100
+msgid "Invalid file extension!"
+msgstr ""
+
+#: addquicktag.php:115
+msgid "AddQuicktag options imported!"
+msgstr ""
+
+#: addquicktag.php:120
+msgid "Adding or deleting Quicktag-buttons"
+msgstr ""
+
+#: addquicktag.php:121
+msgid "Fill in the fields below to add or edit the quicktags. Fields with * are compulsary. To delete a tag simply empty all fields."
+msgstr ""
+
+#: addquicktag.php:122
+msgid "Buttonstring*"
+msgstr ""
+
+#: addquicktag.php:123
+msgid "Start tag(s)*"
+msgstr ""
+
+#: addquicktag.php:124
+msgid "End tag(s)"
+msgstr ""
+
+#: addquicktag.php:125
+msgid "Update Options &raquo;"
+msgstr ""
+
+#: addquicktag.php:128
+msgid "Export &raquo;"
+msgstr ""
+
+#: addquicktag.php:129
+msgid "Export Quicktag-buttons options"
+msgstr ""
+
+#: addquicktag.php:130
+msgid "You can save a wpaq-File with your options in <em>/wp-content/wpaq_export.wpaq</em>"
+msgstr ""
+
+#: addquicktag.php:133
+msgid "Upload file and import &raquo;"
+msgstr ""
+
+#: addquicktag.php:134
+msgid "Import Quicktag-buttons options"
+msgstr ""
+
+#: addquicktag.php:135
+msgid "Choose a AddQuicktag (<em>wpaq</em>) file to upload, then click Upload file and import."
+msgstr ""
+
+#: addquicktag.php:136
+msgid "Choose a file from your computer: "
+msgstr ""
+
+#: addquicktag.php:139
+msgid "Further information: Visit the <a href='http://bueltge.de/wp-addquicktags-de-plugin/120'>plugin homepage</a> for further information or to grab the latest version of this plugin."
+msgstr ""
+
+#: addquicktag.php:140
+msgid "You want to thank me? Visit my <a href='http://bueltge.de/wunschliste/'>wishlist</a>."
+msgstr ""
+
