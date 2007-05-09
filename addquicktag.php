@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: AddQuicktag
-Version: 0.5
+Version: 0.6
 Plugin URI: http://bueltge.de/wp-addquicktags-de-plugin/120
 Description: This plugin make it easy, Quicktags add to the editor. It is possible to ex- and import your Quicktags. Use it <a href="options-general.php?page=addquicktag.php">Options --> Add Quicktags</a> by <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http://bueltge.de" >Frank Bueltge</a>
 */
@@ -24,7 +24,6 @@ Description: This plugin make it easy, Quicktags add to the editor. It is possib
 
 */
 // NO EDITING HERE!!!!! ////////////////////////////////////////////////////////////////
-
 if(function_exists('load_plugin_textdomain'))
   load_plugin_textdomain('addquicktag','wp-content/plugins');
 
@@ -43,7 +42,7 @@ function wpaq_install() {
 if (function_exists('add_action')) {
 	add_action('admin_menu', 'wpaq_admin_menu');
 	
-	if (isset($_GET['activate']) && $_GET['activate'] == 'true') {
+	if (strpos($_SERVER['REQUEST_URI'], 'addquicktag.php')) {
 		add_action('init', 'wpaq_install');
 	}
 }
