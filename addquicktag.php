@@ -23,6 +23,7 @@ Description: This plugin make it easy, Quicktags add to the editor. It is possib
 	be held responsible for any damage that this script might cause.
 
 */
+
 // NO EDITING HERE!!!!! ////////////////////////////////////////////////////////////////
 if(function_exists('load_plugin_textdomain'))
   load_plugin_textdomain('addquicktag','wp-content/plugins');
@@ -30,12 +31,14 @@ if(function_exists('load_plugin_textdomain'))
 function wpaq_install() {
 	global $wpdb;
 
-	$name        = 'rmnlQuicktagSettings';
-	$value       = 'a:1:{s:7:"buttons";a:1:{i:0;a:3:{s:4:"text";s:7:"Example";s:5:"start";s:9:"<example>";s:3:"end";s:10:"</example>";}}}';
-	$description = '';
-	$autoload    = 'yes';
-	$wpdb->query("INSERT INTO $wpdb->options (option_name, option_value, option_description, autoload) VALUES ('$name', '$value', '$description', '$autoload')");
-
+	if (!get_option('rmnlQuicktagSettings') != '') {
+		$name        = 'rmnlQuicktagSettings';
+		$value       = 'a:1:{s:7:"buttons";a:1:{i:0;a:3:{s:4:"text";s:7:"Example";s:5:"start";s:9:"<example>";s:3:"end";s:10:"</example>";}}}';
+		$description = '';
+		$autoload    = 'yes';
+		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_value, option_description, autoload) VALUES ('$name', '$value', '$description', '$autoload')");
+	}
+	
 	return;
 }
 
