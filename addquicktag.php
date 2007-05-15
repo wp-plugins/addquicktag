@@ -67,10 +67,10 @@ function wpaq_options_page(){
 		for ($i = 0; $i < count($_POST['wpaq']['buttons']); $i++){
 			$b = $_POST['wpaq']['buttons'][$i];
 			if ($b['text'] != '' && $b['start'] != ''){
-				$b['text'] = htmlentities($b['text']);
-				$b['start'] = stripslashes($b['start']);
-				$b['end'] = stripslashes($b['end']);
-				$buttons[] = $b;
+				$b['text']    = htmlentities($b['text']);
+				$b['start']   = stripslashes($b['start']);
+				$b['end']     = stripslashes($b['end']);
+				$buttons[]    = $b;
 			}
 		}
 		$_POST['wpaq']['buttons'] = $buttons;
@@ -84,7 +84,7 @@ function wpaq_options_page(){
 		$wpaq_data = mysql_result($wpaq_data, 0);
 		$file_name = $wpaq_document_root . '/wpaq_export-' . date('Y-m-d_G-i-s') . '.wpaq';
 		$file_name = str_replace("//", "/", $file_name);
-		$fh = @ fopen($file_name, 'w');
+		$fh        = @ fopen($file_name, 'w');
 		
 		if ($fh == false) {
 			$message_export = '<div class="error"><p><strong>' . __('Can not open for write!', 'addquicktag') . '</strong></p></div>';
@@ -109,7 +109,7 @@ function wpaq_options_page(){
 
 		// check file extension sql
 		$str_file_name = $_FILES['datei']['name'];
-		$str_file_ext = explode(".", $str_file_name);
+		$str_file_ext  = explode(".", $str_file_name);
 
 		if ($str_file_ext[1] != 'wpaq') {
 			$message_export.= __('Invalid file extension!', 'addquicktag');
