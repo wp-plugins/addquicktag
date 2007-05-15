@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AddQuicktag\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-05-04 12:39+0100\n"
+"PO-Revision-Date: 2007-05-15 14:24+0100\n"
 "Last-Translator: Frank Bueltge <frank@bueltge.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -66,8 +66,8 @@ msgid "Export Quicktag-buttons options"
 msgstr "Exportiere deine Quicktag-buttons"
 
 #: addquicktag.php:130
-msgid "You can save a wpaq-File with your options in <em>/wp-content/wpaq_export.wpaq</em>"
-msgstr "Du kannst eine wpaq-Datei mit allen Einstellungen auf <em>/wp-content/wpaq_export.wpaq</em> speichern."
+msgid "You can save a wpaq-File with your options in <em>/wp-content/</em>"
+msgstr "Du kannst eine wpaq-Datei mit allen Einstellungen auf <em>/wp-content/</em> speichern."
 
 #: addquicktag.php:133
 msgid "Upload file and import &raquo;"

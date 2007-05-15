@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: AddQuicktag
-Version: 0.6
+Version: 0.7
 Plugin URI: http://bueltge.de/wp-addquicktags-de-plugin/120
 Description: This plugin make it easy, Quicktags add to the editor. It is possible to ex- and import your Quicktags. Use it <a href="options-general.php?page=addquicktag.php">Options --> Add Quicktags</a> by <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http://bueltge.de" >Frank Bueltge</a>
 */
@@ -78,14 +78,27 @@ function wpaq_options_page(){
 		$message = '<div class="updated"><p><strong>' . __('Options saved.', 'addquicktag') . '</strong></p></div>';
 	}
 	
-	// Export in sql-file
+	// Export sql-option
 	if (($_POST['action'] == 'export')) {
-		if (file_exists(ABSPATH . '/wp-content/wpaq_export.wpaq')) {
-			$message_export = '<div class="error"><p><strong>' . __('wpaq_export.wpaq is exist!', 'addquicktag') . '</strong></p></div>';
+		$wpaq_data = mysql_query("SELECT option_value FROM $wpdb->options WHERE option_name = 'rmnlQuicktagSettings'");
+		$wpaq_data = mysql_result($wpaq_data, 0);
+		$file_name = $wpaq_document_root . '/wpaq_export-' . date('Y-m-d_G-i-s') . '.wpaq';
+		$file_name = str_replace("//", "/", $file_name);
+		$fh = @ fopen($file_name, 'w');
+		
+		if ($fh == false) {
+			$message_export = '<div class="error"><p><strong>' . __('Can not open for write!', 'addquicktag') . '</strong></p></div>';
 		} else {
-			$wpdb->query("SELECT option_value INTO OUTFILE '" . $wpaq_document_root . "/wpaq_export.wpaq' FROM $wpdb->options WHERE option_name = 'rmnlQuicktagSettings'");
+			@flock($fh, LOCK_EXCLUSIVE);
+			$err = @fputs($fh, $wpaq_data);
+			@fclose($fh);
+	
+			if ($err === false) {
+				$message_export = '<div class="error"><p><strong>' . __('Can not write!', 'addquicktag') . '</strong></p></div>';
+			}
+	
 			$message_export = '<div class="updated"><p><strong>' . __('AddQuicktag options saved!', 'addquicktag') . '</strong><br />';
-			$message_export.= __('Saved in: ', 'addquicktag') . $wpaq_document_root . '/wpaq_export.wpaq';
+			$message_export.= __('Saved in: ', 'addquicktag') . $file_name;
 			$message_export.= '</p></div>';
 		}
 	}
@@ -100,15 +113,17 @@ function wpaq_options_page(){
 
 		if ($str_file_ext[1] != 'wpaq') {
 			$message_export.= __('Invalid file extension!', 'addquicktag');
+		} elseif (file_exists($_FILES['datei']['name'])) {
+			$message_export.= __('File is exist!', 'addquicktag');
 		} else {
 	    // path for file
 	    $wpaq_document_root = str_replace("/wp-admin/options-general.php?page=addquicktag.php", "/wp-content/", $wpaq_document_root);
-	    $str_ziel = $wpaq_document_root . $_FILES['datei']['name'];
+	    $str_ziel = $wpaq_document_root . '/' . $_FILES['datei']['name'];
+	    $str_ziel = str_replace("//", "/", $str_ziel);
 	    // transfer
 	    move_uploaded_file($_FILES['datei']['tmp_name'], $str_ziel);
 	    // 	access authorisation
 	    chmod($str_ziel, 0644);
-			
 			// SQL import
 			ini_set('default_socket_timeout', 120);  
 			$import_file = file_get_contents($str_ziel);
@@ -129,7 +144,7 @@ function wpaq_options_page(){
 	// Export strings
 	$button2 = __('Export &raquo;', 'addquicktag');
 	$export1 = __('Export Quicktag-buttons options', 'addquicktag');
-	$export2 = __('You can save a wpaq-File with your options in <em>/wp-content/wpaq_export.wpaq</em>', 'addquicktag');
+	$export2 = __('You can save a wpaq-File with your options in <em>/wp-content/</em>', 'addquicktag');
 
 	// Import strings
 	$button3 = __('Upload file and import &raquo;', 'addquicktag');
