@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AddQuicktag\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-06-25 13:55+0100\n"
+"PO-Revision-Date: 2007-06-25 13:58+0100\n"
 "Last-Translator: Frank Bueltge <frank@bueltge.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgstr "Fülle das Feld unterhalb der bestehenden Buttons oder ändere einen Qui
 
 #: addquicktag.php:122
 msgid "Button Label*"
-msgstr "Button-name"
+msgstr "Button Name*"
 
 #: addquicktag.php:123
 msgid "Start Tag(s)*"
