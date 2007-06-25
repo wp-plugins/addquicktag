@@ -36,23 +36,23 @@ msgid "AddQuicktag options imported!"
 msgstr ""
 
 #: addquicktag.php:120
-msgid "Adding or deleting Quicktag-buttons"
+msgid "Add or delete Quicktag buttons"
 msgstr ""
 
 #: addquicktag.php:121
-msgid "Fill in the fields below to add or edit the quicktags. Fields with * are compulsary. To delete a tag simply empty all fields."
+msgid "Fill in the fields below to add or edit the quicktags. Fields with * are required. To delete a tag simply empty all fields."
 msgstr ""
 
 #: addquicktag.php:122
-msgid "Buttonstring*"
+msgid "Button Label*"
 msgstr ""
 
 #: addquicktag.php:123
-msgid "Start tag(s)*"
+msgid "Start Tag(s)*"
 msgstr ""
 
 #: addquicktag.php:124
-msgid "End tag(s)"
+msgid "End Tag(s)"
 msgstr ""
 
 #: addquicktag.php:125
@@ -64,11 +64,11 @@ msgid "Export &raquo;"
 msgstr ""
 
 #: addquicktag.php:129
-msgid "Export Quicktag-buttons options"
+msgid "Export Quicktag buttons options"
 msgstr ""
 
 #: addquicktag.php:130
-msgid "You can save a wpaq-File with your options in <em>/wp-content/wpaq_export.wpaq</em>"
+msgid "You can save a .wpaq file with your options in <em>/wp-content/wpaq_export.wpaq</em>"
 msgstr ""
 
 #: addquicktag.php:133
@@ -76,11 +76,11 @@ msgid "Upload file and import &raquo;"
 msgstr ""
 
 #: addquicktag.php:134
-msgid "Import Quicktag-buttons options"
+msgid "Import Quicktag buttons options"
 msgstr ""
 
 #: addquicktag.php:135
-msgid "Choose a AddQuicktag (<em>wpaq</em>) file to upload, then click Upload file and import."
+msgid "Choose a Quicktag (<em>.wpaq</em>) file to upload, then click <em>Upload file and import</em>."
 msgstr ""
 
 #: addquicktag.php:136

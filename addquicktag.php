@@ -1,9 +1,10 @@
 <?php
 /*
 Plugin Name: AddQuicktag
-Version: 0.7
+Version: 0.8
 Plugin URI: http://bueltge.de/wp-addquicktags-de-plugin/120
-Description: This plugin make it easy, Quicktags add to the editor. It is possible to ex- and import your Quicktags. Use it <a href="options-general.php?page=addquicktag.php">Options --> Add Quicktags</a> by <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http://bueltge.de" >Frank Bueltge</a>
+Description: This plugin make it easy, Quicktags add to the editor. It is possible to ex- and import your Quicktags. Use it <a href="options-general.php?page=addquicktag.php">Options --> Add Quicktags</a>
+Author: <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http://bueltge.de" >Frank Bueltge</a>
 */
 
 // SCRIPT INFO ///////////////////////////////////////////////////////////////////////////
@@ -134,22 +135,22 @@ function wpaq_options_page(){
 		$message_export.= '</strong></p></div>';
 	}
 	
-	$string1 = __('Adding or deleting Quicktag-buttons', 'addquicktag');
-	$string2 = __('Fill in the fields below to add or edit the quicktags. Fields with * are compulsary. To delete a tag simply empty all fields.', 'addquicktag');
-	$field1  = __('Buttonstring*', 'addquicktag');
-	$field2  = __('Start tag(s)*', 'addquicktag');
-	$field3  = __('End tag(s)', 'addquicktag');
+	$string1 = __('Add or delete Quicktag buttons', 'addquicktag');
+	$string2 = __('Fill in the fields below to add or edit the quicktags. Fields with * are required. To delete a tag simply empty all fields.', 'addquicktag');
+	$field1  = __('Button Label*', 'addquicktag');
+	$field2  = __('Start Tag(s)*', 'addquicktag');
+	$field3  = __('End Tag(s)', 'addquicktag');
 	$button1 = __('Update Options &raquo;', 'addquicktag');
 
 	// Export strings
 	$button2 = __('Export &raquo;', 'addquicktag');
-	$export1 = __('Export Quicktag-buttons options', 'addquicktag');
-	$export2 = __('You can save a wpaq-File with your options in <em>/wp-content/</em>', 'addquicktag');
+	$export1 = __('Export Quicktag buttons options', 'addquicktag');
+	$export2 = __('You can save a .wpaq file with your options in <em>/wp-content/wpaq_export.wpaq</em>', 'addquicktag');
 
 	// Import strings
 	$button3 = __('Upload file and import &raquo;', 'addquicktag');
-	$import1 = __('Import Quicktag-buttons options', 'addquicktag');
-	$import2 = __('Choose a AddQuicktag (<em>wpaq</em>) file to upload, then click Upload file and import.', 'addquicktag');
+	$import1 = __('Import Quicktag buttons options', 'addquicktag');
+	$import2 = __('Choose a Quicktag (<em>.wpaq</em>) file to upload, then click <em>Upload file and import</em>.', 'addquicktag');
 	$import3 = __('Choose a file from your computer: ', 'addquicktag');
 
 	// Info
@@ -202,7 +203,7 @@ EOT;
 					<legend>{$export1}</legend>
 					<p>{$export2}</p>
 					<p class="submit">
-						<input type="submit" name="Submit_export" value="{$button2}" />
+						<input type="submit" name="Submit_export" value="{$button2}" /> 
 						<input type="hidden" name="action" value="export" />
 					</p>
 				</fieldset>
