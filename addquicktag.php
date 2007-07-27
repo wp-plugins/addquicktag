@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: AddQuicktag
-Version: 0.8
+Version: 0.9
 Plugin URI: http://bueltge.de/wp-addquicktags-de-plugin/120
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags. <strong>Configuration: <a href="options-general.php?page=addquicktag.php">Options &raquo; Add Quicktags</a></strong>
 Author: <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http://bueltge.de" >Frank Bueltge</a>
@@ -177,20 +177,23 @@ function wpaq_options_page(){
 EOT;
 		for ($i = 0; $i < count($o['buttons']); $i++){
 			$b = $o['buttons'][$i];
+			$b['text'] = stripslashes($b['text']);
+			$b['start'] = htmlentities($b['start']);
+			$b['end'] = htmlentities($b['end']);
 			$nr = $i + 1;
 			echo <<<EOT
 					<tr valign="top" style="text-align: center;">
 						<td><input type="text" name="wpaq[buttons][{$i}][text]" value="{$b['text']}" style="width: 95%;" /></td>
-						<td><textarea name="wpaq[buttons][{$i}][start]" rows="2" cols="25" style="width: 95%;">{$b['start']}</textarea></td>
-						<td><textarea name="wpaq[buttons][{$i}][end]" rows="2" cols="25" style="width: 95%;">{$b['end']}</textarea></td>
+						<td><textarea class="code" name="wpaq[buttons][{$i}][start]" rows="2" cols="25" style="width: 95%;">{$b['start']}</textarea></td>
+						<td><textarea class="code" name="wpaq[buttons][{$i}][end]" rows="2" cols="25" style="width: 95%;">{$b['end']}</textarea></td>
 					</tr>
 EOT;
 		}
 		echo <<<EOT
 					<tr valign="top" style="text-align: center;">
 						<td><input type="text" name="wpaq[buttons][{$i}][text]" value="" style="width: 95%;" /></td>
-						<td><textarea name="wpaq[buttons][{$i}][start]" rows="2" cols="25" style="width: 95%;"></textarea></td>
-						<td><textarea name="wpaq[buttons][{$i}][end]" rows="2" cols="25" style="width: 95%;"></textarea></td>
+						<td><textarea class="code" name="wpaq[buttons][{$i}][start]" rows="2" cols="25" style="width: 95%;"></textarea></td>
+						<td><textarea class="code" name="wpaq[buttons][{$i}][end]" rows="2" cols="25" style="width: 95%;"></textarea></td>
 					</tr>
 				</table>
 			</fieldset>
