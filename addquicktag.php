@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: AddQuicktag
-Version: 0.9
+Version: 1.0
 Plugin URI: http://bueltge.de/wp-addquicktags-de-plugin/120
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags. <strong>Configuration: <a href="options-general.php?page=addquicktag.php">Options &raquo; Add Quicktags</a></strong>
 Author: <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http://bueltge.de" >Frank Bueltge</a>
@@ -177,7 +177,7 @@ function wpaq_options_page(){
 EOT;
 		for ($i = 0; $i < count($o['buttons']); $i++){
 			$b = $o['buttons'][$i];
-			$b['text'] = stripslashes($b['text']);
+			$b['text'] = html_entity_decode(stripslashes($b['text']));
 			$b['start'] = htmlentities($b['start']);
 			$b['end'] = htmlentities($b['end']);
 			$nr = $i + 1;
@@ -246,6 +246,9 @@ if (strpos($_SERVER['REQUEST_URI'], 'post.php') || strpos($_SERVER['REQUEST_URI'
 EOT;
 						for ($i = 0; $i < count($o['buttons']); $i++){
 							$b = $o['buttons'][$i];
+							$txt = html_entity_decode(stripslashes($b['txt']));
+							$text = html_entity_decode(stripslashes($b['text']));
+							$b['text'] = html_entity_decode(stripslashes($b['text']));
 							$start = preg_replace('![\n\r]+!', "\\n", $b['start']);
 							$start = str_replace("'", "\'", $start);
 							$end = preg_replace('![\n\r]+!', "\\n", $b['end']);
