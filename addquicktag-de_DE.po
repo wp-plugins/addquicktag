@@ -1,0 +1,95 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AddQuicktag\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-05-15 14:24+0100\n"
+"Last-Translator: Frank Bueltge <frank@bueltge.de>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: addquicktag.php:76
+msgid "Options saved."
+msgstr "Einstellungen gespeichert."
+
+#: addquicktag.php:82
+msgid "wpaq_export.wpaq is exist!"
+msgstr "wpaq_export.wpaq ist schon vorhanden!"
+
+#: addquicktag.php:85
+msgid "AddQuicktag options saved!"
+msgstr "AddQuicktag Einstellungen gespeichert!"
+
+#: addquicktag.php:86
+msgid "Saved in: "
+msgstr "Gespeichert in: "
+
+#: addquicktag.php:100
+msgid "Invalid file extension!"
+msgstr "Nicht zulässige Dateierweiterung!"
+
+#: addquicktag.php:115
+msgid "AddQuicktag options imported!"
+msgstr "AddQuicktag Einstellungen importiert!"
+
+#: addquicktag.php:120
+msgid "Adding or deleting Quicktag-buttons"
+msgstr "Hinzufügen oder löschen eines Quicktag-buttons"
+
+#: addquicktag.php:121
+msgid "Fill in the fields below to add or edit the quicktags. Fields with * are compulsary. To delete a tag simply empty all fields."
+msgstr "Fülle das Feld unterhalb der bestehenden Buttons oder ändere einen Quicktag. Felder mit * sind Pflichtfelder. Um Quicktags zu löschen, einfach den Inhalt der zugehörigen Felder löschen."
+
+#: addquicktag.php:122
+msgid "Buttonstring*"
+msgstr "Button-name"
+
+#: addquicktag.php:123
+msgid "Start tag(s)*"
+msgstr "Start Tag(s)*"
+
+#: addquicktag.php:124
+msgid "End tag(s)"
+msgstr "Ende tags(s)"
+
+#: addquicktag.php:125
+msgid "Update Options &raquo;"
+msgstr "Einstellungen aktualisieren &raquo;"
+
+#: addquicktag.php:128
+msgid "Export &raquo;"
+msgstr "Exportieren &raquo;"
+
+#: addquicktag.php:129
+msgid "Export Quicktag-buttons options"
+msgstr "Exportiere deine Quicktag-buttons"
+
+#: addquicktag.php:130
+msgid "You can save a wpaq-File with your options in <em>/wp-content/</em>"
+msgstr "Du kannst eine wpaq-Datei mit allen Einstellungen auf <em>/wp-content/</em> speichern."
+
+#: addquicktag.php:133
+msgid "Upload file and import &raquo;"
+msgstr "Datei hochladen und importieren &raquo;"
+
+#: addquicktag.php:134
+msgid "Import Quicktag-buttons options"
+msgstr "Importiere deine Quicktag-buttons"
+
+#: addquicktag.php:135
+msgid "Choose a AddQuicktag (<em>wpaq</em>) file to upload, then click Upload file and import."
+msgstr "Wähle eine AddQuicktag (wpaq) Datei zum hochladen und klicke dann Datei hochladen und importieren."
+
+#: addquicktag.php:136
+msgid "Choose a file from your computer: "
+msgstr "Wähle eine Datei von deinem Rechner.  "
+
+#: addquicktag.php:139
+msgid "Further information: Visit the <a href='http://bueltge.de/wp-addquicktags-de-plugin/120'>plugin homepage</a> for further information or to grab the latest version of this plugin."
+msgstr "Weitere Informationen: Besuche die <a href='http://bueltge.de/wp-addquicktags-de-plugin/120'>Plugin homepage</a> für weitere Informationen oder hole die letzte Version des Plugins."
+
+#: addquicktag.php:140
+msgid "You want to thank me? Visit my <a href='http://bueltge.de/wunschliste/'>wishlist</a>."
+msgstr "Du willst Danke sagen? Besuche meine <a href='http://bueltge.de/wunschliste/'>Wunschliste</a>."
+
