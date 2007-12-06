@@ -24,6 +24,8 @@ See on [the official website](http://bueltge.de/wp-addquicktags-de-plugin/120 "A
 == Screenshots ==
 
 1. options-area
+2. editor with new Quicktags
+3. Comment-Editor with new Quicktags
 
 == Frequently Asked Questions ==
 
