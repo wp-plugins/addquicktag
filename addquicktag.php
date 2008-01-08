@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: AddQuicktag
-Version: 1.2
+Version: 1.3
 Plugin URI: http://bueltge.de/wp-addquicktags-de-plugin/120
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags. <strong>Configuration: <a href="options-general.php?page=addquicktag.php">Options &raquo; Add Quicktags</a></strong>
 Author: <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http://bueltge.de" >Frank Bueltge</a>
@@ -25,8 +25,7 @@ Author: <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http:
 
 */
 
-// NO EDITING HERE!!!!! ////////////////////////////////////////////////////////////////
-if(function_exists('load_plugin_textdomain'))
+if (function_exists('load_plugin_textdomain'))
   load_plugin_textdomain('addquicktag','wp-content/plugins');
 
 function wpaq_install() {
@@ -50,11 +49,11 @@ if (function_exists('add_action')) {
 	}
 }
 
-function wpaq_admin_menu(){
+function wpaq_admin_menu() {
 	add_options_page('WP-Quicktag - Add Quicktags', 'Add Quicktags', 9, basename(__FILE__), 'wpaq_options_page');
 }
 
-function wpaq_options_page(){
+function wpaq_options_page() {
 	global $wpdb;
 	$wpaq_document_root = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'];
 	$wpaq_document_root = str_replace("/wp-admin/options-general.php?page=addquicktag.php", "/wp-content", $wpaq_document_root);
@@ -62,12 +61,12 @@ function wpaq_options_page(){
 	$wpaq_link    = $_SERVER['REQUEST_URI'];
 	$wpaq_link    = str_replace("\\", "/", $wpaq_link);
 	
-	if ($_POST['wpaq']){
+	if ($_POST['wpaq']) {
 		$buttons = array();
 		for ($i = 0; $i < count($_POST['wpaq']['buttons']); $i++){
 			$b = $_POST['wpaq']['buttons'][$i];
-			if ($b['text'] != '' && $b['start'] != ''){
-				$b['text']    = htmlentities($b['text']);
+			if ($b['text'] != '' && $b['start'] != '') {
+				$b['text']    = ($b['text']);
 				$b['start']   = stripslashes($b['start']);
 				$b['end']     = stripslashes($b['end']);
 				$buttons[]    = $b;
@@ -174,12 +173,12 @@ function wpaq_options_page(){
 						<th style="text-align: center;">{$field3}</th>
 					</tr>
 EOT;
-		for ($i = 0; $i < count($o['buttons']); $i++){
-			$b = $o['buttons'][$i];
-			$b['text'] = html_entity_decode(stripslashes($b['text']));
-			$b['start'] = htmlentities($b['start']);
-			$b['end'] = htmlentities($b['end']);
-			$nr = $i + 1;
+		for ($i = 0; $i < count($o['buttons']); $i++) {
+			$b          = $o['buttons'][$i];
+			$b['text']  = htmlentities(stripslashes($b['text']), ENT_COMPAT, get_option('blog_charset'));
+			$b['start'] = htmlentities($b['start'], ENT_COMPAT, get_option('blog_charset'));
+			$b['end']   = htmlentities($b['end'], ENT_COMPAT, get_option('blog_charset'));
+			$nr         = $i + 1;
 			echo <<<EOT
 					<tr valign="top" style="text-align: center;">
 						<td><input type="text" name="wpaq[buttons][{$i}][text]" value="{$b['text']}" style="width: 95%;" /></td>
@@ -234,39 +233,39 @@ EOT;
 if (strpos($_SERVER['REQUEST_URI'], 'post.php') || strpos($_SERVER['REQUEST_URI'], 'post-new.php') || strpos($_SERVER['REQUEST_URI'], 'page-new.php') || strpos($_SERVER['REQUEST_URI'], 'page.php') || strpos($_SERVER['REQUEST_URI'], 'comment.php')) {
 	add_action('admin_footer', 'wpaq_addsome');
 
-	function wpaq_addsome(){
+	function wpaq_addsome() {
 		$o = get_option('rmnlQuicktagSettings');
-		if(count($o['buttons']) > 0){
+		if (count($o['buttons']) > 0) {
 			echo <<<EOT
 				<script type="text/javascript">
 					<!--
-					if(wpaqToolbar = document.getElementById("ed_toolbar")){
+					if (wpaqToolbar = document.getElementById("ed_toolbar")) {
 						var wpaqNr, wpaqBut, wpaqStart, wpaqEnd;
 EOT;
-						for ($i = 0; $i < count($o['buttons']); $i++){
+						for ($i = 0; $i < count($o['buttons']); $i++) {
 							$b = $o['buttons'][$i];
-							$txt = html_entity_decode(stripslashes($b['txt']));
-							$text = html_entity_decode(stripslashes($b['text']));
-							$b['text'] = html_entity_decode(stripslashes($b['text']));
+							$txt = html_entity_decode(stripslashes($b['txt']), ENT_COMPAT, get_option('blog_charset'));
+							$text = html_entity_decode(stripslashes($b['text']), ENT_COMPAT, get_option('blog_charset'));
+							$b['text'] = stripslashes($b['text']);
 							$start = preg_replace('![\n\r]+!', "\\n", $b['start']);
 							$start = str_replace("'", "\'", $start);
 							$end = preg_replace('![\n\r]+!', "\\n", $b['end']);
 							$end = str_replace("'", "\'", $end);
 							echo <<<EOT
-									wpaqStart = '{$start}';
-									wpaqEnd = '{$end}';
-									wpaqNr = edButtons.length;
-									edButtons[wpaqNr] = new edButton('ed_wpaq{$i}','{$b['txt']}',wpaqStart, wpaqEnd,'');
-									var wpaqBut = wpaqToolbar.lastChild;
-									while (wpaqBut.nodeType != 1){
-										wpaqBut = wpaqBut.previousSibling;
-									}
-									wpaqBut = wpaqBut.cloneNode(true);
-									wpaqToolbar.appendChild(wpaqBut);
-									wpaqBut.value = '{$b['text']}';
-									wpaqBut.title = wpaqNr;
-									wpaqBut.onclick = function () {edInsertTag(edCanvas, parseInt(this.title));}
-									wpaqBut.id = "ed_wpaq{$i}";
+								wpaqStart = '{$start}';
+								wpaqEnd = '{$end}';
+								wpaqNr = edButtons.length;
+								edButtons[wpaqNr] = new edButton('ed_wpaq{$i}', '{$b['txt']}', wpaqStart, wpaqEnd,'');
+								var wpaqBut = wpaqToolbar.lastChild;
+								while (wpaqBut.nodeType != 1) {
+									wpaqBut = wpaqBut.previousSibling;
+								}
+								wpaqBut = wpaqBut.cloneNode(true);
+								wpaqToolbar.appendChild(wpaqBut);
+								wpaqBut.value = '{$b['text']}';
+								wpaqBut.title = wpaqNr;
+								wpaqBut.onclick = function () {edInsertTag(edCanvas, parseInt(this.title));}
+								wpaqBut.id = "ed_wpaq{$i}";
 EOT;
 						}
 				echo <<<EOT

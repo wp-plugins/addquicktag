@@ -3,7 +3,7 @@ Contributors: Bueltge
 Donate link: http://bueltge.de/wunschliste/
 Tags: quicktag, editor
 Requires at least: 1.5
-Tested up to: 2.3
+Tested up to: 2.4beta
 Stable tag: 0.3
 
 This plugin make it easy, Quicktags add to the editor. It is possible to ex- and import your Quicktags.
