@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: AddQuicktag
-Version: 1.3
+Version: 1.31
 Plugin URI: http://bueltge.de/wp-addquicktags-de-plugin/120
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags. <strong>Configuration: <a href="options-general.php?page=addquicktag.php">Options &raquo; Add Quicktags</a></strong>
 Author: <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http://bueltge.de" >Frank Bueltge</a>
@@ -245,7 +245,7 @@ EOT;
 						for ($i = 0; $i < count($o['buttons']); $i++) {
 							$b = $o['buttons'][$i];
 							$txt = html_entity_decode(stripslashes($b['txt']), ENT_COMPAT, get_option('blog_charset'));
-							$text = html_entity_decode(stripslashes($b['text']), ENT_COMPAT, get_option('blog_charset'));
+							$text = stripslashes($b['text']);
 							$b['text'] = stripslashes($b['text']);
 							$start = preg_replace('![\n\r]+!', "\\n", $b['start']);
 							$start = str_replace("'", "\'", $start);
