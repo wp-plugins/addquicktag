@@ -1,0 +1,109 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AddQuickTag 1.31\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-01-09 19:05+0900\n"
+"PO-Revision-Date: 2008-01-09 19:16+0900\n"
+"Last-Translator: Yuuichi <u1@u-1.net>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Japanese\n"
+"X-Poedit-Country: JAPAN\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: D:/tmp/wordpress\n"
+"X-Poedit-SearchPath-0: wp-content/plugins/addquicktag\n"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:77
+msgid "Options saved."
+msgstr "設定の保存"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:89
+msgid "Can not open for write!"
+msgstr "ファイルが開けません!"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:96
+msgid "Can not write!"
+msgstr "ファイルに書き込めません!"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:99
+msgid "AddQuicktag options saved!"
+msgstr "クイックタグの設定を保存しました!"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:100
+msgid "Saved in: "
+msgstr "保存場所 : "
+
+#: wp-content/plugins/addquicktag/addquicktag.php:114
+msgid "Invalid file extension!"
+msgstr "ファイルの拡張子が不正です!"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:116
+msgid "File is exist!"
+msgstr "ファイルが存在します!"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:131
+msgid "AddQuicktag options imported!"
+msgstr "クイックタグの設定を読み込みました!"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:136
+msgid "Add or delete Quicktag buttons"
+msgstr "クイックタグの追加と削除"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:137
+msgid "Fill in the fields below to add or edit the quicktags. Fields with * are required. To delete a tag simply empty all fields."
+msgstr "クイックタグを追加・編集するには以下の項目を埋めるか変更してください.* が付いた項目は必須です.削除するには全ての項目を空にしてください."
+
+#: wp-content/plugins/addquicktag/addquicktag.php:138
+msgid "Button Label*"
+msgstr "ラベル名"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:139
+msgid "Start Tag(s)*"
+msgstr "開始タグ"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:140
+msgid "End Tag(s)"
+msgstr "終了タグ"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:141
+msgid "Update Options &raquo;"
+msgstr "更新 &raquo;"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:144
+msgid "Export &raquo;"
+msgstr "出力 &raquo;"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:145
+msgid "Export Quicktag buttons options"
+msgstr "クイックタグの設定の出力"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:146
+msgid "You can save a .wpaq file with your options in <em>/wp-content/wpaq_export.wpaq</em>"
+msgstr "<em>/wp-content/wpaq_export.wpaq</em> というファイル名で保存されます."
+
+#: wp-content/plugins/addquicktag/addquicktag.php:149
+msgid "Upload file and import &raquo;"
+msgstr "設定の読み込み"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:150
+msgid "Import Quicktag buttons options"
+msgstr "クイックタグの設定の読み込み"
+
+#: wp-content/plugins/addquicktag/addquicktag.php:151
+msgid "Choose a Quicktag (<em>.wpaq</em>) file to upload, then click <em>Upload file and import</em>."
+msgstr "アップロードして読み込みクイックタグの設定ファイル (<em>.wpaq</em>) を選択してください. 設定を読み込むには <em>設定の読み込み</em> をクリックします."
+
+#: wp-content/plugins/addquicktag/addquicktag.php:152
+msgid "Choose a file from your computer: "
+msgstr "コンピュータに保存されているファイルの選択 : "
+
+#: wp-content/plugins/addquicktag/addquicktag.php:155
+msgid "Further information: Visit the <a href='http://bueltge.de/wp-addquicktags-de-plugin/120'>plugin homepage</a> for further information or to grab the latest version of this plugin."
+msgstr "問い合わせ先 : 質問や最新バージョンの取得のためには <a href='http://bueltge.de/wp-addquicktags-de-plugin/120'>プラグインのホームページ</a> を訪れてください."
+
+#: wp-content/plugins/addquicktag/addquicktag.php:156
+msgid "You want to thank me? Visit my <a href='http://bueltge.de/wunschliste/'>wishlist</a>."
+msgstr "よろしければ私の<a href='http://bueltge.de/wunschliste/'>ウィッシュリスト</a> も訪れてください."
+
