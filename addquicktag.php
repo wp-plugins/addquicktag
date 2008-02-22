@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: AddQuicktag
-Version: 1.3.1
+Version: 1.4
 Plugin URI: http://bueltge.de/wp-addquicktags-de-plugin/120
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags. <strong>Configuration: <a href="options-general.php?page=addquicktag.php">Options &raquo; Add Quicktags</a></strong>
 Author: <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http://bueltge.de" >Frank Bueltge</a>
@@ -9,7 +9,7 @@ Author: <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http:
 
 // SCRIPT INFO ///////////////////////////////////////////////////////////////////////////
 /*
-	WP-AddQuicktag for Wordpress is in originally by 
+	WP-AddQuicktag for WordPress is in originally by 
 	(C) 2005 Roel Meurders - GNU General Public License
 
 	AddQuicktag is an newer version with more functions and worked in WP 2.1
@@ -28,31 +28,21 @@ Author: <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http:
 if (function_exists('load_plugin_textdomain'))
   load_plugin_textdomain('addquicktag','wp-content/plugins');
 
+
+// install options in table _options
 function wpaq_install() {
 	global $wpdb;
 
-	if (!get_option('rmnlQuicktagSettings') != '') {
+	if (get_option('rmnlQuicktagSettings') == '') {
 		$name        = 'rmnlQuicktagSettings';
 		$value       = 'a:1:{s:7:"buttons";a:1:{i:0;a:3:{s:4:"text";s:7:"Example";s:5:"start";s:9:"<example>";s:3:"end";s:10:"</example>";}}}';
 		$autoload    = 'yes';
 		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_value, autoload) VALUES ('$name', '$value', '$autoload')");
 	}
-	
-	return;
 }
 
-if (function_exists('add_action')) {
-	add_action('admin_menu', 'wpaq_admin_menu');
-	
-	if (strpos($_SERVER['REQUEST_URI'], 'addquicktag.php')) {
-		add_action('init', 'wpaq_install');
-	}
-}
 
-function wpaq_admin_menu() {
-	add_options_page('WP-Quicktag - Add Quicktags', 'Add Quicktags', 9, basename(__FILE__), 'wpaq_options_page');
-}
-
+// options-page in wp-backend
 function wpaq_options_page() {
 	global $wpdb;
 	$wpaq_document_root = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'];
@@ -157,91 +147,102 @@ function wpaq_options_page() {
 
 	$o       = get_option('rmnlQuicktagSettings');
 	
-	echo <<<EOT
+	echo '
 	<div class="wrap">
 		<h2>WP-Quicktag Management</h2>
-		{$message}
-		{$message_export}
+		' . $message . 
+		$message_export . '
 		<form name="form1" method="post" action="options-general.php?page=addquicktag.php">
-			<fieldset class="options">
-				<legend>{$string1}</legend>
-				<p>{$string2}</p>
-				<table width="100%" cellspacing="2" cellpadding="5" class="editform">
+			<h3>' . $string1 . '</h3>
+			<p>' . $string2 . '</p>
+			<table width="100%" cellspacing="2" cellpadding="5" class="widefat">
+				<thead>
 					<tr>
-						<th style="text-align: center;">{$field1}</th>
-						<th style="text-align: center;">{$field2}</th>
-						<th style="text-align: center;">{$field3}</th>
+						<th style="text-align: center;">' . $field1 . '</th>
+						<th style="text-align: center;">' . $field2 . '</th>
+						<th style="text-align: center;">' . $field3 . '</th>
 					</tr>
-EOT;
+				</thead>
+				<tbody id="the-list" class="list:rmnlQuicktagSettings">
+	';
 		for ($i = 0; $i < count($o['buttons']); $i++) {
 			$b          = $o['buttons'][$i];
 			$b['text']  = htmlentities(stripslashes($b['text']), ENT_COMPAT, get_option('blog_charset'));
 			$b['start'] = htmlentities($b['start'], ENT_COMPAT, get_option('blog_charset'));
 			$b['end']   = htmlentities($b['end'], ENT_COMPAT, get_option('blog_charset'));
 			$nr         = $i + 1;
-			echo <<<EOT
+			echo '
 					<tr valign="top" style="text-align: center;">
-						<td><input type="text" name="wpaq[buttons][{$i}][text]" value="{$b['text']}" style="width: 95%;" /></td>
-						<td><textarea class="code" name="wpaq[buttons][{$i}][start]" rows="2" cols="25" style="width: 95%;">{$b['start']}</textarea></td>
-						<td><textarea class="code" name="wpaq[buttons][{$i}][end]" rows="2" cols="25" style="width: 95%;">{$b['end']}</textarea></td>
+						<td><input type="text" name="wpaq[buttons][' . $i . '][text]" value="' . $b['text'] . '" style="width: 95%;" /></td>
+						<td><textarea class="code" name="wpaq[buttons][' . $i . '][start]" rows="2" cols="25" style="width: 95%;">' . $b['start'] . '</textarea></td>
+						<td><textarea class="code" name="wpaq[buttons][' . $i . '][end]" rows="2" cols="25" style="width: 95%;">' . $b['end'] . '</textarea></td>
 					</tr>
-EOT;
+			';
 		}
-		echo <<<EOT
+		echo '
 					<tr valign="top" style="text-align: center;">
-						<td><input type="text" name="wpaq[buttons][{$i}][text]" value="" style="width: 95%;" /></td>
-						<td><textarea class="code" name="wpaq[buttons][{$i}][start]" rows="2" cols="25" style="width: 95%;"></textarea></td>
-						<td><textarea class="code" name="wpaq[buttons][{$i}][end]" rows="2" cols="25" style="width: 95%;"></textarea></td>
+						<td><input type="text" name="wpaq[buttons][' . $i . '][text]" value="" tyle="width: 95%;" /></td>
+						<td><textarea class="code" name="wpaq[buttons][' . $i . '][start]" rows="2" cols="25" style="width: 95%;"></textarea></td>
+						<td><textarea class="code" name="wpaq[buttons][' . $i . '][end]" rows="2" cols="25" style="width: 95%;"></textarea></td>
 					</tr>
-				</table>
-			</fieldset>
+				</tbody>
+			</table>
 			<p class="submit">
-				<input type="submit" name="Submit" value="{$button1}" />
+				<input class="button" type="submit" name="Submit" value="' . $button1 . '" />
 			</p>
-			</form>
-			<form  name="form2" method="post" action="options-general.php?page=addquicktag.php">
-				<fieldset class="options">
-					<legend>{$export1}</legend>
-					<p>{$export2}</p>
-					<p class="submit">
-						<input type="submit" name="Submit_export" value="{$button2}" /> 
-						<input type="hidden" name="action" value="export" />
-					</p>
-				</fieldset>
-			</form>
-
-			<form  name="form3" enctype="multipart/form-data" method="post" action="options-general.php?page=addquicktag.php">
-				<fieldset class="options">
-					<legend>{$import1}</legend>
-					<p>{$import2}</p>
-					<p>
-						<label for="datei_id">{$import3}</label>
-						<input name="datei" id="datei_id" type="file" />
-					</p>
-					<p class="submit">
-						<input type="submit" name="Submit_import" value="{$button3}" />
-						<input type="hidden" name="action" value="import" />
-					</p>
-				</fieldset>
-			</form>
-			<hr />
-			<p><small>{$info1}<br />&copy; Copyright 2007 <a href="http://bueltge.de">Frank B&uuml;ltge</a> | {$info2}</small></p>
+		</form>
+		
+		<div class="tablenav">
+			<br style="clear:both;" />
 		</div>
-EOT;
+
+		<form  name="form2" method="post" action="options-general.php?page=addquicktag.php">
+			<h2>' . $export1 . '</h2>
+			<p>' . $export2 . '</p>
+			<p class="submit">
+				<input class="button" type="submit" name="Submit_export" value="' . $button2 . '" /> 
+				<input type="hidden" name="action" value="export" />
+			</p>
+		</form>
+
+		<div class="tablenav">
+			<br style="clear:both;" />
+		</div>
+
+		<form  name="form3" enctype="multipart/form-data" method="post" action="options-general.php?page=addquicktag.php">
+			<h2>' . $import1 . '</h2>
+			<p>' . $import2 . '</p>
+			<p>
+				<label for="datei_id">' . $import3 . '</label>
+				<input name="datei" id="datei_id" type="file" />
+			</p>
+			<p class="submit">
+				<input class="button" type="submit" name="Submit_import" value="' . $button3 . '" />
+				<input type="hidden" name="action" value="import" />
+			</p>
+		</form>
+		
+		<div class="tablenav">
+			<br style="clear:both;" />
+		</div>
+			<p><small>' . $info1 . '<br />&copy; Copyright 2007 - ' . date("Y") . ' <a href="http://bueltge.de">Frank B&uuml;ltge</a> | ' . $info2 . '</small></p>
+		</div>
+		';
 } //End function wpaq_options_page
 
+// only for post.php, page.php, post-new.php, page-new.php, comment.php
 if (strpos($_SERVER['REQUEST_URI'], 'post.php') || strpos($_SERVER['REQUEST_URI'], 'post-new.php') || strpos($_SERVER['REQUEST_URI'], 'page-new.php') || strpos($_SERVER['REQUEST_URI'], 'page.php') || strpos($_SERVER['REQUEST_URI'], 'comment.php')) {
 	add_action('admin_footer', 'wpaq_addsome');
 
 	function wpaq_addsome() {
 		$o = get_option('rmnlQuicktagSettings');
 		if (count($o['buttons']) > 0) {
-			echo <<<EOT
+			echo '
 				<script type="text/javascript">
 					<!--
 					if (wpaqToolbar = document.getElementById("ed_toolbar")) {
 						var wpaqNr, wpaqBut, wpaqStart, wpaqEnd;
-EOT;
+			';
 						for ($i = 0; $i < count($o['buttons']); $i++) {
 							$b = $o['buttons'][$i];
 							$txt = html_entity_decode(stripslashes($b['txt']), ENT_COMPAT, get_option('blog_charset'));
@@ -251,31 +252,45 @@ EOT;
 							$start = str_replace("'", "\'", $start);
 							$end = preg_replace('![\n\r]+!', "\\n", $b['end']);
 							$end = str_replace("'", "\'", $end);
-							echo <<<EOT
-								wpaqStart = '{$start}';
-								wpaqEnd = '{$end}';
+							echo '
+								wpaqStart = \'' . $start . '\';
+								wpaqEnd = \'' . $end . '\';
 								wpaqNr = edButtons.length;
-								edButtons[wpaqNr] = new edButton('ed_wpaq{$i}', '{$b['txt']}', wpaqStart, wpaqEnd,'');
+								edButtons[wpaqNr] = new edButton(\'ed_wpaq' . $i . '\', \'' . $b['txt'] . '\', wpaqStart, wpaqEnd,\'\');
 								var wpaqBut = wpaqToolbar.lastChild;
 								while (wpaqBut.nodeType != 1) {
 									wpaqBut = wpaqBut.previousSibling;
 								}
 								wpaqBut = wpaqBut.cloneNode(true);
 								wpaqToolbar.appendChild(wpaqBut);
-								wpaqBut.value = '{$b['text']}';
+								wpaqBut.value = \'' . $b['text'] . '\';
 								wpaqBut.title = wpaqNr;
 								wpaqBut.onclick = function () {edInsertTag(edCanvas, parseInt(this.title));}
-								wpaqBut.id = "ed_wpaq{$i}";
-EOT;
+								wpaqBut.id = "ed_wpaq' . $i .'";
+							';
 						}
-				echo <<<EOT
+				echo '
 					}
 
 					//-->
 				</script>
-EOT;
+				';
 		}
 	} //End wpaq_addsome
 } // End if
 
+
+// add to wp
+if (function_exists('add_action')) {
+	add_action('admin_menu', 'wpaq_admin_menu');
+	
+	if (isset($_GET['activate']) && $_GET['activate'] == 'true') {
+		add_action('init', 'wpaq_install');
+	}
+}
+
+// activate options-page
+function wpaq_admin_menu() {
+	add_options_page('WP-Quicktag - Add Quicktags', 'Add Quicktags', 9, basename(__FILE__), 'wpaq_options_page');
+}
 ?>
