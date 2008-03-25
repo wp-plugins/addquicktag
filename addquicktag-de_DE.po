@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AddQuicktag\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-02-22 09:59+0100\n"
+"PO-Revision-Date: 2008-03-25 13:29+0100\n"
 "Last-Translator: Frank Bueltge <frank@bueltge.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -12,95 +12,118 @@ msgstr ""
 "X-Poedit-Basepath: D:\\WP-Plugins\\addquicktag\\trunk\\\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: addquicktag.php:67
+#: addquicktag.php:79
 msgid "Options saved."
 msgstr "Einstellungen gespeichert."
 
-#: addquicktag.php:79
+#: addquicktag.php:82
+#: addquicktag.php:114
+#: addquicktag.php:152
+#: addquicktag.php:167
+msgid "You do not have sufficient permissions to edit plugins for this blog."
+msgstr "Du hast keine ausreichenden Rechte um das Plugin zu ändern."
+
+#: addquicktag.php:98
 msgid "Can not open for write!"
 msgstr "Öffnen zum Schreiben nicht möglich!"
 
-#: addquicktag.php:86
+#: addquicktag.php:105
 msgid "Can not write!"
 msgstr "Schreiben nicht möglich!"
 
-#: addquicktag.php:89
+#: addquicktag.php:108
 msgid "AddQuicktag options saved!"
 msgstr "AddQuicktag Einstellungen gespeichert!"
 
-#: addquicktag.php:90
+#: addquicktag.php:109
 msgid "Saved in: "
 msgstr "Gespeichert in: "
 
-#: addquicktag.php:104
+#: addquicktag.php:130
 msgid "Invalid file extension!"
 msgstr "Nicht zulässige Dateierweiterung!"
 
-#: addquicktag.php:106
+#: addquicktag.php:132
 msgid "File is exist!"
 msgstr "Datei nicht vorhanden!"
 
-#: addquicktag.php:121
+#: addquicktag.php:147
 msgid "AddQuicktag options imported!"
 msgstr "AddQuicktag Einstellungen importiert!"
 
-#: addquicktag.php:126
+#: addquicktag.php:163
+msgid "AddQuicktag options have been deleted!"
+msgstr "AddQuicktag Einstellungenwurden gelöschtt!"
+
+#: addquicktag.php:171
 msgid "Add or delete Quicktag buttons"
 msgstr "Hinzufügen oder löschen eines Quicktag-buttons"
 
-#: addquicktag.php:127
+#: addquicktag.php:172
 msgid "Fill in the fields below to add or edit the quicktags. Fields with * are required. To delete a tag simply empty all fields."
 msgstr "Fülle das Feld unterhalb der bestehenden Buttons oder ändere einen Quicktag. Felder mit * sind Pflichtfelder. Um Quicktags zu löschen, einfach den Inhalt der zugehörigen Felder löschen."
 
-#: addquicktag.php:128
+#: addquicktag.php:173
 msgid "Button Label*"
 msgstr "Button Name*"
 
-#: addquicktag.php:129
+#: addquicktag.php:174
 msgid "Start Tag(s)*"
 msgstr "Start Tag(s)*"
 
-#: addquicktag.php:130
+#: addquicktag.php:175
 msgid "End Tag(s)"
 msgstr "Ende Tag(s)"
 
-#: addquicktag.php:131
+#: addquicktag.php:176
 msgid "Update Options &raquo;"
 msgstr "Einstellungen aktualisieren &raquo;"
 
-#: addquicktag.php:134
+#: addquicktag.php:179
 msgid "Export &raquo;"
 msgstr "Exportieren &raquo;"
 
-#: addquicktag.php:135
+#: addquicktag.php:180
 msgid "Export Quicktag buttons options"
 msgstr "Exportiere deine Quicktag-buttons"
 
-#: addquicktag.php:136
+#: addquicktag.php:181
 msgid "You can save a .wpaq file with your options in <em>/wp-content/wpaq_export.wpaq</em>"
 msgstr "Du kannst eine .wpaq Datei mit allen Einstellungen auf <em>/wp-content/</em> speichern."
 
-#: addquicktag.php:139
+#: addquicktag.php:184
 msgid "Upload file and import &raquo;"
 msgstr "Datei hochladen und importieren &raquo;"
 
-#: addquicktag.php:140
+#: addquicktag.php:185
 msgid "Import Quicktag buttons options"
 msgstr "Importiere deine Quicktag-buttons"
 
-#: addquicktag.php:141
+#: addquicktag.php:186
 msgid "Choose a Quicktag (<em>.wpaq</em>) file to upload, then click <em>Upload file and import</em>."
 msgstr "Wähle eine Quicktag (.wpaq) Datei zum hochladen und klicke dann <em>Datei hochladen und importieren</em>."
 
-#: addquicktag.php:142
+#: addquicktag.php:187
 msgid "Choose a file from your computer: "
 msgstr "Wähle eine Datei von deinem Rechner.  "
 
-#: addquicktag.php:145
+#: addquicktag.php:190
+msgid "Uninstall Options &raquo;"
+msgstr "Einstellungen löschen &raquo;"
+
+#: addquicktag.php:191
+msgid "Uninstall options"
+msgstr "Deinstalliere Einstellungen"
+
+#: addquicktag.php:192
+msgid "This button deletes all options of the WP-AddQuicktag plugin. Please use it <strong>before</strong> deactivating the plugin.<br /><strong>Attention: </strong>You cannot undo this!"
+msgstr "Der Button löscht alle Einstellungen des Plugins ©Feed. Bitte nutze ihn, <strong>bevor</strong> das Plugin deaktiviert wird.<br /><strong>Achtung: </strong>Du kannst dies nicht rückgängig machen!"
+
+#: addquicktag.php:195
 msgid "Further information: Visit the <a href='http://bueltge.de/wp-addquicktags-de-plugin/120'>plugin homepage</a> for further information or to grab the latest version of this plugin."
 msgstr "Weitere Informationen: Besuche die <a href='http://bueltge.de/wp-addquicktags-de-plugin/120'>Plugin Homepage</a> für weitere Informationen oder hole die letzte Version des Plugins."
 
-#: addquicktag.php:146
+#: addquicktag.php:196
 msgid "You want to thank me? Visit my <a href='http://bueltge.de/wunschliste/'>wishlist</a>."
 msgstr "Du willst Danke sagen? Besuche meine <a href='http://bueltge.de/wunschliste/'>Wunschliste</a>."
 

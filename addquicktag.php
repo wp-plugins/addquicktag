@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: AddQuicktag
-Version: 1.4
+Version: 1.5
 Plugin URI: http://bueltge.de/wp-addquicktags-de-plugin/120
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags. <strong>Configuration: <a href="options-general.php?page=addquicktag.php">Options &raquo; Add Quicktags</a></strong>
 Author: <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http://bueltge.de" >Frank Bueltge</a>
@@ -26,7 +26,16 @@ Author: <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http:
 */
 
 if (function_exists('load_plugin_textdomain'))
-  load_plugin_textdomain('addquicktag','wp-content/plugins');
+	load_plugin_textdomain('addquicktag', PLUGINDIR);
+
+// some basic security with nonce
+if ( !function_exists('wp_nonce_field') ) {
+	function rmnl_nonce_field($action = -1) { return; }
+	$rmnl_nonce = -1;
+} else {
+	function rmnl_nonce_field($action = -1) { return wp_nonce_field($action); }
+	$rmnl_nonce = 'rmnl-update-key';
+}
 
 
 // install options in table _options
@@ -52,75 +61,111 @@ function wpaq_options_page() {
 	$wpaq_link    = str_replace("\\", "/", $wpaq_link);
 	
 	if ($_POST['wpaq']) {
-		$buttons = array();
-		for ($i = 0; $i < count($_POST['wpaq']['buttons']); $i++){
-			$b = $_POST['wpaq']['buttons'][$i];
-			if ($b['text'] != '' && $b['start'] != '') {
-				$b['text']    = ($b['text']);
-				$b['start']   = stripslashes($b['start']);
-				$b['end']     = stripslashes($b['end']);
-				$buttons[]    = $b;
+		if ( function_exists('current_user_can') && current_user_can('edit_plugins') ) {
+
+			check_admin_referer($searchandreplace_nonce);
+			$buttons = array();
+			for ($i = 0; $i < count($_POST['wpaq']['buttons']); $i++){
+				$b = $_POST['wpaq']['buttons'][$i];
+				if ($b['text'] != '' && $b['start'] != '') {
+					$b['text']    = ($b['text']);
+					$b['start']   = stripslashes($b['start']);
+					$b['end']     = stripslashes($b['end']);
+					$buttons[]    = $b;
+				}
 			}
+			$_POST['wpaq']['buttons'] = $buttons;
+			update_option('rmnlQuicktagSettings', $_POST['wpaq']);
+			$message = '<div class="updated"><p><strong>' . __('Options saved.', 'addquicktag') . '</strong></p></div>';
+
+		} else {
+			wp_die('<p>'.__('You do not have sufficient permissions to edit plugins for this blog.').'</p>');
 		}
-		$_POST['wpaq']['buttons'] = $buttons;
-		update_option('rmnlQuicktagSettings', $_POST['wpaq']);
-		$message = '<div class="updated"><p><strong>' . __('Options saved.', 'addquicktag') . '</strong></p></div>';
 	}
 	
 	// Export sql-option
 	if (($_POST['action'] == 'export')) {
-		$wpaq_data = mysql_query("SELECT option_value FROM $wpdb->options WHERE option_name = 'rmnlQuicktagSettings'");
-		$wpaq_data = mysql_result($wpaq_data, 0);
-		$file_name = $wpaq_document_root . '/wpaq_export-' . date('Y-m-d_G-i-s') . '.wpaq';
-		$file_name = str_replace("//", "/", $file_name);
-		$fh        = @ fopen($file_name, 'w');
+		if ( function_exists('current_user_can') && current_user_can('edit_plugins') ) {
+
+			check_admin_referer($searchandreplace_nonce);
+			$wpaq_data = mysql_query("SELECT option_value FROM $wpdb->options WHERE option_name = 'rmnlQuicktagSettings'");
+			$wpaq_data = mysql_result($wpaq_data, 0);
+			$file_name = $wpaq_document_root . '/wpaq_export-' . date('Y-m-d_G-i-s') . '.wpaq';
+			$file_name = str_replace("//", "/", $file_name);
+			$fh        = @ fopen($file_name, 'w');
+			
+			if ($fh == false) {
+				$message_export = '<div class="error"><p><strong>' . __('Can not open for write!', 'addquicktag') . '</strong></p></div>';
+			} else {
+				@flock($fh, LOCK_EXCLUSIVE);
+				$err = @fputs($fh, $wpaq_data);
+				@fclose($fh);
 		
-		if ($fh == false) {
-			$message_export = '<div class="error"><p><strong>' . __('Can not open for write!', 'addquicktag') . '</strong></p></div>';
-		} else {
-			@flock($fh, LOCK_EXCLUSIVE);
-			$err = @fputs($fh, $wpaq_data);
-			@fclose($fh);
-	
-			if ($err === false) {
-				$message_export = '<div class="error"><p><strong>' . __('Can not write!', 'addquicktag') . '</strong></p></div>';
+				if ($err === false) {
+					$message_export = '<div class="error"><p><strong>' . __('Can not write!', 'addquicktag') . '</strong></p></div>';
+				}
+		
+				$message_export = '<div class="updated"><p><strong>' . __('AddQuicktag options saved!', 'addquicktag') . '</strong><br />';
+				$message_export.= __('Saved in: ', 'addquicktag') . $file_name;
+				$message_export.= '</p></div>';
 			}
-	
-			$message_export = '<div class="updated"><p><strong>' . __('AddQuicktag options saved!', 'addquicktag') . '</strong><br />';
-			$message_export.= __('Saved in: ', 'addquicktag') . $file_name;
-			$message_export.= '</p></div>';
+
+		} else {
+			wp_die('<p>'.__('You do not have sufficient permissions to edit plugins for this blog.').'</p>');
 		}
 	}
 
 	// Import the sql-file
 	if (($_POST['action'] == 'import')) {
-		$message_export = '<div class="updated"><p><strong>';
+		if ( function_exists('current_user_can') && current_user_can('edit_plugins') ) {
 
-		// check file extension sql
-		$str_file_name = $_FILES['datei']['name'];
-		$str_file_ext  = explode(".", $str_file_name);
+			check_admin_referer($searchandreplace_nonce);
+			$message_export = '<div class="updated"><p>';
+	
+			// check file extension sql
+			$str_file_name = $_FILES['datei']['name'];
+			$str_file_ext  = explode(".", $str_file_name);
+	
+			if ($str_file_ext[1] != 'wpaq') {
+				$message_export.= __('Invalid file extension!', 'addquicktag');
+			} elseif (file_exists($_FILES['datei']['name'])) {
+				$message_export.= __('File is exist!', 'addquicktag');
+			} else {
+		    // path for file
+		    $wpaq_document_root = str_replace("/wp-admin/options-general.php?page=addquicktag.php", "/wp-content/", $wpaq_document_root);
+		    $str_ziel = $wpaq_document_root . '/' . $_FILES['datei']['name'];
+		    $str_ziel = str_replace("//", "/", $str_ziel);
+		    // transfer
+		    move_uploaded_file($_FILES['datei']['tmp_name'], $str_ziel);
+		    // 	access authorisation
+		    chmod($str_ziel, 0644);
+				// SQL import
+				ini_set('default_socket_timeout', 120);  
+				$import_file = file_get_contents($str_ziel);
+				$wpdb->query("UPDATE $wpdb->options SET `option_value` = '$import_file' WHERE `option_name` = 'rmnlQuicktagSettings'");
+				unlink($str_ziel);
+				$message_export.= __('AddQuicktag options imported!', 'addquicktag');
+			}
+			$message_export.= '</p></div>';
 
-		if ($str_file_ext[1] != 'wpaq') {
-			$message_export.= __('Invalid file extension!', 'addquicktag');
-		} elseif (file_exists($_FILES['datei']['name'])) {
-			$message_export.= __('File is exist!', 'addquicktag');
 		} else {
-	    // path for file
-	    $wpaq_document_root = str_replace("/wp-admin/options-general.php?page=addquicktag.php", "/wp-content/", $wpaq_document_root);
-	    $str_ziel = $wpaq_document_root . '/' . $_FILES['datei']['name'];
-	    $str_ziel = str_replace("//", "/", $str_ziel);
-	    // transfer
-	    move_uploaded_file($_FILES['datei']['tmp_name'], $str_ziel);
-	    // 	access authorisation
-	    chmod($str_ziel, 0644);
-			// SQL import
-			ini_set('default_socket_timeout', 120);  
-			$import_file = file_get_contents($str_ziel);
-			$wpdb->query("UPDATE $wpdb->options SET `option_value` = '$import_file' WHERE `option_name` = 'rmnlQuicktagSettings'");
-			unlink($str_ziel);
-			$message_export.= __('AddQuicktag options imported!', 'addquicktag');
+			wp_die('<p>'.__('You do not have sufficient permissions to edit plugins for this blog.').'</p>');
 		}
-		$message_export.= '</strong></p></div>';
+	}
+
+	// Uninstall options
+	if (($_POST['action'] == 'uninstall')) {
+		if ( function_exists('current_user_can') && current_user_can('edit_plugins') ) {
+
+			check_admin_referer($searchandreplace_nonce);
+			delete_option('rmnlQuicktagSettings', $_POST['wpaq']);
+			$message_export = '<div class="updated"><p>';
+			$message_export.= __('AddQuicktag options have been deleted!', 'addquicktag');
+			$message_export.= '</p></div>';
+
+		} else {
+			wp_die('<p>'.__('You do not have sufficient permissions to edit plugins for this blog.').'</p>');
+		}
 	}
 	
 	$string1 = __('Add or delete Quicktag buttons', 'addquicktag');
@@ -141,6 +186,11 @@ function wpaq_options_page() {
 	$import2 = __('Choose a Quicktag (<em>.wpaq</em>) file to upload, then click <em>Upload file and import</em>.', 'addquicktag');
 	$import3 = __('Choose a file from your computer: ', 'addquicktag');
 
+	// Uninstall strings
+	$button4    = __('Uninstall Options &raquo;', 'addquicktag');
+	$uninstall1 = __('Uninstall options', 'addquicktag');
+	$uninstall2 = __('This button deletes all options of the WP-AddQuicktag plugin. Please use it <strong>before</strong> deactivating the plugin.<br /><strong>Attention: </strong>You cannot undo this!', 'addquicktag');
+
 	// Info
 	$info1   = __('Further information: Visit the <a href=\'http://bueltge.de/wp-addquicktags-de-plugin/120\'>plugin homepage</a> for further information or to grab the latest version of this plugin.', 'addquicktag');
 	$info2   = __('You want to thank me? Visit my <a href=\'http://bueltge.de/wunschliste/\'>wishlist</a>.', 'addquicktag');
@@ -153,17 +203,18 @@ function wpaq_options_page() {
 		' . $message . 
 		$message_export . '
 		<form name="form1" method="post" action="options-general.php?page=addquicktag.php">
+			' . rmnl_nonce_field($rmnl_nonce) . '
 			<h3>' . $string1 . '</h3>
 			<p>' . $string2 . '</p>
-			<table width="100%" cellspacing="2" cellpadding="5" class="widefat">
+			<table summary="rmnl" class="widefat">
 				<thead>
 					<tr>
-						<th style="text-align: center;">' . $field1 . '</th>
-						<th style="text-align: center;">' . $field2 . '</th>
-						<th style="text-align: center;">' . $field3 . '</th>
+						<th scope="col">' . $field1 . '</th>
+						<th scope="col">' . $field2 . '</th>
+						<th scope="col">' . $field3 . '</th>
 					</tr>
 				</thead>
-				<tbody id="the-list" class="list:rmnlQuicktagSettings">
+				<tbody>
 	';
 		for ($i = 0; $i < count($o['buttons']); $i++) {
 			$b          = $o['buttons'][$i];
@@ -172,7 +223,7 @@ function wpaq_options_page() {
 			$b['end']   = htmlentities($b['end'], ENT_COMPAT, get_option('blog_charset'));
 			$nr         = $i + 1;
 			echo '
-					<tr valign="top" style="text-align: center;">
+					<tr valign="top">
 						<td><input type="text" name="wpaq[buttons][' . $i . '][text]" value="' . $b['text'] . '" style="width: 95%;" /></td>
 						<td><textarea class="code" name="wpaq[buttons][' . $i . '][start]" rows="2" cols="25" style="width: 95%;">' . $b['start'] . '</textarea></td>
 						<td><textarea class="code" name="wpaq[buttons][' . $i . '][end]" rows="2" cols="25" style="width: 95%;">' . $b['end'] . '</textarea></td>
@@ -180,7 +231,7 @@ function wpaq_options_page() {
 			';
 		}
 		echo '
-					<tr valign="top" style="text-align: center;">
+					<tr valign="top">
 						<td><input type="text" name="wpaq[buttons][' . $i . '][text]" value="" tyle="width: 95%;" /></td>
 						<td><textarea class="code" name="wpaq[buttons][' . $i . '][start]" rows="2" cols="25" style="width: 95%;"></textarea></td>
 						<td><textarea class="code" name="wpaq[buttons][' . $i . '][end]" rows="2" cols="25" style="width: 95%;"></textarea></td>
@@ -192,12 +243,9 @@ function wpaq_options_page() {
 			</p>
 		</form>
 		
-		<div class="tablenav">
-			<br style="clear:both;" />
-		</div>
-
-		<form  name="form2" method="post" action="options-general.php?page=addquicktag.php">
-			<h2>' . $export1 . '</h2>
+		<form name="form2" method="post" action="options-general.php?page=addquicktag.php">
+			' . rmnl_nonce_field($rmnl_nonce) . '
+			<h3>' . $export1 . '</h3>
 			<p>' . $export2 . '</p>
 			<p class="submit">
 				<input class="button" type="submit" name="Submit_export" value="' . $button2 . '" /> 
@@ -205,12 +253,9 @@ function wpaq_options_page() {
 			</p>
 		</form>
 
-		<div class="tablenav">
-			<br style="clear:both;" />
-		</div>
-
-		<form  name="form3" enctype="multipart/form-data" method="post" action="options-general.php?page=addquicktag.php">
-			<h2>' . $import1 . '</h2>
+		<form name="form3" enctype="multipart/form-data" method="post" action="options-general.php?page=addquicktag.php">
+			' . rmnl_nonce_field($rmnl_nonce) . '
+			<h3>' . $import1 . '</h3>
 			<p>' . $import2 . '</p>
 			<p>
 				<label for="datei_id">' . $import3 . '</label>
@@ -219,6 +264,16 @@ function wpaq_options_page() {
 			<p class="submit">
 				<input class="button" type="submit" name="Submit_import" value="' . $button3 . '" />
 				<input type="hidden" name="action" value="import" />
+			</p>
+		</form>
+
+		<form name="form4" method="post" action="options-general.php?page=addquicktag.php">
+			' . rmnl_nonce_field($rmnl_nonce) . '
+			<h3>' . $uninstall1 . '</h3>
+			<p>' . $uninstall2 . '</p>
+			<p class="submit">
+				<input class="button" type="submit" name="Submit_uninstall" value="' . $button4 . '" /> 
+				<input type="hidden" name="action" value="uninstall" />
 			</p>
 		</form>
 		
