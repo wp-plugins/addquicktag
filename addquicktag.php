@@ -1,10 +1,11 @@
 <?php
 /*
 Plugin Name: AddQuicktag
-Version: 1.5.1
-Plugin URI: http://bueltge.de/wp-addquicktags-de-plugin/120
-Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags. <strong>Configuration: <a href="options-general.php?page=addquicktag.php">Options &raquo; Add Quicktags</a></strong>
+Version: 1.5.2
+Plugin URI: http://bueltge.de/wp-addquicktags-de-plugin/120/
+Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags.
 Author: <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http://bueltge.de" >Frank Bueltge</a>
+Last Change: 03.07.2008 13:03:16
 */
 
 // SCRIPT INFO ///////////////////////////////////////////////////////////////////////////
@@ -54,11 +55,12 @@ function wpaq_install() {
 // options-page in wp-backend
 function wpaq_options_page() {
 	global $wpdb;
+	
 	$wpaq_document_root = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'];
 	$wpaq_document_root = str_replace("/wp-admin/options-general.php?page=addquicktag.php", "/wp-content", $wpaq_document_root);
 
-	$wpaq_link    = $_SERVER['REQUEST_URI'];
-	$wpaq_link    = str_replace("\\", "/", $wpaq_link);
+	$wpaq_link = $_SERVER['REQUEST_URI'];
+	$wpaq_link = str_replace("\\", "/", $wpaq_link);
 	
 	if ($_POST['wpaq']) {
 		if ( function_exists('current_user_can') && current_user_can('edit_plugins') ) {
@@ -336,16 +338,47 @@ if (strpos($_SERVER['REQUEST_URI'], 'post.php') || strpos($_SERVER['REQUEST_URI'
 
 
 // add to wp
-if (function_exists('add_action')) {
-	add_action('admin_menu', 'wpaq_admin_menu');
-	
-	if (isset($_GET['activate']) && $_GET['activate'] == 'true') {
-		add_action('init', 'wpaq_install');
+register_activation_hook(__FILE__, 'wpaq_install');
+add_action('admin_menu', 'wpaq_add_settings_page');
+add_action('in_admin_footer', 'wpaq_admin_footer');
+
+
+/**
+ * Add action link(s) to plugins page
+ * Thanks Dion Hulse -- http://dd32.id.au/wordpress-plugins/?configure-link
+ */
+function wpaq_filter_plugin_actions($links, $file){
+	static $this_plugin;
+
+	if( ! $this_plugin ) $this_plugin = plugin_basename(__FILE__);
+
+	if( $file == $this_plugin ){
+		$settings_link = '<a href="options-general.php?page=addquicktag.php">' . __('Settings') . '</a>';
+		$links = array_merge( array($settings_link), $links); // before other links
+//	$links[] = $settings_link; // ... or after other links
+	}
+	return $links;
+}
+
+
+/**
+ * settings in plugin-admin-page
+ */
+function wpaq_add_settings_page() {
+	if( function_exists('current_user_can') && current_user_can('manage_options') ) {
+		add_options_page('WP-Quicktag - Add Quicktags', 'Add Quicktags', 9, basename(__FILE__), 'wpaq_options_page');
+		add_filter('plugin_action_links', 'wpaq_filter_plugin_actions', 10, 2);
 	}
 }
 
-// activate options-page
-function wpaq_admin_menu() {
-	add_options_page('WP-Quicktag - Add Quicktags', 'Add Quicktags', 9, basename(__FILE__), 'wpaq_options_page');
+
+/**
+ * credit in wp-footer
+ */
+function wpaq_admin_footer() {
+	if( basename($_SERVER['REQUEST_URI']) == 'options-general.php?page=addquicktag.php') {
+		$plugin_data = get_plugin_data( __FILE__ );
+		printf('%1$s plugin | ' . __('Version') . ' %2$s | ' . __('Author') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
+	}
 }
 ?>
