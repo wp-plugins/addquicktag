@@ -26,8 +26,13 @@ Last Change: 03.07.2008 13:03:16
 
 */
 
-if (function_exists('load_plugin_textdomain'))
-	load_plugin_textdomain('addquicktag', str_replace( ABSPATH, '', dirname(__FILE__) ) );
+if (function_exists('load_plugin_textdomain')) {
+	if ( !defined('WP_PLUGIN_DIR') ) {
+		load_plugin_textdomain('addquicktag', str_replace( ABSPATH, '', dirname(__FILE__) ) );
+	} else {
+		load_plugin_textdomain('addquicktag', false, dirname(plugin_basename(__FILE__)) );
+	}
+}
 
 // some basic security with nonce
 if ( !function_exists('wp_nonce_field') ) {
