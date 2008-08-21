@@ -45,20 +45,6 @@ function wpaq_textdomain() {
 }
 
 
-// some basic security with nonce
-if ( !function_exists('wp_nonce_field') ) {
-	function rmnl_nonce_field($action = -1) {
-		return;
-	}
-	$rmnl_nonce = -1;
-} else {
-	function rmnl_nonce_field($action = -1) { 
-		return wp_nonce_field($action);
-	}
-	$rmnl_nonce = 'rmnl_nonce';
-}
-
-
 // install options in table _options
 function wpaq_install() {
 	global $wpdb;
@@ -225,7 +211,7 @@ function wpaq_options_page() {
 		' . $message . 
 		$message_export . '
 		<form name="form1" method="post" action="options-general.php?page=addquicktag.php">
-			' . rmnl_nonce_field('rmnl_nonce') . '
+			' . wp_nonce_field('rmnl_nonce') . '
 			<h3>' . $string1 . '</h3>
 			<p>' . $string2 . '</p>
 			<table summary="rmnl" class="widefat">
@@ -266,7 +252,7 @@ function wpaq_options_page() {
 		</form>
 		
 		<form name="form2" method="post" action="options-general.php?page=addquicktag.php">
-			' . rmnl_nonce_field('rmnl_nonce') . '
+			' . wp_nonce_field('rmnl_nonce') . '
 			<h3>' . $export1 . '</h3>
 			<p>' . $export2 . '</p>
 			<p class="submit">
@@ -276,7 +262,7 @@ function wpaq_options_page() {
 		</form>
 
 		<form name="form3" enctype="multipart/form-data" method="post" action="options-general.php?page=addquicktag.php">
-			' . rmnl_nonce_field('rmnl_nonce') . '
+			' . wp_nonce_field('rmnl_nonce') . '
 			<h3>' . $import1 . '</h3>
 			<p>' . $import2 . '</p>
 			<p>
@@ -290,7 +276,7 @@ function wpaq_options_page() {
 		</form>
 
 		<form name="form4" method="post" action="options-general.php?page=addquicktag.php">
-			' . rmnl_nonce_field('rmnl_nonce') . '
+			' . wp_nonce_field('rmnl_nonce') . '
 			<h3>' . $uninstall1 . '</h3>
 			<p>' . $uninstall2 . '</p>
 			<p class="submit">
