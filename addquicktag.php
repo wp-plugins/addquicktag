@@ -28,7 +28,7 @@ Last Change: 21.08.2008 12:35:46
 
 // Pre-2.6 compatibility
 if ( !defined('WP_CONTENT_URL') )
-	define( 'WP_CONTENT_URL', get_option('siteurl') . '/wp-content');
+	define( 'WP_CONTENT_URL', get_option('url') . '/wp-content');
 if ( !defined('WP_CONTENT_DIR') )
 	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
 	
@@ -74,7 +74,7 @@ function wpaq_install() {
 
 // options-page in wp-backend
 function wpaq_options_page() {
-	global $wpdb;
+	global $wpdb, $rmnl_nonce;
 	
 	$wpaq_document_root = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'];
 	$wpaq_document_root = str_replace("/wp-admin/options-general.php?page=addquicktag.php", "/wp-content", $wpaq_document_root);
