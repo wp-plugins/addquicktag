@@ -5,7 +5,7 @@ Version: 1.5.3
 Plugin URI: http://bueltge.de/wp-addquicktags-de-plugin/120/
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags.
 Author: <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http://bueltge.de" >Frank Bueltge</a>
-Last Change: 21.08.2008 12:35:46
+Last Change: 21.08.2008 14:06:21
 */
 
 // SCRIPT INFO ///////////////////////////////////////////////////////////////////////////
@@ -55,7 +55,7 @@ if ( !function_exists('wp_nonce_field') ) {
 	function rmnl_nonce_field($action = -1) { 
 		return wp_nonce_field($action);
 	}
-	$rmnl_nonce = 'rmnl-update-key';
+	$rmnl_nonce = 'rmnl_nonce';
 }
 
 
@@ -74,7 +74,7 @@ function wpaq_install() {
 
 // options-page in wp-backend
 function wpaq_options_page() {
-	global $wpdb, $rmnl_nonce;
+	global $wpdb;
 	
 	$wpaq_document_root = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'];
 	$wpaq_document_root = str_replace("/wp-admin/options-general.php?page=addquicktag.php", "/wp-content", $wpaq_document_root);
@@ -85,7 +85,7 @@ function wpaq_options_page() {
 	if ($_POST['wpaq']) {
 		if ( function_exists('current_user_can') && current_user_can('edit_plugins') ) {
 
-			check_admin_referer($rmnl_nonce);
+			check_admin_referer('rmnl_nonce');
 			$buttons = array();
 			for ($i = 0; $i < count($_POST['wpaq']['buttons']); $i++){
 				$b = $_POST['wpaq']['buttons'][$i];
@@ -109,7 +109,7 @@ function wpaq_options_page() {
 	if (($_POST['action'] == 'export')) {
 		if ( function_exists('current_user_can') && current_user_can('edit_plugins') ) {
 
-			check_admin_referer($rmnl_nonce);
+			check_admin_referer('rmnl_nonce');
 			$wpaq_data = mysql_query("SELECT option_value FROM $wpdb->options WHERE option_name = 'rmnlQuicktagSettings'");
 			$wpaq_data = mysql_result($wpaq_data, 0);
 			$file_name = $wpaq_document_root . '/wpaq_export-' . date('Y-m-d_G-i-s') . '.wpaq';
@@ -141,7 +141,7 @@ function wpaq_options_page() {
 	if (($_POST['action'] == 'import')) {
 		if ( function_exists('current_user_can') && current_user_can('edit_plugins') ) {
 
-			check_admin_referer($rmnl_nonce);
+			check_admin_referer('rmnl_nonce');
 			$message_export = '<br class="clear" /><div class="updated fade"><p>';
 	
 			// check file extension sql
@@ -179,7 +179,7 @@ function wpaq_options_page() {
 	if (($_POST['action'] == 'uninstall')) {
 		if ( function_exists('current_user_can') && current_user_can('edit_plugins') ) {
 
-			check_admin_referer($rmnl_nonce);
+			check_admin_referer('rmnl_nonce');
 			delete_option('rmnlQuicktagSettings', $_POST['wpaq']);
 			$message_export = '<br class="clear" /><div class="updated fade"><p>';
 			$message_export.= __('AddQuicktag options have been deleted!', 'addquicktag');
@@ -225,7 +225,7 @@ function wpaq_options_page() {
 		' . $message . 
 		$message_export . '
 		<form name="form1" method="post" action="options-general.php?page=addquicktag.php">
-			' . rmnl_nonce_field($rmnl_nonce) . '
+			' . rmnl_nonce_field('rmnl_nonce') . '
 			<h3>' . $string1 . '</h3>
 			<p>' . $string2 . '</p>
 			<table summary="rmnl" class="widefat">
@@ -266,7 +266,7 @@ function wpaq_options_page() {
 		</form>
 		
 		<form name="form2" method="post" action="options-general.php?page=addquicktag.php">
-			' . rmnl_nonce_field($rmnl_nonce) . '
+			' . rmnl_nonce_field('rmnl_nonce') . '
 			<h3>' . $export1 . '</h3>
 			<p>' . $export2 . '</p>
 			<p class="submit">
@@ -276,7 +276,7 @@ function wpaq_options_page() {
 		</form>
 
 		<form name="form3" enctype="multipart/form-data" method="post" action="options-general.php?page=addquicktag.php">
-			' . rmnl_nonce_field($rmnl_nonce) . '
+			' . rmnl_nonce_field('rmnl_nonce') . '
 			<h3>' . $import1 . '</h3>
 			<p>' . $import2 . '</p>
 			<p>
@@ -290,7 +290,7 @@ function wpaq_options_page() {
 		</form>
 
 		<form name="form4" method="post" action="options-general.php?page=addquicktag.php">
-			' . rmnl_nonce_field($rmnl_nonce) . '
+			' . rmnl_nonce_field('rmnl_nonce') . '
 			<h3>' . $uninstall1 . '</h3>
 			<p>' . $uninstall2 . '</p>
 			<p class="submit">
