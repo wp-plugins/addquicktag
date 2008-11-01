@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: AddQuicktag
-Version: 1.5.4
 Plugin URI: http://bueltge.de/wp-addquicktags-de-plugin/120/
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags.
 Author: <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http://bueltge.de" >Frank Bueltge</a>
-Last Change: 30.10.2008 20:25:10
+Version: 1.5.5
+Last Change: 01.11.2008 23:07:07
 */
 
 // SCRIPT INFO ///////////////////////////////////////////////////////////////////////////
@@ -38,9 +38,9 @@ function wpaq_textdomain() {
 
 	if (function_exists('load_plugin_textdomain')) {
 		if ( !defined('WP_PLUGIN_DIR') ) {
-			load_plugin_textdomain('addquicktag', str_replace( ABSPATH, '', dirname(__FILE__) ) );
+			load_plugin_textdomain('addquicktag', str_replace( ABSPATH, '', dirname(__FILE__) ) . '/languages');
 		} else {
-			load_plugin_textdomain('addquicktag', false, dirname(plugin_basename(__FILE__)) );
+			load_plugin_textdomain('addquicktag', false, dirname( plugin_basename(__FILE__) ) . '/languages');
 		}
 	}
 }
@@ -492,9 +492,9 @@ function wpaq_add_settings_page() {
 
 		$menutitle = '';
 		if ( version_compare( $wp_version, '2.6.999', '>' ) ) {
-			$menutitle = '<img src="' . wpag_get_resource_url('addquicktag.gif') . '" alt="" />';
+			$menutitle = '<img src="' . wpag_get_resource_url('addquicktag.gif') . '" alt="" />' . ' ';
 		}
-		$menutitle .= ' ' . __('Add Quicktag', 'addquicktag');
+		$menutitle .= __('Add Quicktag', 'addquicktag');
 
 		add_options_page( __('WP-Quicktag &ndash; Add Quicktag', 'addquicktag'), $menutitle, 9, basename(__FILE__), 'wpaq_options_page');
 		add_filter('plugin_action_links', 'wpaq_filter_plugin_actions', 10, 2);
