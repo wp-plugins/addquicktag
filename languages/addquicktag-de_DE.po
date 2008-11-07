@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AddQuicktag\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-01 14:39+0100\n"
-"PO-Revision-Date: 2008-11-01 14:40+0100\n"
+"POT-Creation-Date: 2008-11-07 11:32+0100\n"
+"PO-Revision-Date: 2008-11-07 11:33+0100\n"
 "Last-Translator: Frank Bueltge <frank@bueltge.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -137,26 +137,28 @@ msgid "You want to thank me? Visit my <a href='http://bueltge.de/wunschliste/'>w
 msgstr "Du willst Danke sagen? Besuche meine <a href='http://bueltge.de/wunschliste/'>Wunschliste</a>."
 
 #: addquicktag.php:218
+#, fuzzy
 msgid "WP-Quicktag Management"
 msgstr "WP-Quicktag Verwaltung"
 
 #: addquicktag.php:428
+#: addquicktag.php:441
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: addquicktag.php:493
+#: addquicktag.php:506
 msgid "Add Quicktag"
 msgstr "Add Quicktag"
 
-#: addquicktag.php:495
+#: addquicktag.php:508
 msgid "WP-Quicktag &ndash; Add Quicktag"
 msgstr "WP-Quicktag &ndash; Add Quicktag"
 
-#: addquicktag.php:507
+#: addquicktag.php:526
 msgid "Version"
 msgstr "Version"
 
-#: addquicktag.php:507
+#: addquicktag.php:526
 msgid "Author"
 msgstr "Autor"
 

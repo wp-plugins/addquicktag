@@ -13,6 +13,7 @@ WP-AddQuicktag for Wordpress is in originally by [Roel Meurders](http://roel.meu
 
 Please visit [the official website](http://bueltge.de/wp-addquicktags-de-plugin/120 "AddQuicktag") for further details and the latest information on this plugin.
 
+
 == Installation ==
 1. Unpack the download-package
 1. Upload the files to the `/wp-content/plugins/` directory
@@ -21,15 +22,16 @@ Please visit [the official website](http://bueltge.de/wp-addquicktags-de-plugin/
 
 See on [the official website](http://bueltge.de/wp-addquicktags-de-plugin/120 "AddQuicktag").
 
+
 == Screenshots ==
 1. options-area
 2. editor with new Quicktags
 3. Comment-Editor with new Quicktags
 
+
 == Other Notes ==
 = Acknowledgements =
 Thanks to Yuuich on [www.u-1.net](http://www.u-1.net/ "Yuuich") for translate the plugin in japanese, Neil on [www.wmfield.idv.tw](http://www.wmfield.idv.tw/ "Yuuich") for translate the plugin in chinese and italien translation by [Gianni Diurno](http://gidibao.net/ "Gianni Diurno")
-
 
 = Licence =
 Good news, this plugin is free for everyone! Since it's released under the GPL, you can use it free of charge on your personal or commercial blog. But if you enjoy this plugin, you can thank me and leave a [small donation](http://bueltge.de/wunschliste/ "Wishliste and Donate") for the time I’ve spent writing and supporting this plugin. And I really don’t want to know how many hours of my life this plugin has already eaten ;)

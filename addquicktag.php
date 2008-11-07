@@ -4,8 +4,8 @@ Plugin Name: AddQuicktag
 Plugin URI: http://bueltge.de/wp-addquicktags-de-plugin/120/
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags.
 Author: <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http://bueltge.de" >Frank Bueltge</a>
-Version: 1.5.5
-Last Change: 01.11.2008 23:07:07
+Version: 1.5.6
+Last Change: 07.11.2008 11:16:52
 */
 
 // SCRIPT INFO ///////////////////////////////////////////////////////////////////////////
@@ -147,14 +147,14 @@ function wpaq_options_page() {
 			} elseif (file_exists($_FILES['datei']['name'])) {
 				$message_export.= __('File is exist!', 'addquicktag');
 			} else {
-		    // path for file
-		    $wpaq_document_root = str_replace("/wp-admin/options-general.php?page=addquicktag.php", WP_CONTENT_FOLDER, $wpaq_document_root);
-		    $str_ziel = $wpaq_document_root . '/' . $_FILES['datei']['name'];
-		    $str_ziel = str_replace("//", "/", $str_ziel);
-		    // transfer
-		    move_uploaded_file($_FILES['datei']['tmp_name'], $str_ziel);
-		    // 	access authorisation
-		    chmod($str_ziel, 0644);
+				// path for file
+				$wpaq_document_root = str_replace("/wp-admin/options-general.php?page=addquicktag.php", WP_CONTENT_FOLDER, $wpaq_document_root);
+				$str_ziel = $wpaq_document_root . '/' . $_FILES['datei']['name'];
+				$str_ziel = str_replace("//", "/", $str_ziel);
+				// transfer
+				move_uploaded_file($_FILES['datei']['tmp_name'], $str_ziel);
+				// access authorisation
+				chmod($str_ziel, 0644);
 				// SQL import
 				ini_set('default_socket_timeout', 120);  
 				$import_file = file_get_contents($str_ziel);
@@ -215,12 +215,12 @@ function wpaq_options_page() {
 	$o       = get_option('rmnlQuicktagSettings');
 	?>
 	<div class="wrap">
-		<h2><?php _e('WP-Quicktag Management', 'wpaq'); ?></h2>
-		<?php _e($message . $message_export); ?>
+		<h2><?php _e('WP-Quicktag Management', 'addquicktag'); ?></h2>
+		<?php echo $message . $message_export; ?>
 		<br class="clear" />
 		<div id="poststuff" class="ui-sortable">
 			<div class="postbox">
-				<h3><?php _e($string1); ?></h3>
+				<h3><?php echo $string1; ?></h3>
 				<div class="inside">
 					<br class="clear" />
 					<form name="form1" method="post" action="">
@@ -228,9 +228,9 @@ function wpaq_options_page() {
 						<table summary="rmnl" class="widefat">
 							<thead>
 								<tr>
-									<th scope="col"><?php _e($field1); ?></th>
-									<th scope="col"><?php _e($field2); ?></th>
-									<th scope="col"><?php _e($field3); ?></th>
+									<th scope="col"><?php echo $field1; ?></th>
+									<th scope="col"><?php echo $field2; ?></th>
+									<th scope="col"><?php echo $field3; ?></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -257,8 +257,7 @@ function wpaq_options_page() {
 								</tr>
 							</tbody>
 						</table>
-						<br class="clear" />
-						<p><?php _e($string2); ?></p>
+						<p><?php echo $string2; ?></p>
 						<p class="submit">
 							<input class="button" type="submit" name="Submit" value="<?php _e( $button1 ); ?>" />
 						</p>
@@ -270,15 +269,14 @@ function wpaq_options_page() {
 		
 		<div id="poststuff" class="ui-sortable">
 			<div class="postbox closed">
-				<h3><?php _e($export1); ?></h3>
+				<h3><?php echo $export1; ?></h3>
 				<div class="inside">
 				
 					<form name="form2" method="post" action="options-general.php?page=addquicktag.php">
 						<?php wp_nonce_field('rmnl_nonce'); ?>
-						<p><?php _e($export2); ?></p>
-						<br class="clear" />
+						<p><?php echo $export2; ?></p>
 						<p id="submitbutton">
-							<input class="button" type="submit" name="Submit_export" value="<?php _e($button2); ?>" /> 
+							<input class="button" type="submit" name="Submit_export" value="<?php echo $button2; ?>" /> 
 							<input type="hidden" name="action" value="export" />
 						</p>
 					</form>
@@ -289,19 +287,18 @@ function wpaq_options_page() {
 
 		<div id="poststuff" class="ui-sortable">
 			<div class="postbox closed">
-				<h3><?php _e($import1); ?></h3>
+				<h3><?php echo $import1; ?></h3>
 				<div class="inside">
 
 					<form name="form3" enctype="multipart/form-data" method="post" action="">
 						<?php wp_nonce_field('rmnl_nonce'); ?> 
-						<p><?php _e($import2); ?></p>
+						<p><?php echo $import2; ?></p>
 						<p>
-							<label for="datei_id"><?php _e($import3); ?></label>
+							<label for="datei_id"><?php echo $import3; ?></label>
 							<input name="datei" id="datei_id" type="file" />
 						</p>
-						<br class="clear" />
 						<p id="submitbutton">
-							<input class="button" type="submit" name="Submit_import" value="<?php _e($button3); ?>" />
+							<input class="button" type="submit" name="Submit_import" value="<?php echo $button3; ?>" />
 							<input type="hidden" name="action" value="import" />
 						</p>
 					</form>
@@ -312,13 +309,12 @@ function wpaq_options_page() {
 		
 		<div id="poststuff" class="ui-sortable">
 			<div class="postbox closed">
-				<h3><?php _e($uninstall1); ?></h3>
+				<h3><?php echo $uninstall1; ?></h3>
 				<div class="inside">
 					
 					<form name="form4" method="post" action="">
 						<?php wp_nonce_field('rmnl_nonce'); ?>
-						<p><?php _e($uninstall2); ?></p>
-						<br class="clear" />
+						<p><?php echo $uninstall2; ?></p>
 						<p id="submitbutton">
 							<input class="button" type="submit" name="Submit_uninstall" value="<?php _e($button4); ?>" /> 
 							<input type="hidden" name="action" value="uninstall" />
@@ -331,10 +327,10 @@ function wpaq_options_page() {
 		
 		<div id="poststuff" class="ui-sortable">
 			<div class="postbox closed">
-				<h3><?php _e($info0); ?></h3>
+				<h3><?php echo $info0; ?></h3>
 				<div class="inside">
 
-					<p><?php _e($info1); ?><br />&copy; Copyright 2007 - <?php _e( date("Y") ); ?> <a href="http://bueltge.de">Frank B&uuml;ltge</a> | <?php _e($info2); ?></p>
+					<p><?php echo $info1; ?><br />&copy; Copyright 2007 - <?php _e( date("Y") ); ?> <a href="http://bueltge.de">Frank B&uuml;ltge</a> | <?php echo $info2; ?></p>
 			
 				</div>
 			</div>
@@ -437,6 +433,19 @@ function wpaq_filter_plugin_actions($links, $file){
 
 
 /**
+ * @version WP 2.7
+ * Add action link(s) to plugins page
+ */
+function wpaq_filter_plugin_actions_new($links) {
+ 
+	$settings_link = '<a href="addquicktag.php">' . __('Settings') . '</a>';
+	array_unshift( $links, $settings_link );
+ 
+	return $links;
+}
+
+
+/**
  * Images/ Icons in base64-encoding
  * @use function wpag_get_resource_url() for display
  */
@@ -497,7 +506,13 @@ function wpaq_add_settings_page() {
 		$menutitle .= __('Add Quicktag', 'addquicktag');
 
 		add_options_page( __('WP-Quicktag &ndash; Add Quicktag', 'addquicktag'), $menutitle, 9, basename(__FILE__), 'wpaq_options_page');
-		add_filter('plugin_action_links', 'wpaq_filter_plugin_actions', 10, 2);
+		
+		if ( version_compare( $wp_version, '2.7', '<' ) ) {
+			add_filter('plugin_action_links', 'wpaq_filter_plugin_actions', 10, 2);
+		} else {
+			$plugin = plugin_basename(__FILE__); 
+			add_filter( 'plugin_action_links_' . $plugin, 'wpaq_filter_plugin_actions_new' );
+		}
 	}
 }
 
