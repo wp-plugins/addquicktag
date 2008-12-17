@@ -1,15 +1,31 @@
 <?php
-/*
+/**
+ * @package AddQuicktag
+ * @author Roel Meurders, Frank B&uuml;ltge
+ * @version 1.5.7
+ */
+ 
+/**
 Plugin Name: AddQuicktag
-Plugin URI: http://bueltge.de/wp-addquicktags-de-plugin/120/
+Plugin URI:  http://bueltge.de/wp-addquicktags-de-plugin/120/
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags.
-Author: <a href="http://roel.meurders.nl/" >Roel Meurders</a> and <a href="http://bueltge.de" >Frank Bueltge</a>
-Version: 1.5.6
-Last Change: 07.11.2008 11:16:52
-*/
+Author:      Roel Meurders, Frank B&uuml;ltge
+Author URI:  http://bueltge.de/
+Version:     1.5.7
+License:     GNU General Public License
+Last Change: 17.12.2008 01:05:46
 
-// SCRIPT INFO ///////////////////////////////////////////////////////////////////////////
-/*
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+
 	WP-AddQuicktag for WordPress is in originally by 
 	(C) 2005 Roel Meurders - GNU General Public License
 
@@ -23,7 +39,6 @@ Last Change: 07.11.2008 11:16:52
 
 	This Wordpress plugin is released "as is". Without any warranty. The authors cannot
 	be held responsible for any damage that this script might cause.
-
 */
 
 // Pre-2.6 compatibility
@@ -259,7 +274,7 @@ function wpaq_options_page() {
 						</table>
 						<p><?php echo $string2; ?></p>
 						<p class="submit">
-							<input class="button" type="submit" name="Submit" value="<?php _e( $button1 ); ?>" />
+							<input class="button button-primary" type="submit" name="Submit" value="<?php _e( $button1 ); ?>" />
 						</p>
 					</form>
 		
@@ -425,7 +440,7 @@ function wpaq_filter_plugin_actions($links, $file){
 	if( ! $this_plugin ) $this_plugin = plugin_basename(__FILE__);
 
 	if( $file == $this_plugin ){
-		$settings_link = '<a href="options-general.php?page=addquicktag.php">' . __('Settings') . '</a>';
+		$settings_link = '<a href="options-general.php?page=addquicktag/addquicktag.php">' . __('Settings') . '</a>';
 		$links = array_merge( array($settings_link), $links); // before other links
 	}
 	return $links;
@@ -438,7 +453,7 @@ function wpaq_filter_plugin_actions($links, $file){
  */
 function wpaq_filter_plugin_actions_new($links) {
  
-	$settings_link = '<a href="addquicktag.php">' . __('Settings') . '</a>';
+	$settings_link = '<a href="options-general.php?page=addquicktag/addquicktag.php">' . __('Settings') . '</a>';
 	array_unshift( $links, $settings_link );
  
 	return $links;
@@ -497,20 +512,20 @@ function wpag_get_resource_url($resourceID) {
  */
 function wpaq_add_settings_page() {
 	global $wp_version;
+	
 	if ( function_exists('add_options_page') && current_user_can('manage_options') ) {
-
+		$plugin = plugin_basename(__FILE__);
 		$menutitle = '';
 		if ( version_compare( $wp_version, '2.6.999', '>' ) ) {
 			$menutitle = '<img src="' . wpag_get_resource_url('addquicktag.gif') . '" alt="" />' . ' ';
 		}
 		$menutitle .= __('Add Quicktag', 'addquicktag');
 
-		add_options_page( __('WP-Quicktag &ndash; Add Quicktag', 'addquicktag'), $menutitle, 9, basename(__FILE__), 'wpaq_options_page');
+		add_options_page( __('WP-Quicktag &ndash; Add Quicktag', 'addquicktag'), $menutitle, 9, $plugin, 'wpaq_options_page');
 		
-		if ( version_compare( $wp_version, '2.7', '<' ) ) {
+		if ( version_compare( $wp_version, '2.6.999', '<' ) ) {
 			add_filter('plugin_action_links', 'wpaq_filter_plugin_actions', 10, 2);
 		} else {
-			$plugin = plugin_basename(__FILE__); 
 			add_filter( 'plugin_action_links_' . $plugin, 'wpaq_filter_plugin_actions_new' );
 		}
 	}
@@ -521,7 +536,7 @@ function wpaq_add_settings_page() {
  * credit in wp-footer
  */
 function wpaq_admin_footer() {
-	if( basename($_SERVER['REQUEST_URI']) == 'options-general.php?page=addquicktag.php') {
+	if( basename($_SERVER['REQUEST_URI']) == 'addquicktag.php') {
 		$plugin_data = get_plugin_data( __FILE__ );
 		printf('%1$s plugin | ' . __('Version') . ' %2$s | ' . __('Author') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
 	}

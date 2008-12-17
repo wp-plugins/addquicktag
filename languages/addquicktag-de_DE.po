@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AddQuicktag\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-07 11:32+0100\n"
-"PO-Revision-Date: 2008-11-07 11:33+0100\n"
+"POT-Creation-Date: 2008-12-17 12:04+0100\n"
+"PO-Revision-Date: 2008-12-17 12:04+0100\n"
 "Last-Translator: Frank Bueltge <frank@bueltge.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -146,11 +146,11 @@ msgstr "WP-Quicktag Verwaltung"
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: addquicktag.php:506
+#: addquicktag.php:507
 msgid "Add Quicktag"
 msgstr "Add Quicktag"
 
-#: addquicktag.php:508
+#: addquicktag.php:509
 msgid "WP-Quicktag &ndash; Add Quicktag"
 msgstr "WP-Quicktag &ndash; Add Quicktag"
 
