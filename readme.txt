@@ -9,7 +9,9 @@ Stable tag: 0.3
 This plugin make it easy, Quicktags add to the editor. It is possible to ex- and import your Quicktags.
 
 == Description ==
-WP-AddQuicktag for WordPress is in originally by [Roel Meurders](http://roel.meurders.nl/ "Roel Meurders"). AddQuicktag is an newer version with more functions and worked in WP 2.1
+This plugin make it easy, Quicktags add to the editor. It is possible to ex- and import your Quicktags.
+
+WP-AddQuicktag for WordPress is in originally by [Roel Meurders](http://roel.meurders.nl/ "Roel Meurders"). AddQuicktag is an newer version with more functions and worked in WP 2.1 and bigger.
 
 Please visit [the official website](http://bueltge.de/wp-addquicktags-de-plugin/120 "AddQuicktag") for further details and the latest information on this plugin.
 
@@ -24,7 +26,7 @@ See on [the official website](http://bueltge.de/wp-addquicktags-de-plugin/120 "A
 
 
 == Screenshots ==
-1. options-area
+1. options-area in WordPress 2.7
 2. editor with new Quicktags
 3. Comment-Editor with new Quicktags
 
@@ -40,6 +42,9 @@ Good news, this plugin is free for everyone! Since it's released under the GPL, 
 The plugin comes with various translations, please refer to the [WordPress Codex](http://codex.wordpress.org/Installing_WordPress_in_Your_Language "Installing WordPress in Your Language") for more information about activating the translation. If you want to help to translate the plugin to your language, please have a look at the sitemap.pot file which contains all defintions and may be used with a [gettext](http://www.gnu.org/software/gettext/) editor like [Poedit](http://www.poedit.net/) (Windows).
 
 == Frequently Asked Questions ==
+= History? =
+Please see the changes on version on the [the official website](http://bueltge.de/wp-addquicktags-de-plugin/120 "AddQuicktag")!
+
 = Where can I get more information? =
 Please visit [the official website](http://bueltge.de/wp-addquicktags-de-plugin/120 "AddQuicktag") for the latest information on this plugin.
 
