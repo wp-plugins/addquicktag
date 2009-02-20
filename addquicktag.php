@@ -9,7 +9,7 @@
 Plugin Name: AddQuicktag
 Plugin URI:  http://bueltge.de/wp-addquicktags-de-plugin/120/
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags.
-Author:      Roel Meurders, Frank B&uuml;ltge
+Author:      Frank B&uuml;ltge
 Author URI:  http://bueltge.de/
 Version:     1.5.8
 License:     GNU General Public License
