@@ -2,18 +2,18 @@
 /**
  * @package AddQuicktag
  * @author Roel Meurders, Frank B&uuml;ltge
- * @version 1.5.8
+ * @version 1.5.9
  */
  
 /**
 Plugin Name: AddQuicktag
 Plugin URI:  http://bueltge.de/wp-addquicktags-de-plugin/120/
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags.
-Author:      Frank B&uuml;ltge
+Author:      Roel Meurders, Frank B&uuml;ltge
 Author URI:  http://bueltge.de/
-Version:     1.5.8
+Version:     1.5.9
 License:     GNU General Public License
-Last Change: 20.02.2009 10:35:46
+Last Change: 11.06.2009 12:58:51
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -48,13 +48,21 @@ if ( !function_exists ('add_action') ) {
 	exit();
 }
 
-// Pre-2.6 compatibility
-if ( !defined('WP_CONTENT_URL') )
-	define( 'WP_CONTENT_URL', get_option('url') . '/wp-content');
-if ( !defined('WP_CONTENT_DIR') )
-	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
-if ( !defined('WP_CONTENT_FOLDER') )
-	define( 'WP_CONTENT_FOLDER', str_replace(ABSPATH, '/', WP_CONTENT_DIR) );
+if ( function_exists('add_action') ) {
+	// Pre-2.6 compatibility
+	if ( !defined('WP_CONTENT_URL') )
+		define( 'WP_CONTENT_URL', get_option('url') . '/wp-content');
+	if ( !defined('WP_CONTENT_DIR') )
+		define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+	if ( !defined('WP_CONTENT_FOLDER') )
+		define( 'WP_CONTENT_FOLDER', str_replace(ABSPATH, '/', WP_CONTENT_DIR) );
+
+	// plugin definitions
+	define( 'FB_WPAQ_BASENAME', plugin_basename( __FILE__ ) );
+	define( 'FB_WPAQ_BASEFOLDER', plugin_basename( dirname( __FILE__ ) ) );
+	define( 'FB_WPAQ_FILENAME', str_replace( FB_WPAQ_BASEFOLDER.'/', '', plugin_basename(__FILE__) ) );
+	define( 'FB_WPAQ_TEXTDOMAIN', 'adminimize' );
+}
 
 // send file for save
 if ( isset( $_GET['export'] ) ) {
@@ -90,6 +98,7 @@ function wpaq_install() {
 																'buttons' => array(
 																									array(
 																												'text'  => 'Example',
+																												'title'   => 'Example title attribute',
 																												'start' => '<example>',
 																												'end'   => '</example>'
 																												)
@@ -110,6 +119,7 @@ function wpaq_reset() {
 																'buttons' => array(
 																									array(
 																												'text'  => 'Reset',
+																												'title'   => 'Reset title attribute',
 																												'start' => '<reset>',
 																												'end'   => '</reset>'
 																												)
@@ -209,10 +219,11 @@ function wpaq_options_page() {
 			check_admin_referer('rmnl_nonce');
 
 			$buttons = array();
-			for ($i = 0; $i < count($_POST['wpaq']['buttons']); $i++){
+			for ($i = 0; $i < count($_POST['wpaq']['buttons']); $i++) {
 				$b = $_POST['wpaq']['buttons'][$i];
 				if ($b['text'] != '' && $b['start'] != '') {
-					$b['text']    = ($b['text']);
+					$b['text']    = $b['text'];
+					$b['title']   = $b['title'];
 					$b['start']   = stripslashes($b['start']);
 					$b['end']     = stripslashes($b['end']);
 					$buttons[]    = $b;
@@ -245,8 +256,9 @@ function wpaq_options_page() {
 	$string1 = __('Add or delete Quicktag buttons', 'addquicktag');
 	$string2 = __('Fill in the fields below to add or edit the quicktags. Fields with * are required. To delete a tag simply empty all fields.', 'addquicktag');
 	$field1  = __('Button Label*', 'addquicktag');
-	$field2  = __('Start Tag(s)*', 'addquicktag');
-	$field3  = __('End Tag(s)', 'addquicktag');
+	$field2  = __('Title Attribute', 'addquicktag');
+	$field3  = __('Start Tag(s)*', 'addquicktag');
+	$field4  = __('End Tag(s)', 'addquicktag');
 	$button1 = __('Update Options &raquo;', 'addquicktag');
 
 	// Export strings
@@ -269,7 +281,7 @@ function wpaq_options_page() {
 	// Info
 	$info0   = __('About the plugin', 'addquicktag');
 	$info1   = __('Further information: Visit the <a href=\'http://bueltge.de/wp-addquicktags-de-plugin/120\'>plugin homepage</a> for further information or to grab the latest version of this plugin.', 'addquicktag');
-	$info2   = __('You want to thank me? Visit my <a href=\'http://bueltge.de/wunschliste/\'>wishlist</a>.', 'addquicktag');
+	$info2   = __('You want to thank me? Visit my <a href=\'http://bueltge.de/wunschliste/\'>wishlist</a> or donate.', 'addquicktag');
 	
 	// message for import, after redirect
 	if ( strpos($_SERVER['REQUEST_URI'], 'addquicktag.php') && $_GET['update'] && !$_POST['uninstall'] ) {
@@ -291,8 +303,9 @@ function wpaq_options_page() {
 		<h2><?php _e('WP-Quicktag Management', 'addquicktag'); ?></h2>
 		<?php echo $message . $message_export; ?>
 		<br class="clear" />
-		<div id="poststuff" class="ui-sortable">
+		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox">
+				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
 				<h3><?php echo $string1; ?></h3>
 				<div class="inside">
 					<br class="clear" />
@@ -304,19 +317,22 @@ function wpaq_options_page() {
 									<th scope="col"><?php echo $field1; ?></th>
 									<th scope="col"><?php echo $field2; ?></th>
 									<th scope="col"><?php echo $field3; ?></th>
+									<th scope="col"><?php echo $field4; ?></th>
 								</tr>
 							</thead>
 							<tbody>
 	<?php
 		for ($i = 0; $i < count($o['buttons']); $i++) {
 			$b          = $o['buttons'][$i];
-			$b['text']  = htmlentities(stripslashes($b['text']), ENT_COMPAT, get_option('blog_charset'));
-			$b['start'] = htmlentities($b['start'], ENT_COMPAT, get_option('blog_charset'));
-			$b['end']   = htmlentities($b['end'], ENT_COMPAT, get_option('blog_charset'));
-			$nr         = $i + 1;
+			$b['text']  = htmlentities( stripslashes($b['text']), ENT_COMPAT, get_option('blog_charset') );
+			$b['title'] = htmlentities( stripslashes($b['title']), ENT_COMPAT, get_option('blog_charset') );
+			$b['start'] = htmlentities( $b['start'], ENT_COMPAT, get_option('blog_charset') );
+			$b['end']   = htmlentities( $b['end'], ENT_COMPAT, get_option('blog_charset') );
+			$nr         = $i++;
 			echo '
 					<tr valign="top">
 						<td><input type="text" name="wpaq[buttons][' . $i . '][text]" value="' . $b['text'] . '" style="width: 95%;" /></td>
+						<td><input type="text" name="wpaq[buttons][' . $i . '][title]" value="' . $b['title'] . '" style="width: 95%;" /></td>
 						<td><textarea class="code" name="wpaq[buttons][' . $i . '][start]" rows="2" cols="25" style="width: 95%;">' . $b['start'] . '</textarea></td>
 						<td><textarea class="code" name="wpaq[buttons][' . $i . '][end]" rows="2" cols="25" style="width: 95%;">' . $b['end'] . '</textarea></td>
 					</tr>
@@ -325,6 +341,7 @@ function wpaq_options_page() {
 		?>
 								<tr valign="top">
 									<td><input type="text" name="wpaq[buttons][<?php _e( $i ); ?>][text]" value="" tyle="width: 95%;" /></td>
+									<td><input type="text" name="wpaq[buttons][<?php _e( $i ); ?>][title]" value="" tyle="width: 95%;" /></td>
 									<td><textarea class="code" name="wpaq[buttons][<?php _e( $i ); ?>][start]" rows="2" cols="25" style="width: 95%;"></textarea></td>
 									<td><textarea class="code" name="wpaq[buttons][<?php _e( $i ); ?>][end]" rows="2" cols="25" style="width: 95%;"></textarea></td>
 								</tr>
@@ -340,8 +357,9 @@ function wpaq_options_page() {
 			</div>
 		</div>
 		
-		<div id="poststuff" class="ui-sortable">
+		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox closed">
+				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
 				<h3><?php echo $export1; ?></h3>
 				<div class="inside">
 					
@@ -372,8 +390,9 @@ function wpaq_options_page() {
 			</div>
 		</div>
 		
-		<div id="poststuff" class="ui-sortable">
+		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox closed">
+				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
 				<h3><?php echo $uninstall1; ?></h3>
 				<div class="inside">
 					
@@ -390,24 +409,33 @@ function wpaq_options_page() {
 			</div>
 		</div>
 		
-		<div id="poststuff" class="ui-sortable">
-			<div class="postbox closed">
+		<div id="poststuff" class="ui-sortable meta-box-sortables">
+			<div class="postbox" >
+				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
 				<h3><?php echo $info0; ?></h3>
 				<div class="inside">
-
-					<p><?php echo $info1; ?><br />&copy; Copyright 2007 - <?php _e( date("Y") ); ?> <a href="http://bueltge.de">Frank B&uuml;ltge</a> | <?php echo $info2; ?></p>
-			
+					<p>
+					<span style="float: left;">
+						<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+						<input type="hidden" name="cmd" value="_s-xclick">
+						<input type="hidden" name="hosted_button_id" value="6069955">
+						<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+						<img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+						</form>
+					</span>
+					<?php echo $info1; ?><br />&copy; Copyright 2007 - <?php _e( date("Y") ); ?> <a href="http://bueltge.de">Frank B&uuml;ltge</a> | <?php echo $info2; ?></p>
 				</div>
 			</div>
 		</div>
 		
 		<script type="text/javascript">
 		<!--
-		<?php if ( version_compare( $wp_version, '2.6.999', '<' ) ) { ?>
+		<?php if ( version_compare( $wp_version, '2.7alpha', '<' ) ) { ?>
 		jQuery('.postbox h3').prepend('<a class="togbox">+</a> ');
 		<?php } ?>
 		jQuery('.postbox h3').click( function() { jQuery(jQuery(this).parent().get(0)).toggleClass('closed'); } );
-		jQuery('.postbox.close-me').each(function(){
+		jQuery('.postbox .handlediv').click( function() { jQuery(jQuery(this).parent().get(0)).toggleClass('closed'); } );
+		jQuery('.postbox.close-me').each(function() {
 			jQuery(this).addClass("closed");
 		});
 		//-->
@@ -435,7 +463,9 @@ if (strpos($_SERVER['REQUEST_URI'], 'post.php') || strpos($_SERVER['REQUEST_URI'
 							$b = $o['buttons'][$i];
 							$txt = html_entity_decode(stripslashes($b['txt']), ENT_COMPAT, get_option('blog_charset'));
 							$text = stripslashes($b['text']);
-							$b['text'] = stripslashes($b['text']);
+							$title = stripslashes($b['title']);
+							if ($title == '')
+								$title = strlen($text);
 							$start = preg_replace('![\n\r]+!', "\\n", $b['start']);
 							$start = str_replace("'", "\'", $start);
 							$end = preg_replace('![\n\r]+!', "\\n", $b['end']);
@@ -451,8 +481,8 @@ if (strpos($_SERVER['REQUEST_URI'], 'post.php') || strpos($_SERVER['REQUEST_URI'
 								}
 								wpaqBut = wpaqBut.cloneNode(true);
 								wpaqToolbar.appendChild(wpaqBut);
-								wpaqBut.value = \'' . $b['text'] . '\';
-								wpaqBut.title = wpaqNr;
+								wpaqBut.value = \'' . $text . '\';
+								wpaqBut.title = \'' . $title . '\';
 								wpaqBut.onclick = function () {edInsertTag(edCanvas, parseInt(this.title));}
 								wpaqBut.id = "ed_wpaq' . $i .'";
 							';
@@ -504,13 +534,21 @@ function wpaq_filter_plugin_actions($links, $file){
  * @version WP 2.7
  * Add action link(s) to plugins page
  *
- * @package AddQuicktag
+ * @package Secure WordPress
+ *
+ * @param $links, $file
+ * @return $links
  */
-function wpaq_filter_plugin_actions_new($links) {
- 
-	$settings_link = '<a href="options-general.php?page=addquicktag/addquicktag.php">' . __('Settings') . '</a>';
-	array_unshift( $links, $settings_link );
- 
+function wpaq_filter_plugin_actions_new($links, $file) {
+	
+	/* create link */
+	if ( $file == FB_WPAQ_BASENAME ) {
+		array_unshift(
+			$links,
+			sprintf( '<a href="options-general.php?page=%s">%s</a>', FB_WPAQ_BASENAME, __('Settings') )
+		);
+	}
+	
 	return $links;
 }
 
@@ -584,10 +622,12 @@ function wpaq_add_settings_page() {
 
 		add_options_page( __('WP-Quicktag &ndash; AddQuicktag', 'addquicktag'), $menutitle, 9, $plugin, 'wpaq_options_page');
 		
-		if ( version_compare( $wp_version, '2.6.999', '<' ) ) {
+		if ( version_compare( $wp_version, '2.7alpha', '<' ) ) {
 			add_filter('plugin_action_links', 'wpaq_filter_plugin_actions', 10, 2);
 		} else {
-			add_filter( 'plugin_action_links_' . $plugin, 'wpaq_filter_plugin_actions_new' );
+			add_filter( 'plugin_action_links_' . $plugin, 'wpaq_filter_plugin_actions_new', 10, 2 );
+			if ( version_compare( $wp_version, '2.8alpha', '>' ) )
+				add_filter( 'plugin_row_meta', 'wpaq_filter_plugin_actions_new', 10, 2 );
 		}
 	}
 }
