@@ -2,7 +2,7 @@
 /**
  * @package AddQuicktag
  * @author Roel Meurders, Frank B&uuml;ltge
- * @version 1.5.9
+ * @version 1.6
  */
  
 /**
@@ -11,9 +11,9 @@ Plugin URI:  http://bueltge.de/wp-addquicktags-de-plugin/120/
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags.
 Author:      Roel Meurders, Frank B&uuml;ltge
 Author URI:  http://bueltge.de/
-Version:     1.5.9
+Version:     1.6
 License:     GNU General Public License
-Last Change: 11.06.2009 12:58:51
+Last Change: 12.06.2009 14:32:06
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -34,8 +34,6 @@ Last Change: 11.06.2009 12:58:51
 
 	This Wordpress plugin is released under a GNU General Public License. A complete version of this license
 	can be found here: http://www.gnu.org/licenses/gpl.txt
-
-	This Wordpress plugin has been tested with Wordpress 2.0, 2.1 - 2.8 bleeding edge;
 
 	This Wordpress plugin is released "as is". Without any warranty. The authors cannot
 	be held responsible for any damage that this script might cause.
@@ -60,8 +58,7 @@ if ( function_exists('add_action') ) {
 	// plugin definitions
 	define( 'FB_WPAQ_BASENAME', plugin_basename( __FILE__ ) );
 	define( 'FB_WPAQ_BASEFOLDER', plugin_basename( dirname( __FILE__ ) ) );
-	define( 'FB_WPAQ_FILENAME', str_replace( FB_WPAQ_BASEFOLDER.'/', '', plugin_basename(__FILE__) ) );
-	define( 'FB_WPAQ_TEXTDOMAIN', 'adminimize' );
+	define( 'FB_WPAQ_TEXTDOMAIN', 'addquicktag' );
 }
 
 // send file for save
@@ -79,9 +76,9 @@ function wpaq_textdomain() {
 
 	if ( function_exists('load_plugin_textdomain') ) {
 		if ( !defined('WP_PLUGIN_DIR') ) {
-			load_plugin_textdomain('addquicktag', str_replace( ABSPATH, '', dirname(__FILE__) ) . '/languages');
+			load_plugin_textdomain( FB_WPAQ_TEXTDOMAIN, str_replace( ABSPATH, '', dirname(__FILE__) ) . '/languages' );
 		} else {
-			load_plugin_textdomain('addquicktag', false, dirname( plugin_basename(__FILE__) ) . '/languages');
+			load_plugin_textdomain( FB_WPAQ_TEXTDOMAIN, false, dirname( plugin_basename(__FILE__) ) . '/languages' );
 		}
 	}
 }
@@ -98,7 +95,7 @@ function wpaq_install() {
 																'buttons' => array(
 																									array(
 																												'text'  => 'Example',
-																												'title'   => 'Example title attribute',
+																												'title' => 'Example title',
 																												'start' => '<example>',
 																												'end'   => '</example>'
 																												)
@@ -119,7 +116,7 @@ function wpaq_reset() {
 																'buttons' => array(
 																									array(
 																												'text'  => 'Reset',
-																												'title'   => 'Reset title attribute',
+																												'title' => 'Reset title',
 																												'start' => '<reset>',
 																												'end'   => '</reset>'
 																												)
@@ -219,7 +216,7 @@ function wpaq_options_page() {
 			check_admin_referer('rmnl_nonce');
 
 			$buttons = array();
-			for ($i = 0; $i < count($_POST['wpaq']['buttons']); $i++) {
+			for ($i = 0; $i < count($_POST['wpaq']['buttons']); $i++){
 				$b = $_POST['wpaq']['buttons'][$i];
 				if ($b['text'] != '' && $b['start'] != '') {
 					$b['text']    = $b['text'];
@@ -231,10 +228,10 @@ function wpaq_options_page() {
 			}
 			$_POST['wpaq']['buttons'] = $buttons;
 			update_option('rmnlQuicktagSettings', $_POST['wpaq']);
-			$message = '<br class="clear" /><div class="updated fade"><p><strong>' . __('Options saved.', 'addquicktag') . '</strong></p></div>';
+			$message = '<br class="clear" /><div class="updated fade"><p><strong>' . __('Options saved.', FB_WPAQ_TEXTDOMAIN ) . '</strong></p></div>';
 
 		} else {
-			wp_die('<p>'.__('You do not have sufficient permissions to edit plugins for this blog.', 'addquicktag').'</p>');
+			wp_die('<p>'.__('You do not have sufficient permissions to edit plugins for this blog.', FB_WPAQ_TEXTDOMAIN ).'</p>');
 		}
 	}
 
@@ -245,53 +242,53 @@ function wpaq_options_page() {
 			check_admin_referer('rmnl_nonce');
 			wpaq_uninstall();
 			$message_export = '<br class="clear" /><div class="updated fade"><p>';
-			$message_export.= __('AddQuicktag options have been deleted!', 'addquicktag');
+			$message_export.= __('AddQuicktag options have been deleted!', FB_WPAQ_TEXTDOMAIN );
 			$message_export.= '</p></div>';
 
 		} else {
-			wp_die('<p>'.__('You do not have sufficient permissions to edit plugins for this blog.', 'addquicktag').'</p>');
+			wp_die('<p>'.__('You do not have sufficient permissions to edit plugins for this blog.', FB_WPAQ_TEXTDOMAIN ).'</p>');
 		}
 	}
 	
-	$string1 = __('Add or delete Quicktag buttons', 'addquicktag');
-	$string2 = __('Fill in the fields below to add or edit the quicktags. Fields with * are required. To delete a tag simply empty all fields.', 'addquicktag');
-	$field1  = __('Button Label*', 'addquicktag');
-	$field2  = __('Title Attribute', 'addquicktag');
-	$field3  = __('Start Tag(s)*', 'addquicktag');
-	$field4  = __('End Tag(s)', 'addquicktag');
-	$button1 = __('Update Options &raquo;', 'addquicktag');
+	$string1 = __('Add or delete Quicktag buttons', FB_WPAQ_TEXTDOMAIN );
+	$string2 = __('Fill in the fields below to add or edit the quicktags. Fields with * are required. To delete a tag simply empty all fields.', FB_WPAQ_TEXTDOMAIN );
+	$field1  = __('Button Label*', FB_WPAQ_TEXTDOMAIN );
+	$field2  = __('Title Attribute', FB_WPAQ_TEXTDOMAIN );
+	$field3  = __('Start Tag(s)*', FB_WPAQ_TEXTDOMAIN );
+	$field4  = __('End Tag(s)', FB_WPAQ_TEXTDOMAIN );
+	$button1 = __('Update Options &raquo;', FB_WPAQ_TEXTDOMAIN );
 
 	// Export strings
-	$button2 = __('Export &raquo;', 'addquicktag');
-	$export1 = __('Export/Import AddQuicktag buttons options', 'addquicktag');
-	$export2 = __('You can save a .wpaq file with your options.', 'addquicktag');
-	$export3 = __('Export', 'addquicktag');
+	$button2 = __('Export &raquo;', FB_WPAQ_TEXTDOMAIN );
+	$export1 = __('Export/Import AddQuicktag buttons options', FB_WPAQ_TEXTDOMAIN );
+	$export2 = __('You can save a .wpaq file with your options.', FB_WPAQ_TEXTDOMAIN );
+	$export3 = __('Export', FB_WPAQ_TEXTDOMAIN );
 
 	// Import strings
-	$button3 = __('Upload file and import &raquo;', 'addquicktag');
-	$import1 = __('Import', 'addquicktag');
-	$import2 = __('Choose a Quicktag (<em>.wpaq</em>) file to upload, then click <em>Upload file and import</em>.', 'addquicktag');
-	$import3 = __('Choose a file from your computer: ', 'addquicktag');
+	$button3 = __('Upload file and import &raquo;', FB_WPAQ_TEXTDOMAIN );
+	$import1 = __('Import', FB_WPAQ_TEXTDOMAIN );
+	$import2 = __('Choose a Quicktag (<em>.wpaq</em>) file to upload, then click <em>Upload file and import</em>.', FB_WPAQ_TEXTDOMAIN );
+	$import3 = __('Choose a file from your computer: ', FB_WPAQ_TEXTDOMAIN );
 
 	// Uninstall strings
-	$button4    = __('Uninstall Options &raquo;', 'addquicktag');
-	$uninstall1 = __('Uninstall options', 'addquicktag');
-	$uninstall2 = __('This button deletes all options of the WP-AddQuicktag plugin. <strong>Attention: </strong>You cannot undo this!', 'addquicktag');
+	$button4    = __('Uninstall Options &raquo;', FB_WPAQ_TEXTDOMAIN );
+	$uninstall1 = __('Uninstall options', FB_WPAQ_TEXTDOMAIN );
+	$uninstall2 = __('This button deletes all options of the WP-AddQuicktag plugin. <strong>Attention: </strong>You cannot undo this!', FB_WPAQ_TEXTDOMAIN );
 
 	// Info
-	$info0   = __('About the plugin', 'addquicktag');
-	$info1   = __('Further information: Visit the <a href=\'http://bueltge.de/wp-addquicktags-de-plugin/120\'>plugin homepage</a> for further information or to grab the latest version of this plugin.', 'addquicktag');
-	$info2   = __('You want to thank me? Visit my <a href=\'http://bueltge.de/wunschliste/\'>wishlist</a> or donate.', 'addquicktag');
+	$info0   = __('About the plugin', FB_WPAQ_TEXTDOMAIN );
+	$info1   = __('Further information: Visit the <a href=\'http://bueltge.de/wp-addquicktags-de-plugin/120\'>plugin homepage</a> for further information or to grab the latest version of this plugin.', FB_WPAQ_TEXTDOMAIN );
+	$info2   = __('You want to thank me? Visit my <a href=\'http://bueltge.de/wunschliste/\'>wishlist</a> or donate.', FB_WPAQ_TEXTDOMAIN );
 	
 	// message for import, after redirect
 	if ( strpos($_SERVER['REQUEST_URI'], 'addquicktag.php') && $_GET['update'] && !$_POST['uninstall'] ) {
 		$message_export = '<br class="clear" /><div class="updated fade"><p>';
 		if ( $_GET['update'] == 'true' ) {
-			$message_export .= __('AddQuicktag options imported!', 'addquicktag');
+			$message_export .= __('AddQuicktag options imported!', FB_WPAQ_TEXTDOMAIN );
 		} elseif( $_GET['update'] == 'exist' ) {
-			$message_export .= __('File is exist!', 'addquicktag');
+			$message_export .= __('File is exist!', FB_WPAQ_TEXTDOMAIN );
 		} elseif( $_GET['update'] == 'notexist' ) {
-			$message_export .= __('Invalid file extension!', 'addquicktag');
+			$message_export .= __('Invalid file extension!', FB_WPAQ_TEXTDOMAIN );
 		}
 		$message_export .= '</p></div>';
 	}
@@ -300,7 +297,7 @@ function wpaq_options_page() {
 	
 	?>
 	<div class="wrap">
-		<h2><?php _e('WP-Quicktag Management', 'addquicktag'); ?></h2>
+		<h2><?php _e('WP-Quicktag Management', FB_WPAQ_TEXTDOMAIN ); ?></h2>
 		<?php echo $message . $message_export; ?>
 		<br class="clear" />
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
@@ -323,14 +320,15 @@ function wpaq_options_page() {
 							<tbody>
 	<?php
 		for ($i = 0; $i < count($o['buttons']); $i++) {
+			$class = ( ' class="alternate"' == $class ) ? '' : ' class="alternate"';
 			$b          = $o['buttons'][$i];
-			$b['text']  = htmlentities( stripslashes($b['text']), ENT_COMPAT, get_option('blog_charset') );
-			$b['title'] = htmlentities( stripslashes($b['title']), ENT_COMPAT, get_option('blog_charset') );
-			$b['start'] = htmlentities( $b['start'], ENT_COMPAT, get_option('blog_charset') );
-			$b['end']   = htmlentities( $b['end'], ENT_COMPAT, get_option('blog_charset') );
-			$nr         = $i++;
+			$b['text']  = htmlentities(stripslashes($b['text']), ENT_COMPAT, get_option('blog_charset'));
+			$b['title'] = htmlentities(stripslashes($b['title']), ENT_COMPAT, get_option('blog_charset'));
+			$b['start'] = htmlentities($b['start'], ENT_COMPAT, get_option('blog_charset'));
+			$b['end']   = htmlentities($b['end'], ENT_COMPAT, get_option('blog_charset'));
+			$nr         = $i + 1;
 			echo '
-					<tr valign="top">
+					<tr valign="top"' . $class . '>
 						<td><input type="text" name="wpaq[buttons][' . $i . '][text]" value="' . $b['text'] . '" style="width: 95%;" /></td>
 						<td><input type="text" name="wpaq[buttons][' . $i . '][title]" value="' . $b['title'] . '" style="width: 95%;" /></td>
 						<td><textarea class="code" name="wpaq[buttons][' . $i . '][start]" rows="2" cols="25" style="width: 95%;">' . $b['start'] . '</textarea></td>
@@ -339,11 +337,11 @@ function wpaq_options_page() {
 			';
 		}
 		?>
-								<tr valign="top">
-									<td><input type="text" name="wpaq[buttons][<?php _e( $i ); ?>][text]" value="" tyle="width: 95%;" /></td>
-									<td><input type="text" name="wpaq[buttons][<?php _e( $i ); ?>][title]" value="" tyle="width: 95%;" /></td>
-									<td><textarea class="code" name="wpaq[buttons][<?php _e( $i ); ?>][start]" rows="2" cols="25" style="width: 95%;"></textarea></td>
-									<td><textarea class="code" name="wpaq[buttons][<?php _e( $i ); ?>][end]" rows="2" cols="25" style="width: 95%;"></textarea></td>
+								<tr valign="top" class="alternate">
+									<td><input type="text" name="wpaq[buttons][<?php echo $i; ?>][text]" value="" style="width: 95%;" /></td>
+									<td><input type="text" name="wpaq[buttons][<?php echo $i; ?>][title]" value="" style="width: 95%;" /></td>
+									<td><textarea class="code" name="wpaq[buttons][<?php echo $i; ?>][start]" rows="2" cols="25" style="width: 95%;"></textarea></td>
+									<td><textarea class="code" name="wpaq[buttons][<?php echo $i; ?>][end]" rows="2" cols="25" style="width: 95%;"></textarea></td>
 								</tr>
 							</tbody>
 						</table>
@@ -618,9 +616,9 @@ function wpaq_add_settings_page() {
 		if ( version_compare( $wp_version, '2.6.999', '>' ) ) {
 			$menutitle = '<img src="' . wpag_get_resource_url('addquicktag.gif') . '" alt="" />' . ' ';
 		}
-		$menutitle .= __('AddQuicktag', 'addquicktag');
+		$menutitle .= __('AddQuicktag', FB_WPAQ_TEXTDOMAIN );
 
-		add_options_page( __('WP-Quicktag &ndash; AddQuicktag', 'addquicktag'), $menutitle, 9, $plugin, 'wpaq_options_page');
+		add_options_page( __('WP-Quicktag &ndash; AddQuicktag', FB_WPAQ_TEXTDOMAIN ), $menutitle, 9, $plugin, 'wpaq_options_page');
 		
 		if ( version_compare( $wp_version, '2.7alpha', '<' ) ) {
 			add_filter('plugin_action_links', 'wpaq_filter_plugin_actions', 10, 2);
