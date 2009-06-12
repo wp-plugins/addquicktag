@@ -11,7 +11,7 @@ This plugin make it easy, Quicktags add to the editor. It is possible to ex- and
 == Description ==
 This plugin make it easy, Quicktags add to the editor. It is possible to ex- and import your Quicktags.
 
-WP-AddQuicktag for WordPress is in originally by [Roel Meurders](http://roel.meurders.nl/ "Roel Meurders"). AddQuicktag is an newer version with more functions and worked in WP 2.1 and bigger.
+WP-AddQuicktag for WordPress is in originally by [Roel Meurders](http://roel.meurders.nl/ "Roel Meurders"). AddQuicktag is an newer version with more functions and worked in WP 2.1 and higher.
 
 Please visit [the official website](http://bueltge.de/wp-addquicktags-de-plugin/120 "AddQuicktag") for further details and the latest information on this plugin.
 
