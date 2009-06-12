@@ -2,7 +2,7 @@
 /**
  * @package AddQuicktag
  * @author Roel Meurders, Frank B&uuml;ltge
- * @version 1.6
+ * @version 1.6.1
  */
  
 /**
@@ -11,9 +11,9 @@ Plugin URI:  http://bueltge.de/wp-addquicktags-de-plugin/120/
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags.
 Author:      Roel Meurders, Frank B&uuml;ltge
 Author URI:  http://bueltge.de/
-Version:     1.6
+Version:     1.6.1
 License:     GNU General Public License
-Last Change: 12.06.2009 14:32:06
+Last Change: 12.06.2009 20:33:43
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -95,7 +95,7 @@ function wpaq_install() {
 																'buttons' => array(
 																									array(
 																												'text'  => 'Example',
-																												'title' => 'Example title',
+																												'title' => 'Example Title',
 																												'start' => '<example>',
 																												'end'   => '</example>'
 																												)
@@ -116,7 +116,7 @@ function wpaq_reset() {
 																'buttons' => array(
 																									array(
 																												'text'  => 'Reset',
-																												'title' => 'Reset title',
+																												'title' => 'Reset Title',
 																												'start' => '<reset>',
 																												'end'   => '</reset>'
 																												)
@@ -219,11 +219,11 @@ function wpaq_options_page() {
 			for ($i = 0; $i < count($_POST['wpaq']['buttons']); $i++){
 				$b = $_POST['wpaq']['buttons'][$i];
 				if ($b['text'] != '' && $b['start'] != '') {
-					$b['text']    = $b['text'];
-					$b['title']   = $b['title'];
-					$b['start']   = stripslashes($b['start']);
-					$b['end']     = stripslashes($b['end']);
-					$buttons[]    = $b;
+					$b['text']  = $b['text'];
+					$b['title'] = $b['title'];
+					$b['start'] = stripslashes($b['start']);
+					$b['end']   = stripslashes($b['end']);
+					$buttons[]  = $b;
 				}
 			}
 			$_POST['wpaq']['buttons'] = $buttons;
@@ -453,42 +453,43 @@ if (strpos($_SERVER['REQUEST_URI'], 'post.php') || strpos($_SERVER['REQUEST_URI'
 		if (count($o['buttons']) > 0) {
 			echo '
 				<script type="text/javascript">
-					<!--
-					if (wpaqToolbar = document.getElementById("ed_toolbar")) {
-						var wpaqNr, wpaqBut, wpaqStart, wpaqEnd;
+					//<![CDATA[
+					if ( wpaqToolbar = document.getElementById("ed_toolbar") ) {
+						var wpaqNr, wpaqBut;
+						function wpaqTag(id) {
+							id = id.replace(/ed_/, \'\');
+							edInsertTag(edCanvas, id);
+						}
 			';
 						for ($i = 0; $i < count($o['buttons']); $i++) {
-							$b = $o['buttons'][$i];
-							$txt = html_entity_decode(stripslashes($b['txt']), ENT_COMPAT, get_option('blog_charset'));
-							$text = stripslashes($b['text']);
+							$b     = $o['buttons'][$i];
+							$text  = html_entity_decode( stripslashes($b['text']), ENT_COMPAT, get_option('blog_charset') );
+							$id    = strtolower($text);
 							$title = stripslashes($b['title']);
 							if ($title == '')
 								$title = strlen($text);
 							$start = preg_replace('![\n\r]+!', "\\n", $b['start']);
 							$start = str_replace("'", "\'", $start);
-							$end = preg_replace('![\n\r]+!', "\\n", $b['end']);
-							$end = str_replace("'", "\'", $end);
+							$end   = preg_replace('![\n\r]+!', "\\n", $b['end']);
+							$end   = str_replace("'", "\'", $end);
 							echo '
-								wpaqStart = \'' . $start . '\';
-								wpaqEnd = \'' . $end . '\';
 								wpaqNr = edButtons.length;
-								edButtons[wpaqNr] = new edButton(\'ed_wpaq' . $i . '\', \'' . $b['txt'] . '\', wpaqStart, wpaqEnd,\'\');
+								edButtons[wpaqNr] = new edButton(\'ed_\'+wpaqNr+\'\', \'' . $text . '\', \'' . $start . '\', \'' . $end . '\', \'\');
 								var wpaqBut = wpaqToolbar.lastChild;
 								while (wpaqBut.nodeType != 1) {
 									wpaqBut = wpaqBut.previousSibling;
 								}
 								wpaqBut = wpaqBut.cloneNode(true);
 								wpaqToolbar.appendChild(wpaqBut);
+								wpaqBut.id = \'ed_\'+wpaqNr+\'\';
 								wpaqBut.value = \'' . $text . '\';
 								wpaqBut.title = \'' . $title . '\';
-								wpaqBut.onclick = function () {edInsertTag(edCanvas, parseInt(this.title));}
-								wpaqBut.id = "ed_wpaq' . $i .'";
+								wpaqBut.onclick = function() {edInsertTag(edCanvas, wpaqTag(this.id));}
 							';
 						}
 				echo '
 					}
-
-					//-->
+					//]]>
 				</script>
 				';
 		}
