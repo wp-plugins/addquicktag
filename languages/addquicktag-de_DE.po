@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AddQuicktag\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-12 20:34+0100\n"
-"PO-Revision-Date: 2009-06-12 20:34+0100\n"
-"Last-Translator: Frank Bulteg <frank@bueltge.de>\n"
+"POT-Creation-Date: 2009-06-16 08:13+0100\n"
+"PO-Revision-Date: 2009-06-16 08:13+0100\n"
+"Last-Translator: Frank Bueltge <frank@bueltge.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -138,24 +138,24 @@ msgstr "WP-Quicktag Verwaltung"
 msgid "Click to toggle"
 msgstr "Zum umschalten klicken"
 
-#: addquicktag.php:525
-#: addquicktag.php:547
+#: addquicktag.php:823
+#: addquicktag.php:845
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: addquicktag.php:620
+#: addquicktag.php:918
 msgid "AddQuicktag"
 msgstr "AddQuicktag"
 
-#: addquicktag.php:622
+#: addquicktag.php:920
 msgid "WP-Quicktag &ndash; AddQuicktag"
 msgstr "WP-Quicktag &ndash; AddQuicktag"
 
-#: addquicktag.php:643
+#: addquicktag.php:941
 msgid "Version"
 msgstr "Version"
 
-#: addquicktag.php:643
+#: addquicktag.php:941
 msgid "Author"
 msgstr "Autor"
 

@@ -2,7 +2,7 @@
 /**
  * @package AddQuicktag
  * @author Roel Meurders, Frank B&uuml;ltge
- * @version 1.6.1
+ * @version 1.6.2
  */
  
 /**
@@ -11,9 +11,9 @@ Plugin URI:  http://bueltge.de/wp-addquicktags-de-plugin/120/
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags.
 Author:      Roel Meurders, Frank B&uuml;ltge
 Author URI:  http://bueltge.de/
-Version:     1.6.1
+Version:     1.6.2
 License:     GNU General Public License
-Last Change: 12.06.2009 20:33:43
+Last Change: 16.06.2009 01:09:58
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -447,57 +447,355 @@ function wpaq_options_page() {
 // only for post.php, page.php, post-new.php, page-new.php, comment.php
 if (strpos($_SERVER['REQUEST_URI'], 'post.php') || strpos($_SERVER['REQUEST_URI'], 'post-new.php') || strpos($_SERVER['REQUEST_URI'], 'page-new.php') || strpos($_SERVER['REQUEST_URI'], 'page.php') || strpos($_SERVER['REQUEST_URI'], 'comment.php')) {
 	add_action('admin_footer', 'wpaq_addsome');
-
+	
+	/**
+	 * add quicktags to editor
+	 *
+	 * @package AddQuicktag
+	 */
 	function wpaq_addsome() {
 		$o = get_option('rmnlQuicktagSettings');
 		if (count($o['buttons']) > 0) {
-			echo '
+				?>
 				<script type="text/javascript">
 					//<![CDATA[
 					if ( wpaqToolbar = document.getElementById("ed_toolbar") ) {
-						var wpaqNr, wpaqBut;
-						function wpaqTag(id) {
-							id = id.replace(/ed_/, \'\');
-							edInsertTag(edCanvas, id);
-						}
-			';
-						for ($i = 0; $i < count($o['buttons']); $i++) {
+						<?php
+						for ($i = 0; $i < count($o['buttons']); $i++) :
 							$b     = $o['buttons'][$i];
-							$text  = html_entity_decode( stripslashes($b['text']), ENT_COMPAT, get_option('blog_charset') );
+							if ( version_compare(phpversion(), '5.0.0', '>=') )
+								$text = html_entity_decode( stripslashes($b['text']), ENT_COMPAT, get_option('blog_charset') );
+							else
+								$text = wpaq_html_entity_decode_php4( stripslashes($b['text']) );
 							$id    = strtolower($text);
 							$title = stripslashes($b['title']);
 							if ($title == '')
 								$title = strlen($text);
-							$start = preg_replace('![\n\r]+!', "\\n", $b['start']);
+							$start = preg_replace('![\n\r]+!', "\n", $b['start']);
 							$start = str_replace("'", "\'", $start);
-							$end   = preg_replace('![\n\r]+!', "\\n", $b['end']);
+							$start = str_replace('"', '\"', $start);
+							$end   = preg_replace('![\n\r]+!', "\n", $b['end']);
 							$end   = str_replace("'", "\'", $end);
-							echo '
-								wpaqNr = edButtons.length;
-								edButtons[wpaqNr] = new edButton(\'ed_\'+wpaqNr+\'\', \'' . $text . '\', \'' . $start . '\', \'' . $end . '\', \'\');
-								var wpaqBut = wpaqToolbar.lastChild;
-								while (wpaqBut.nodeType != 1) {
-									wpaqBut = wpaqBut.previousSibling;
-								}
-								wpaqBut = wpaqBut.cloneNode(true);
-								wpaqToolbar.appendChild(wpaqBut);
-								wpaqBut.id = \'ed_\'+wpaqNr+\'\';
-								wpaqBut.value = \'' . $text . '\';
-								wpaqBut.title = \'' . $title . '\';
-								wpaqBut.onclick = function() {edInsertTag(edCanvas, wpaqTag(this.id));}
-							';
+							$end   = str_replace('"', '\"', $end);
+						?>
+						var wpaqNr, wpaqBut;
+						wpaqNr = edButtons.length;
+						edButtons[wpaqNr] = new edButton("ed_"+wpaqNr, "<?php echo $text; ?>", "<?php echo $start; ?>", "<?php echo $end; ?>", "");
+						var wpaqBut = wpaqToolbar.lastChild;
+						while (wpaqBut.nodeType != 1) {
+							wpaqBut = wpaqBut.previousSibling;
 						}
-				echo '
+						wpaqBut = wpaqBut.cloneNode(true);
+						wpaqBut.id = "ed_"+wpaqNr;
+						wpaqBut._idx = wpaqNr; //store our current index at element itself
+						wpaqBut.value = "<?php echo $text; ?>";
+						wpaqBut.title = "<?php echo $title; ?>";
+						wpaqBut.onclick = function() {edInsertTag(edCanvas, this._idx); return false; }
+						wpaqToolbar.appendChild(wpaqBut);
+						<?php endfor; ?>
 					}
 					//]]>
 				</script>
-				';
+				<?php
 		}
 	} //End wpaq_addsome
 } // End if
 
 
-// add to wp
+/**
+ * code to utf-8 in PHP 4
+ *
+ * @package AddQuicktag
+ */
+function wpaq_code_to_utf8($num) {
+	
+	if ($num <= 0x7F) {
+		return chr($num);
+	} elseif ($num <= 0x7FF) {
+		return chr(($num >> 0x06) + 0xC0) . chr(($num & 0x3F) + 128);
+	} elseif ($num <= 0xFFFF) {
+		return chr(($num >> 0x0C) + 0xE0) . chr((($num >> 0x06) & 0x3F) + 0x80) . chr(($num & 0x3F) + 0x80);
+	} elseif ($num <= 0x1FFFFF) {
+		return chr(($num >> 0x12) + 0xF0) . chr((($num >> 0x0C) & 0x3F) + 0x80) . chr((($num >> 0x06) & 0x3F) + 0x80) . chr(($num & 0x3F) + 0x80);
+	}
+
+	return '';
+}
+
+
+/**
+ * html_entity_decode for PHP 4
+ *
+ * @package AddQuicktag
+ */
+function wpaq_html_entity_decode_php4($str) {
+	$htmlentities = array (
+		"&Aacute;" => chr(195).chr(129),
+		"&aacute;" => chr(195).chr(161),
+		"&Acirc;" => chr(195).chr(130),
+		"&acirc;" => chr(195).chr(162),
+		"&acute;" => chr(194).chr(180),
+		"&AElig;" => chr(195).chr(134),
+		"&aelig;" => chr(195).chr(166),
+		"&Agrave;" => chr(195).chr(128),
+		"&agrave;" => chr(195).chr(160),
+		"&alefsym;" => chr(226).chr(132).chr(181),
+		"&Alpha;" => chr(206).chr(145),
+		"&alpha;" => chr(206).chr(177),
+		"&amp;" => chr(38),
+		"&and;" => chr(226).chr(136).chr(167),
+		"&ang;" => chr(226).chr(136).chr(160),
+		"&Aring;" => chr(195).chr(133),
+		"&aring;" => chr(195).chr(165),
+		"&asymp;" => chr(226).chr(137).chr(136),
+		"&Atilde;" => chr(195).chr(131),
+		"&atilde;" => chr(195).chr(163),
+		"&Auml;" => chr(195).chr(132),
+		"&auml;" => chr(195).chr(164),
+		"&bdquo;" => chr(226).chr(128).chr(158),
+		"&Beta;" => chr(206).chr(146),
+		"&beta;" => chr(206).chr(178),
+		"&brvbar;" => chr(194).chr(166),
+		"&bull;" => chr(226).chr(128).chr(162),
+		"&cap;" => chr(226).chr(136).chr(169),
+		"&Ccedil;" => chr(195).chr(135),
+		"&ccedil;" => chr(195).chr(167),
+		"&cedil;" => chr(194).chr(184),
+		"&cent;" => chr(194).chr(162),
+		"&Chi;" => chr(206).chr(167),
+		"&chi;" => chr(207).chr(135),
+		"&circ;" => chr(203).chr(134),
+		"&clubs;" => chr(226).chr(153).chr(163),
+		"&cong;" => chr(226).chr(137).chr(133),
+		"&copy;" => chr(194).chr(169),
+		"&crarr;" => chr(226).chr(134).chr(181),
+		"&cup;" => chr(226).chr(136).chr(170),
+		"&curren;" => chr(194).chr(164),
+		"&dagger;" => chr(226).chr(128).chr(160),
+		"&Dagger;" => chr(226).chr(128).chr(161),
+		"&darr;" => chr(226).chr(134).chr(147),
+		"&dArr;" => chr(226).chr(135).chr(147),
+		"&deg;" => chr(194).chr(176),
+		"&Delta;" => chr(206).chr(148),
+		"&delta;" => chr(206).chr(180),
+		"&diams;" => chr(226).chr(153).chr(166),
+		"&divide;" => chr(195).chr(183),
+		"&Eacute;" => chr(195).chr(137),
+		"&eacute;" => chr(195).chr(169),
+		"&Ecirc;" => chr(195).chr(138),
+		"&ecirc;" => chr(195).chr(170),
+		"&Egrave;" => chr(195).chr(136),
+		"&egrave;" => chr(195).chr(168),
+		"&empty;" => chr(226).chr(136).chr(133),
+		"&emsp;" => chr(226).chr(128).chr(131),
+		"&ensp;" => chr(226).chr(128).chr(130),
+		"&Epsilon;" => chr(206).chr(149),
+		"&epsilon;" => chr(206).chr(181),
+		"&equiv;" => chr(226).chr(137).chr(161),
+		"&Eta;" => chr(206).chr(151),
+		"&eta;" => chr(206).chr(183),
+		"&ETH;" => chr(195).chr(144),
+		"&eth;" => chr(195).chr(176),
+		"&Euml;" => chr(195).chr(139),
+		"&euml;" => chr(195).chr(171),
+		"&euro;" => chr(226).chr(130).chr(172),
+		"&exist;" => chr(226).chr(136).chr(131),
+		"&fnof;" => chr(198).chr(146),
+		"&forall;" => chr(226).chr(136).chr(128),
+		"&frac12;" => chr(194).chr(189),
+		"&frac14;" => chr(194).chr(188),
+		"&frac34;" => chr(194).chr(190),
+		"&frasl;" => chr(226).chr(129).chr(132),
+		"&Gamma;" => chr(206).chr(147),
+		"&gamma;" => chr(206).chr(179),
+		"&ge;" => chr(226).chr(137).chr(165),
+		"&harr;" => chr(226).chr(134).chr(148),
+		"&hArr;" => chr(226).chr(135).chr(148),
+		"&hearts;" => chr(226).chr(153).chr(165),
+		"&hellip;" => chr(226).chr(128).chr(166),
+		"&Iacute;" => chr(195).chr(141),
+		"&iacute;" => chr(195).chr(173),
+		"&Icirc;" => chr(195).chr(142),
+		"&icirc;" => chr(195).chr(174),
+		"&iexcl;" => chr(194).chr(161),
+		"&Igrave;" => chr(195).chr(140),
+		"&igrave;" => chr(195).chr(172),
+		"&image;" => chr(226).chr(132).chr(145),
+		"&infin;" => chr(226).chr(136).chr(158),
+		"&int;" => chr(226).chr(136).chr(171),
+		"&Iota;" => chr(206).chr(153),
+		"&iota;" => chr(206).chr(185),
+		"&iquest;" => chr(194).chr(191),
+		"&isin;" => chr(226).chr(136).chr(136),
+		"&Iuml;" => chr(195).chr(143),
+		"&iuml;" => chr(195).chr(175),
+		"&Kappa;" => chr(206).chr(154),
+		"&kappa;" => chr(206).chr(186),
+		"&Lambda;" => chr(206).chr(155),
+		"&lambda;" => chr(206).chr(187),
+		"&lang;" => chr(226).chr(140).chr(169),
+		"&laquo;" => chr(194).chr(171),
+		"&larr;" => chr(226).chr(134).chr(144),
+		"&lArr;" => chr(226).chr(135).chr(144),
+		"&lceil;" => chr(226).chr(140).chr(136),
+		"&ldquo;" => chr(226).chr(128).chr(156),
+		"&le;" => chr(226).chr(137).chr(164),
+		"&lfloor;" => chr(226).chr(140).chr(138),
+		"&lowast;" => chr(226).chr(136).chr(151),
+		"&loz;" => chr(226).chr(151).chr(138),
+		"&lrm;" => chr(226).chr(128).chr(142),
+		"&lsaquo;" => chr(226).chr(128).chr(185),
+		"&lsquo;" => chr(226).chr(128).chr(152),
+		"&macr;" => chr(194).chr(175),
+		"&mdash;" => chr(226).chr(128).chr(148),
+		"&micro;" => chr(194).chr(181),
+		"&middot;" => chr(194).chr(183),
+		"&minus;" => chr(226).chr(136).chr(146),
+		"&Mu;" => chr(206).chr(156),
+		"&mu;" => chr(206).chr(188),
+		"&nabla;" => chr(226).chr(136).chr(135),
+		"&nbsp;" => chr(194).chr(160),
+		"&ndash;" => chr(226).chr(128).chr(147),
+		"&ne;" => chr(226).chr(137).chr(160),
+		"&ni;" => chr(226).chr(136).chr(139),
+		"&not;" => chr(194).chr(172),
+		"&notin;" => chr(226).chr(136).chr(137),
+		"&nsub;" => chr(226).chr(138).chr(132),
+		"&Ntilde;" => chr(195).chr(145),
+		"&ntilde;" => chr(195).chr(177),
+		"&Nu;" => chr(206).chr(157),
+		"&nu;" => chr(206).chr(189),
+		"&Oacute;" => chr(195).chr(147),
+		"&oacute;" => chr(195).chr(179),
+		"&Ocirc;" => chr(195).chr(148),
+		"&ocirc;" => chr(195).chr(180),
+		"&OElig;" => chr(197).chr(146),
+		"&oelig;" => chr(197).chr(147),
+		"&Ograve;" => chr(195).chr(146),
+		"&ograve;" => chr(195).chr(178),
+		"&oline;" => chr(226).chr(128).chr(190),
+		"&Omega;" => chr(206).chr(169),
+		"&omega;" => chr(207).chr(137),
+		"&Omicron;" => chr(206).chr(159),
+		"&omicron;" => chr(206).chr(191),
+		"&oplus;" => chr(226).chr(138).chr(149),
+		"&or;" => chr(226).chr(136).chr(168),
+		"&ordf;" => chr(194).chr(170),
+		"&ordm;" => chr(194).chr(186),
+		"&Oslash;" => chr(195).chr(152),
+		"&oslash;" => chr(195).chr(184),
+		"&Otilde;" => chr(195).chr(149),
+		"&otilde;" => chr(195).chr(181),
+		"&otimes;" => chr(226).chr(138).chr(151),
+		"&Ouml;" => chr(195).chr(150),
+		"&ouml;" => chr(195).chr(182),
+		"&para;" => chr(194).chr(182),
+		"&part;" => chr(226).chr(136).chr(130),
+		"&permil;" => chr(226).chr(128).chr(176),
+		"&perp;" => chr(226).chr(138).chr(165),
+		"&Phi;" => chr(206).chr(166),
+		"&phi;" => chr(207).chr(134),
+		"&Pi;" => chr(206).chr(160),
+		"&pi;" => chr(207).chr(128),
+		"&piv;" => chr(207).chr(150),
+		"&plusmn;" => chr(194).chr(177),
+		"&pound;" => chr(194).chr(163),
+		"&prime;" => chr(226).chr(128).chr(178),
+		"&Prime;" => chr(226).chr(128).chr(179),
+		"&prod;" => chr(226).chr(136).chr(143),
+		"&prop;" => chr(226).chr(136).chr(157),
+		"&Psi;" => chr(206).chr(168),
+		"&psi;" => chr(207).chr(136),
+		"&radic;" => chr(226).chr(136).chr(154),
+		"&rang;" => chr(226).chr(140).chr(170),
+		"&raquo;" => chr(194).chr(187),
+		"&rarr;" => chr(226).chr(134).chr(146),
+		"&rArr;" => chr(226).chr(135).chr(146),
+		"&rceil;" => chr(226).chr(140).chr(137),
+		"&rdquo;" => chr(226).chr(128).chr(157),
+		"&real;" => chr(226).chr(132).chr(156),
+		"&reg;" => chr(194).chr(174),
+		"&rfloor;" => chr(226).chr(140).chr(139),
+		"&Rho;" => chr(206).chr(161),
+		"&rho;" => chr(207).chr(129),
+		"&rlm;" => chr(226).chr(128).chr(143),
+		"&rsaquo;" => chr(226).chr(128).chr(186),
+		"&rsquo;" => chr(226).chr(128).chr(153),
+		"&sbquo;" => chr(226).chr(128).chr(154),
+		"&Scaron;" => chr(197).chr(160),
+		"&scaron;" => chr(197).chr(161),
+		"&sdot;" => chr(226).chr(139).chr(133),
+		"&sect;" => chr(194).chr(167),
+		"&shy;" => chr(194).chr(173),
+		"&Sigma;" => chr(206).chr(163),
+		"&sigma;" => chr(207).chr(131),
+		"&sigmaf;" => chr(207).chr(130),
+		"&sim;" => chr(226).chr(136).chr(188),
+		"&spades;" => chr(226).chr(153).chr(160),
+		"&sub;" => chr(226).chr(138).chr(130),
+		"&sube;" => chr(226).chr(138).chr(134),
+		"&sum;" => chr(226).chr(136).chr(145),
+		"&sup1;" => chr(194).chr(185),
+		"&sup2;" => chr(194).chr(178),
+		"&sup3;" => chr(194).chr(179),
+		"&sup;" => chr(226).chr(138).chr(131),
+		"&supe;" => chr(226).chr(138).chr(135),
+		"&szlig;" => chr(195).chr(159),
+		"&Tau;" => chr(206).chr(164),
+		"&tau;" => chr(207).chr(132),
+		"&there4;" => chr(226).chr(136).chr(180),
+		"&Theta;" => chr(206).chr(152),
+		"&theta;" => chr(206).chr(184),
+		"&thetasym;" => chr(207).chr(145),
+		"&thinsp;" => chr(226).chr(128).chr(137),
+		"&THORN;" => chr(195).chr(158),
+		"&thorn;" => chr(195).chr(190),
+		"&tilde;" => chr(203).chr(156),
+		"&times;" => chr(195).chr(151),
+		"&trade;" => chr(226).chr(132).chr(162),
+		"&Uacute;" => chr(195).chr(154),
+		"&uacute;" => chr(195).chr(186),
+		"&uarr;" => chr(226).chr(134).chr(145),
+		"&uArr;" => chr(226).chr(135).chr(145),
+		"&Ucirc;" => chr(195).chr(155),
+		"&ucirc;" => chr(195).chr(187),
+		"&Ugrave;" => chr(195).chr(153),
+		"&ugrave;" => chr(195).chr(185),
+		"&uml;" => chr(194).chr(168),
+		"&upsih;" => chr(207).chr(146),
+		"&Upsilon;" => chr(206).chr(165),
+		"&upsilon;" => chr(207).chr(133),
+		"&Uuml;" => chr(195).chr(156),
+		"&uuml;" => chr(195).chr(188),
+		"&weierp;" => chr(226).chr(132).chr(152),
+		"&Xi;" => chr(206).chr(158),
+		"&xi;" => chr(206).chr(190),
+		"&Yacute;" => chr(195).chr(157),
+		"&yacute;" => chr(195).chr(189),
+		"&yen;" => chr(194).chr(165),
+		"&yuml;" => chr(195).chr(191),
+		"&Yuml;" => chr(197).chr(184),
+		"&Zeta;" => chr(206).chr(150),
+		"&zeta;" => chr(206).chr(182),
+		"&zwj;" => chr(226).chr(128).chr(141),
+		"&zwnj;" => chr(226).chr(128).chr(140),
+		"&gt;" => ">",
+		"&lt;" => "<"
+	);
+
+	$return = strtr($str, $htmlentities);
+	$return = preg_replace("~&#x([0-9a-f]+);~ei", "wpaq_code_to_utf8(hexdec(\\1))", $return);
+	$return = preg_replace("~&#([0-9]+);~e", "wpaq_code_to_utf8(\\1)", $return);
+
+	return $return;
+}
+
+
+/**
+ * hook in WP
+ *
+ * @package AddQuicktag
+ */
 if ( function_exists('register_activation_hook') )
 	register_activation_hook(__FILE__, 'wpaq_install');
 if ( function_exists('register_uninstall_hook') )
