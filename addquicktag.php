@@ -2,7 +2,7 @@
 /**
  * @package AddQuicktag
  * @author Roel Meurders, Frank B&uuml;ltge
- * @version 1.6.2
+ * @version 1.6.3
  */
  
 /**
@@ -11,9 +11,9 @@ Plugin URI:  http://bueltge.de/wp-addquicktags-de-plugin/120/
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags.
 Author:      Roel Meurders, Frank B&uuml;ltge
 Author URI:  http://bueltge.de/
-Version:     1.6.2
+Version:     1.6.3
 License:     GNU General Public License
-Last Change: 16.06.2009 01:09:58
+Last Change: 16.06.2009 13:00:47
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -467,14 +467,18 @@ if (strpos($_SERVER['REQUEST_URI'], 'post.php') || strpos($_SERVER['REQUEST_URI'
 								$text = html_entity_decode( stripslashes($b['text']), ENT_COMPAT, get_option('blog_charset') );
 							else
 								$text = wpaq_html_entity_decode_php4( stripslashes($b['text']) );
+							$text = str_replace('"', '\"', $text);
 							$id    = strtolower($text);
 							$title = stripslashes($b['title']);
 							if ($title == '')
 								$title = strlen($text);
-							$start = preg_replace('![\n\r]+!', "\n", $b['start']);
+							$title = preg_replace('![\n\r]+!', "\n", $title);
+							$title = str_replace("'", "\'", $title);
+							$title = str_replace('"', '\"', $title);
+							$start = preg_replace('![\n\r]+!', "\\n", $b['start']);
 							$start = str_replace("'", "\'", $start);
 							$start = str_replace('"', '\"', $start);
-							$end   = preg_replace('![\n\r]+!', "\n", $b['end']);
+							$end   = preg_replace('![\n\r]+!', "\\n", $b['end']);
 							$end   = str_replace("'", "\'", $end);
 							$end   = str_replace('"', '\"', $end);
 						?>
