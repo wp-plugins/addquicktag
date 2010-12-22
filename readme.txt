@@ -13,7 +13,11 @@ This plugin make it easy, Quicktags add to the editor. It is possible to ex- and
 
 WP-AddQuicktag for WordPress is in originally by [Roel Meurders](http://roel.meurders.nl/ "Roel Meurders"). AddQuicktag is an newer version with more functions and worked in WP 2.1 and higher.
 
-Please visit [the official website](http://bueltge.de/wp-addquicktags-de-plugin/120 "AddQuicktag") for further details and the latest information on this plugin.
+= More Plugins = 
+Please see also my [Premium Plugins](http://wpplugins.com/author/malo.conny/). Maybe you find an solution for your requirement.
+
+= Interested in WordPress tips and tricks =
+You may also be interested in WordPress tips and tricks at [WP Engineer](http://wpengineer.com/) or for german people [bueltge.de](http://bueltge.de/) 
 
 
 == Installation ==
