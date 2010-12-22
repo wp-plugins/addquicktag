@@ -2,7 +2,7 @@
 /**
  * @package AddQuicktag
  * @author Roel Meurders, Frank B&uuml;ltge
- * @version 1.6.3
+ * @version 1.6.4
  */
  
 /**
@@ -11,9 +11,9 @@ Plugin URI:  http://bueltge.de/wp-addquicktags-de-plugin/120/
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags.
 Author:      Roel Meurders, Frank B&uuml;ltge
 Author URI:  http://bueltge.de/
-Version:     1.6.3
+Version:     1.6.4
 License:     GNU General Public License
-Last Change: 16.06.2009 13:00:47
+Last Change: 01.12.2010 13:00:47
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -92,15 +92,15 @@ function wpaq_textdomain() {
 function wpaq_install() {
 	
 	$rmnlQuicktagSettings = array(
-																'buttons' => array(
-																									array(
-																												'text'  => 'Example',
-																												'title' => 'Example Title',
-																												'start' => '<example>',
-																												'end'   => '</example>'
-																												)
-																									)
-																);
+		'buttons' => array(
+			array(
+				'text'  => 'Example',
+				'title' => 'Example Title',
+				'start' => '<example>',
+				'end'   => '</example>'
+			)
+		)
+	);
 	add_option('rmnlQuicktagSettings', $rmnlQuicktagSettings);
 }
 
@@ -113,15 +113,15 @@ function wpaq_install() {
 function wpaq_reset() {
 	
 	$rmnlQuicktagSettings = array(
-																'buttons' => array(
-																									array(
-																												'text'  => 'Reset',
-																												'title' => 'Reset Title',
-																												'start' => '<reset>',
-																												'end'   => '</reset>'
-																												)
-																									)
-																);
+		'buttons' => array(
+			array(
+				'text'  => 'Reset',
+				'title' => 'Reset Title',
+				'start' => '<reset>',
+				'end'   => '</reset>'
+			)
+		)
+	);
 	update_option('rmnlQuicktagSettings', $rmnlQuicktagSettings);
 }
 
@@ -921,7 +921,7 @@ function wpaq_add_settings_page() {
 		}
 		$menutitle .= __('AddQuicktag', FB_WPAQ_TEXTDOMAIN );
 
-		add_options_page( __('WP-Quicktag &ndash; AddQuicktag', FB_WPAQ_TEXTDOMAIN ), $menutitle, 9, $plugin, 'wpaq_options_page');
+		add_options_page( __('WP-Quicktag &ndash; AddQuicktag', FB_WPAQ_TEXTDOMAIN ), $menutitle, 'manage_options', $plugin, 'wpaq_options_page');
 		
 		if ( version_compare( $wp_version, '2.7alpha', '<' ) ) {
 			add_filter('plugin_action_links', 'wpaq_filter_plugin_actions', 10, 2);
