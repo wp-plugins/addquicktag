@@ -92,15 +92,15 @@ function wpaq_textdomain() {
 function wpaq_install() {
 	
 	$rmnlQuicktagSettings = array(
-																'buttons' => array(
-																									array(
-																												'text'  => 'Example',
-																												'title' => 'Example Title',
-																												'start' => '<example>',
-																												'end'   => '</example>'
-																												)
-																									)
-																);
+		'buttons' => array(
+			array(
+				'text'  => 'Example',
+				'title' => 'Example Title',
+				'start' => '<example>',
+				'end'   => '</example>'
+			)
+		)
+	);
 	add_option('rmnlQuicktagSettings', $rmnlQuicktagSettings);
 }
 
@@ -113,15 +113,15 @@ function wpaq_install() {
 function wpaq_reset() {
 	
 	$rmnlQuicktagSettings = array(
-																'buttons' => array(
-																									array(
-																												'text'  => 'Reset',
-																												'title' => 'Reset Title',
-																												'start' => '<reset>',
-																												'end'   => '</reset>'
-																												)
-																									)
-																);
+		'buttons' => array(
+			array(
+				'text'  => 'Reset',
+				'title' => 'Reset Title',
+				'start' => '<reset>',
+				'end'   => '</reset>'
+			)
+		)
+	);
 	update_option('rmnlQuicktagSettings', $rmnlQuicktagSettings);
 }
 
