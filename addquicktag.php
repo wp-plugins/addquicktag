@@ -2,7 +2,6 @@
 /**
  * @package AddQuicktag
  * @author Roel Meurders, Frank B&uuml;ltge
- * @version 1.6.4
  */
  
 /**
@@ -11,9 +10,9 @@ Plugin URI:  http://bueltge.de/wp-addquicktags-de-plugin/120/
 Description: Allows you to easily add custom Quicktags to the editor. You can also export and import your Quicktags.
 Author:      Roel Meurders, Frank B&uuml;ltge
 Author URI:  http://bueltge.de/
-Version:     1.6.4
+Version:     1.6.5
 License:     GNU General Public License
-Last Change: 01.12.2010 13:00:47
+Last Change: 02.02.2011
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -185,6 +184,8 @@ function wpaq_import() {
 	} else {
 		// path for file
 		$str_ziel = WP_CONTENT_DIR . '/' . $_FILES['datei']['name'];
+		// ToDO
+		// check for rights 0777
 		// transfer
 		move_uploaded_file($_FILES['datei']['tmp_name'], $str_ziel);
 		// access authorisation
@@ -211,7 +212,7 @@ function wpaq_import() {
 function wpaq_options_page() {
 	global $wp_version;
 	
-	if ($_POST['wpaq']) {
+	if ( isset($_POST['wpaq']) && $_POST['wpaq']) {
 		if ( current_user_can('edit_plugins') ) {
 			check_admin_referer('rmnl_nonce');
 
@@ -236,7 +237,7 @@ function wpaq_options_page() {
 	}
 
 	// Uninstall options
-	if ( ($_POST['action'] == 'uninstall') ) {
+	if ( ( isset($_POST['action']) && $_POST['action'] == 'uninstall') ) {
 		if ( current_user_can('edit_plugins') ) {
 
 			check_admin_referer('rmnl_nonce');
@@ -281,7 +282,7 @@ function wpaq_options_page() {
 	$info2   = __('You want to thank me? Visit my <a href=\'http://bueltge.de/wunschliste/\'>wishlist</a> or donate.', FB_WPAQ_TEXTDOMAIN );
 	
 	// message for import, after redirect
-	if ( strpos($_SERVER['REQUEST_URI'], 'addquicktag.php') && $_GET['update'] && !$_POST['uninstall'] ) {
+	if ( strpos($_SERVER['REQUEST_URI'], 'addquicktag.php') && isset($_GET['update']) && $_GET['update'] && isset($_POST['uninstall']) && !$_POST['uninstall'] ) {
 		$message_export = '<br class="clear" /><div class="updated fade"><p>';
 		if ( $_GET['update'] == 'true' ) {
 			$message_export .= __('AddQuicktag options imported!', FB_WPAQ_TEXTDOMAIN );
@@ -298,7 +299,7 @@ function wpaq_options_page() {
 	?>
 	<div class="wrap">
 		<h2><?php _e('WP-Quicktag Management', FB_WPAQ_TEXTDOMAIN ); ?></h2>
-		<?php echo $message . $message_export; ?>
+		<?php if ( isset($message) ) echo $message; if ( isset($message_export) ) echo $message_export; ?>
 		<br class="clear" />
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox">
@@ -319,22 +320,25 @@ function wpaq_options_page() {
 							</thead>
 							<tbody>
 	<?php
-		for ($i = 0; $i < count($o['buttons']); $i++) {
-			$class = ( ' class="alternate"' == $class ) ? '' : ' class="alternate"';
-			$b          = $o['buttons'][$i];
-			$b['text']  = htmlentities(stripslashes($b['text']), ENT_COMPAT, get_option('blog_charset'));
-			$b['title'] = htmlentities(stripslashes($b['title']), ENT_COMPAT, get_option('blog_charset'));
-			$b['start'] = htmlentities($b['start'], ENT_COMPAT, get_option('blog_charset'));
-			$b['end']   = htmlentities($b['end'], ENT_COMPAT, get_option('blog_charset'));
-			$nr         = $i + 1;
-			echo '
-					<tr valign="top"' . $class . '>
-						<td><input type="text" name="wpaq[buttons][' . $i . '][text]" value="' . $b['text'] . '" style="width: 95%;" /></td>
-						<td><input type="text" name="wpaq[buttons][' . $i . '][title]" value="' . $b['title'] . '" style="width: 95%;" /></td>
-						<td><textarea class="code" name="wpaq[buttons][' . $i . '][start]" rows="2" cols="25" style="width: 95%;">' . $b['start'] . '</textarea></td>
-						<td><textarea class="code" name="wpaq[buttons][' . $i . '][end]" rows="2" cols="25" style="width: 95%;">' . $b['end'] . '</textarea></td>
-					</tr>
-			';
+	  if ( isset($o['buttons']) ) {
+  	  $class = '';
+  		for ($i = 0; $i < count($o['buttons']); $i++) {
+  			$class = ( ' class="alternate"' == $class ) ? '' : ' class="alternate"';
+  			$b          = $o['buttons'][$i];
+  			$b['text']  = htmlentities(stripslashes($b['text']), ENT_COMPAT, get_option('blog_charset'));
+  			$b['title'] = htmlentities(stripslashes($b['title']), ENT_COMPAT, get_option('blog_charset'));
+  			$b['start'] = htmlentities($b['start'], ENT_COMPAT, get_option('blog_charset'));
+  			$b['end']   = htmlentities($b['end'], ENT_COMPAT, get_option('blog_charset'));
+  			$nr         = $i + 1;
+  			echo '
+  					<tr valign="top"' . $class . '>
+  						<td><input type="text" name="wpaq[buttons][' . $i . '][text]" value="' . $b['text'] . '" style="width: 95%;" /></td>
+  						<td><input type="text" name="wpaq[buttons][' . $i . '][title]" value="' . $b['title'] . '" style="width: 95%;" /></td>
+  						<td><textarea class="code" name="wpaq[buttons][' . $i . '][start]" rows="2" cols="25" style="width: 95%;">' . $b['start'] . '</textarea></td>
+  						<td><textarea class="code" name="wpaq[buttons][' . $i . '][end]" rows="2" cols="25" style="width: 95%;">' . $b['end'] . '</textarea></td>
+  					</tr>
+  			';
+  		}
 		}
 		?>
 								<tr valign="top" class="alternate">

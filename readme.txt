@@ -4,7 +4,7 @@ Donate link: http://bueltge.de/wunschliste/
 Tags: quicktag, editor
 Requires at least: 1.5
 Tested up to: 3.1
-Stable tag: 1.6.3
+Stable tag: 1.6.5
 
 This plugin make it easy, Quicktags add to the editor. It is possible to ex- and import your Quicktags.
 
@@ -56,6 +56,10 @@ Please visit [the official website](http://bueltge.de/wp-addquicktags-de-plugin/
 
 
 == Changelog ==
+= v1.6.5 (02/02/2011) =
+* changes for admin-hints
+* kill php warnings on debug-mode
+
 = v1.6.4 (12/22/2010) =
 * small changes for depreaced WP functions
 
