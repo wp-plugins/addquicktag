@@ -38,7 +38,7 @@ See on [the official website](http://bueltge.de/wp-addquicktags-de-plugin/120 "A
 == Other Notes ==
 = Acknowledgements =
 * Thanks to Yuuich on [www.u-1.net](http://www.u-1.net/ "Yuuich") for translate the plugin in japanese, Neil on [www.wmfield.idv.tw](http://www.wmfield.idv.tw/ "Yuuich") for translate the plugin in chinese, [Jean-Michel MEYER](http://www.li-an.fr/blog "Jean-Michel MEYER") for translate in french, italien translation by [Gianni Diurno](http://gidibao.net/ "Gianni Diurno"), Josef Klimosz on [http://blog.rudice.cz/](http://blog.rudice.cz/ "Josef Klimosz") for the czech language file, [Lagg3r](lagg3r.com.ar "Lagg3r") for spanish translation and Michal Maciejewski for polish translation.
-* Thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow") for the belarussian language files.
+* Thanks to Fat Cow for the belarussian language files.
 
 = Licence =
 Good news, this plugin is free for everyone! Since it's released under the GPL, you can use it free of charge on your personal or commercial blog. But if you enjoy this plugin, you can thank me and leave a [small donation](http://bueltge.de/wunschliste/ "Wishliste and Donate") for the time I've spent writing and supporting this plugin. And I really don't want to know how many hours of my life this plugin has already eaten ;)
@@ -64,6 +64,6 @@ Please visit [the official website](http://bueltge.de/wp-addquicktags-de-plugin/
 * small changes for depreaced WP functions
 
 = v1.6.3 (16/06/2009) =
-* Add belarussian language file, thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow")
+* Add belarussian language file, thanks to Fat Cow
 
 Please see the older changes on version on the [the official website](http://bueltge.de/wp-addquicktags-de-plugin/120/#historie "AddQuicktag")!
