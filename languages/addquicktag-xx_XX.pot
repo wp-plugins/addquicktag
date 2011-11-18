@@ -1,0 +1,162 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#. translators: plugin header field 'Name'
+#: addquicktag.php:0
+#@ addquicktag
+msgid "AddQuicktag"
+msgstr ""
+
+#. translators: plugin header field 'PluginURI'
+#: addquicktag.php:0
+#@ addquicktag
+msgid "http://bueltge.de/wp-addquicktags-de-plugin/120/"
+msgstr ""
+
+#. translators: plugin header field 'Author'
+#: addquicktag.php:0
+#@ addquicktag
+msgid "Frank Bültge"
+msgstr ""
+
+#. translators: plugin header field 'AuthorURI'
+#: addquicktag.php:0
+#@ addquicktag
+msgid "http://bueltge.de"
+msgstr ""
+
+#. translators: plugin header field 'Version'
+#: addquicktag.php:0
+#@ addquicktag
+msgid "2.0.0 Alpha"
+msgstr ""
+
+#: addquicktag.php:180
+#: inc/class.settings.php:87
+#: inc/class.settings.php:106
+#: inc/class.settings.php:114
+#@ default
+#@ addquicktag
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: inc/class.settings.php:137
+#: inc/class.settings.php:237
+#@ addquicktag
+msgid "Add or delete Quicktag buttons"
+msgstr "Ergänze oder lösche Quicktag Buttons"
+
+#: inc/class.settings.php:147
+#@ addquicktag
+msgid "Button Label*"
+msgstr "Button Name*"
+
+#: inc/class.settings.php:148
+#@ addquicktag
+msgid "Title Attribute"
+msgstr "Title Attribut"
+
+#: inc/class.settings.php:149
+#@ addquicktag
+msgid "Start Tag(s)*"
+msgstr "Start Tag(s)*"
+
+#: inc/class.settings.php:150
+#@ addquicktag
+msgid "End Tag(s)"
+msgstr "Ende Tag(s)"
+
+#: inc/class.settings.php:151
+#@ addquicktag
+msgid "Access Key"
+msgstr "Zugriffstaste"
+
+#: inc/class.settings.php:193
+#@ addquicktag
+msgid "Fill in the fields below to add or edit the quicktags. Fields with * are required. To delete a tag simply empty all fields."
+msgstr "Ergänze neue Buttons, in dem die unteren Felder ausgefüllt werden. Felder mit * sind Pfliochtfelder, müssen ausgefüllt werden. Um einen Button zu löschen, einfach die Felder des Buttons leeren und speichern."
+
+#: inc/class.settings.php:195
+#@ default
+msgid "Save Changes"
+msgstr ""
+
+#: inc/class.settings.php:207
+#@ addquicktag
+msgid "Like this plugin?"
+msgstr "Du magst das Plugin?"
+
+#: inc/class.settings.php:208
+#@ addquicktag
+msgid "Here's how you can give back:"
+msgstr "Über folgende Möglichkeiten kannst du etwas zurück geben:"
+
+#: inc/class.settings.php:210
+#@ addquicktag
+msgid "The Plugin on the WordPress plugin repository"
+msgstr "Das Plugin im offiziellen WordPress Repository"
+
+#: inc/class.settings.php:210
+#@ addquicktag
+msgid "Give the plugin a good rating."
+msgstr "Gib dem Plugin eine gute Wertung"
+
+#: inc/class.settings.php:211
+#@ addquicktag
+msgid "Donate via PayPal"
+msgstr "Spende via Paypal"
+
+#: inc/class.settings.php:211
+#@ addquicktag
+msgid "Donate a few euros."
+msgstr "Spende einige Euros."
+
+#: inc/class.settings.php:212
+#@ addquicktag
+msgid "Frank Bültge's Amazon Wish List"
+msgstr "Frank Bültge's Amazon Wunschliste"
+
+#: inc/class.settings.php:212
+#@ addquicktag
+msgid "Get me something from my wish list."
+msgstr "Suche dir was aus und lass mir ein Objekt meiner Wunschliste zukommen."
+
+#: inc/class.settings.php:215
+#@ addquicktag
+msgid "About this plugin"
+msgstr "Über das Plugin"
+
+#: inc/class.settings.php:217
+#@ addquicktag
+msgid "Version:"
+msgstr "Version:"
+
+#: inc/class.settings.php:221
+#@ addquicktag
+msgid "Description:"
+msgstr "Beschreibung:"
+
+#. translators: plugin header field 'Description'
+#: addquicktag.php:0
+#@ addquicktag
+msgid "Allows you to easily add custom Quicktags to the editor."
+msgstr "Erlaubt das einfache Hinzufügen von Quicktags zum Editor."
+
