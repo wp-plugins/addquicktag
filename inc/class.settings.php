@@ -140,6 +140,12 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 			<?php
 			settings_fields( $this -> option_string . '_group' );
 			$options = get_option( $this -> option_string );
+			// sort array by order value
+			$tmp = Array();
+			foreach( $options['buttons'] as $order ) {
+				$tmp[] = &$order['order'];
+			}
+			array_multisort( $tmp, SORT_ASC, $options['buttons'] );
 			?>
 			
 			<table class="widefat">
@@ -148,7 +154,8 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 					<th class="row-title"><?php _e('Title Attribute', $this -> get_textdomain() ); ?></th>
 					<th class="row-title"><?php _e('Start Tag(s)*', $this -> get_textdomain() ); ?></th>
 					<th class="row-title"><?php _e('End Tag(s)', $this -> get_textdomain() ); ?></th>
-					<th class="row-title"><?php _e('Access Key', $this -> get_textdomain() ); ?></th>
+					<th class="row-title" style="width:5%;"><?php _e('Access Key', $this -> get_textdomain() ); ?></th>
+					<th class="row-title" style="width:5%;"><?php _e('Order', $this -> get_textdomain() ); ?></th>
 				</tr>
 				<?php
 				if ( empty($options['buttons']) )
@@ -164,6 +171,9 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 					if ( ! isset( $b['access'] ) )
 						$b['access'] = '';
 					$b['access'] = htmlentities( $b['access'], ENT_COMPAT, get_option('blog_charset') );
+					if ( ! isset( $b['order'] ) )
+						$b['order'] = 0;
+					$b['order'] = intval( $b['order'] );
 					$nr          = $i + 1;
 				echo '
 				<tr>
@@ -177,6 +187,8 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 					. '][end]" rows="2" cols="25" style="width: 95%;">' . $b['end'] . '</textarea></td>
 					<td><input type="text" name="' . $this -> option_string . '[buttons][' . $i 
 					. '][access]" value="' . $b['access'] . '" style="width: 95%;" /></td>
+					<td><input type="text" name="' . $this -> option_string . '[buttons][' . $i 
+					. '][order]" value="' . $b['order'] . '" style="width: 95%;" /></td>
 				</tr>
 				';
 				}
@@ -187,6 +199,7 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 					<td><textarea class="code" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][start]" rows="2" cols="25" style="width: 95%;"></textarea></td>
 					<td><textarea class="code" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][end]" rows="2" cols="25" style="width: 95%;"></textarea></td>
 					<td><input type="text" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][access]" value="" class="code" style="width: 95%;" /></td>
+					<td><input type="text" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][order]" value="" style="width: 95%;" /></td>
 				</tr>
 			</table>
 			
@@ -265,6 +278,7 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 					$b['start']  = stripslashes( $b['start'] );
 					$b['end']    = stripslashes( $b['end'] );
 					$b['access'] = esc_html( $b['access'] );
+					$b['order']  = intval( $b['order'] );
 					$buttons[]   = $b;
 				}
 		}

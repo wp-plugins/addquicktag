@@ -5,10 +5,10 @@
  * Text Domain: addquicktag
  * Domain Path: /languages
  * Description: Allows you to easily add custom Quicktags to the editor.
- * Version:     2.0.0 Alpha
- * Author:      Frank Bültge
+ * Version:	 2.0.0 Alpha
+ * Author:	  Frank Bültge
  * Author URI: http://bueltge.de
- * License:    GPLv3
+ * License:	GPLv3
  */
 
 /**
@@ -42,7 +42,7 @@ class Add_Quicktag {
 	
 	static private $classobj;
 	
-	static private $option_string      = 'rmnlQuicktagSettings';
+	static private $option_string	  = 'rmnlQuicktagSettings';
 	
 	static private $admin_pages_for_js = array( 'post.php', 'post-new.php', );
 	
@@ -55,7 +55,7 @@ class Add_Quicktag {
 		// on uninstall remove capability from roles
 		register_uninstall_hook( __FILE__, array('Add_Quicktag', 'uninstall' ) );
 		// in deactivate delete all settings in database
-		// register_deactivation_hook( __FILE__, array('Add_Quicktag', 'uninstall' ) );
+		register_deactivation_hook( __FILE__, array('Add_Quicktag', 'uninstall' ) );
 		
 		// load translation files
 		add_action( 'admin_init', array( $this, 'localize_plugin' ) );
@@ -76,9 +76,17 @@ class Add_Quicktag {
 	}
 	
 	public function print_scripts() {
+		
+		$options = get_option( self :: $option_string );
+		// sort array by order value
+		$tmp = Array();
+		foreach( $options['buttons'] as $order ) {
+			$tmp[] = &$order['order'];
+		}
+		array_multisort( $tmp, SORT_ASC, $options['buttons'] );
 		?>
 		<script type="text/javascript">
-			var addquicktag_tags = <?php echo json_encode( get_option( self :: $option_string ) ); ?>;
+			var addquicktag_tags = <?php echo json_encode( $options ); ?>;
 		</script>
 		<?php
 	}
@@ -129,7 +137,7 @@ class Add_Quicktag {
 	/**
 	 * Localize_plugin function.
 	 *
-	 * @uses    load_plugin_textdomain, plugin_basename
+	 * @uses	load_plugin_textdomain, plugin_basename
 	 * @access  public
 	 * @since   2.0.0
 	 * @return  void
@@ -145,7 +153,7 @@ class Add_Quicktag {
 	 * @since  2.0.0
 	 * @access public
 	 * @param  $value string, default = 'TextDomain'
-	 *         Name, PluginURI, Version, Description, Author, AuthorURI, TextDomain, DomainPath, Network, Title
+	 *		 Name, PluginURI, Version, Description, Author, AuthorURI, TextDomain, DomainPath, Network, Title
 	 * @return string
 	 */
 	public function get_plugin_data( $value = 'TextDomain' ) {
@@ -184,7 +192,7 @@ class Add_Quicktag {
 	/**
 	 * Add settings link on plugins.php in backend
 	 * 
-	 * @uses    plugin_basename
+	 * @uses	plugin_basename
 	 * @access  public
 	 * @param   array $links, string $file
 	 * @since   2.0.0
