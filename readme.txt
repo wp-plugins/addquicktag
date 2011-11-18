@@ -10,8 +10,8 @@ This plugin make it easy, Quicktags add to the editor. It is possible to ex- and
 
 == Description ==
 
-This plugin dont work with WP 3.3; please test the new [version 2.0.0](http://wordpress.org/extend/plugins/addquicktag/download/); if you test WP 3.3 and give me feedback. I have write a new plugin, form the first line with same functions and also use the same database entries and work with the data of older version of this pluign.
-=THANKS=
+_This plugin dont work with WP 3.3; please test the new [version 2.0.0](http://wordpress.org/extend/plugins/addquicktag/download/); if you test WP 3.3 and give me feedback. I have write a new plugin, form the first line with same functions and also use the same database entries and work with the data of older version of this pluign._
+= THANKS =
 
 This plugin make it easy, Quicktags add to the editor. It is possible to ex- and import your Quicktags.
 
