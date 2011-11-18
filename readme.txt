@@ -3,12 +3,16 @@ Contributors: Bueltge
 Donate link: http://bueltge.de/wunschliste/
 Tags: quicktag, editor
 Requires at least: 1.5
-Tested up to: 3.1
+Tested up to: 3.2.1
 Stable tag: 1.6.5
 
 This plugin make it easy, Quicktags add to the editor. It is possible to ex- and import your Quicktags.
 
 == Description ==
+
+This plugin dont work with WP 3.3; please test the new [version 2.0.0](http://wordpress.org/extend/plugins/addquicktag/download/); if you test WP 3.3 and give me feedback. I have write a new plugin, form the first line with same functions and also use the same database entries and work with the data of older version of this pluign.
+=THANKS=
+
 This plugin make it easy, Quicktags add to the editor. It is possible to ex- and import your Quicktags.
 
 WP-AddQuicktag for WordPress is in originally by [Roel Meurders](http://roel.meurders.nl/ "Roel Meurders"). AddQuicktag is an newer version with more functions and worked in WP 2.1 and higher.
