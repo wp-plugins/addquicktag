@@ -92,7 +92,7 @@ msgstr "Zugriffstaste"
 #: inc/class.settings.php:193
 #@ addquicktag
 msgid "Fill in the fields below to add or edit the quicktags. Fields with * are required. To delete a tag simply empty all fields."
-msgstr "Ergänze neue Buttons, in dem die unteren Felder ausgefüllt werden. Felder mit * sind Pflichtfelder, müssen ausgefüllt werden. Um einen Button zu löschen, einfach die Felder des Buttons leeren und speichern."
+msgstr "Ergänze neue Buttons, in dem die unteren Felder ausgefüllt werden. Felder mit * sind Pfliochtfelder, müssen ausgefüllt werden. Um einen Button zu löschen, einfach die Felder des Buttons leeren und speichern."
 
 #: inc/class.settings.php:195
 #@ default
@@ -127,7 +127,7 @@ msgstr "Spende via Paypal"
 #: inc/class.settings.php:211
 #@ addquicktag
 msgid "Donate a few euros."
-msgstr "Spende einige Euros"
+msgstr "Spende einige Euros."
 
 #: inc/class.settings.php:212
 #@ addquicktag
