@@ -46,6 +46,8 @@ class Add_Quicktag {
 	
 	static private $admin_pages_for_js = array( 'post.php', 'post-new.php', );
 	
+	static private $admin_ids_for_js   = array( 'post', 'page' );
+	
 	static private $plugin;
 	
 	function __construct() {
@@ -62,9 +64,9 @@ class Add_Quicktag {
 		
 		require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class-settings.php';
 		$add_quicktag_settings = Add_Quicktag_Settings :: get_object();
-		
-		require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class-tinymce.php';
-		$add_quicktag_2_tinymce = Add_Quicktag_2_TinyMce :: get_object();
+		// ToDo
+		//require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class-tinymce.php';
+		//$add_quicktag_2_tinymce = Add_Quicktag_2_TinyMce :: get_object();
 		
 		add_action( 'wp_print_scripts', array( $this, 'print_scripts' ) );
 		
@@ -79,6 +81,10 @@ class Add_Quicktag {
 	}
 	
 	public function print_scripts() {
+		global $current_screen;
+		
+		if ( ! in_array( $current_screen -> id, self :: $admin_ids_for_js ) )
+			return;
 		
 		$options = get_option( self :: $option_string );
 		
@@ -107,7 +113,7 @@ class Add_Quicktag {
 	 * @return  void
 	 */
 	public function admin_enqueue_scripts ( $where ) {
-		
+		var_dump($where);
 		if ( ! in_array( $where, self :: $admin_pages_for_js ) )
 			return;
 		
