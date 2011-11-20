@@ -45,11 +45,11 @@ class Add_Quicktag_2_TinyMce extends Add_Quicktag {
 	public function add_externel_buttons( $plugins ) {
 		if ( FALSE == is_array($plugins) )
 			$plugins = array();
-
-		$url = WP_PLUGIN_URL . '/addquicktags_to_the_wysiwyg-editor/aqtwe_tinymce3plus_combobox/editor_plugin.js';
-		$plugin_array = array_merge( $plugins, array( self :: $option_string => $url ) );
-
-		return $plugin_array;
+		
+		$url = plugins_url('/tinymce/editor_plugin.js', __FILE__);
+		$plugins = array_merge( $plugins, array( self :: $option_string => $url ) );
+		var_dump($plugins);
+		return $plugins;
 	}
 	
 	public function extend_editor_buttons( $buttons, $editor_id ) {
