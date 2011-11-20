@@ -42,7 +42,7 @@ class Add_Quicktag {
 	
 	static private $classobj;
 	
-	static private $option_string	  = 'rmnlQuicktagSettings';
+	static private $option_string      = 'rmnlQuicktagSettings';
 	
 	static private $admin_pages_for_js = array( 'post.php', 'post-new.php', );
 	
@@ -60,8 +60,11 @@ class Add_Quicktag {
 		// load translation files
 		add_action( 'admin_init', array( $this, 'localize_plugin' ) );
 		
-		require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class.settings.php';
+		require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class-settings.php';
 		$add_quicktag_settings = Add_Quicktag_Settings :: get_object();
+		
+		require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class-tinymce.php';
+		$add_quicktag_2_tinymce = Add_Quicktag_2_TinyMce :: get_object();
 		
 		add_action( 'wp_print_scripts', array( $this, 'print_scripts' ) );
 		
@@ -78,8 +81,12 @@ class Add_Quicktag {
 	public function print_scripts() {
 		
 		$options = get_option( self :: $option_string );
+		
+		if ( ! $options )
+			return;
+		
 		// sort array by order value
-		$tmp = Array();
+		$tmp = array();
 		foreach( $options['buttons'] as $order ) {
 			$tmp[] = $order['order'];
 		}
@@ -201,7 +208,7 @@ class Add_Quicktag {
 	public function plugin_action_links( $links, $file ) {
 		
 		if ( plugin_basename( dirname(__FILE__).'/addquicktag.php' ) === $file ) {
-			$links[] = '<a href="options-general.php?page=addquicktag/inc/class.settings.php">' . __('Settings') . '</a>';
+			$links[] = '<a href="options-general.php?page=addquicktag/inc/class-settings.php">' . __('Settings') . '</a>';
 		}
 	
 		return $links;
