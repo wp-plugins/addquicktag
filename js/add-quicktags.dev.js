@@ -6,6 +6,9 @@
 
 jQuery( document ).ready( function( $ ) {
 	
+	if ( typeof addquicktag_tags  == 'undefined' )
+		return;
+	
 	var tags = addquicktag_tags['buttons'];
 	
 	if ( typeof tags !== 'undefined' ) {
@@ -24,4 +27,3 @@ jQuery( document ).ready( function( $ ) {
 	} // end if tags
 	
 });
-
