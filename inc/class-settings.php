@@ -34,7 +34,7 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 	
 	
 	/**
-	 * Construvtor, init on defined hooks of WP and include second class
+	 * Constructor, init on defined hooks of WP and include second class
 	 * 
 	 * @access  public
 	 * @since   0.0.2
@@ -140,8 +140,12 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 			<?php
 			settings_fields( $this -> option_string . '_group' );
 			$options = get_option( $this -> option_string );
+			
+			if ( ! $options )
+				$options['buttons'] = array();
+			
 			// sort array by order value
-			$tmp = Array();
+			$tmp = array();
 			foreach( $options['buttons'] as $order ) {
 				$tmp[] = $order['order'];
 			}
