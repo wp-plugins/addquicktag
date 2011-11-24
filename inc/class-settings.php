@@ -160,6 +160,7 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 					<th class="row-title"><?php _e('End Tag(s)', $this -> get_textdomain() ); ?></th>
 					<th class="row-title" style="width:5%;"><?php _e('Access Key', $this -> get_textdomain() ); ?></th>
 					<th class="row-title" style="width:5%;"><?php _e('Order', $this -> get_textdomain() ); ?></th>
+					<th class="row-title" style="width:5%;"><?php _e('Visual', $this -> get_textdomain() ); ?></th>
 				</tr>
 				<?php
 				if ( empty($options['buttons']) )
@@ -178,6 +179,13 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 					if ( ! isset( $b['order'] ) )
 						$b['order'] = 0;
 					$b['order'] = intval( $b['order'] );
+					if ( ! isset( $b['visual'] ) )
+						$b['visual'] = 0;
+					$b['visual'] = intval( $b['visual'] );
+					if ( 1 == $b['visual'] )
+						$checked = ' checked="checked"';
+					else 
+						$checked = '';
 					$nr          = $i + 1;
 				echo '
 				<tr>
@@ -193,6 +201,8 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 					. '][access]" value="' . $b['access'] . '" style="width: 95%;" /></td>
 					<td><input type="text" name="' . $this -> option_string . '[buttons][' . $i 
 					. '][order]" value="' . $b['order'] . '" style="width: 95%;" /></td>
+					<td><input type="checkbox" name="' . $this -> option_string . '[buttons][' . $i 
+					. '][visual]" value="1"' . $checked . ' style="width: 95%;" /></td>
 				</tr>
 				';
 				}
@@ -204,6 +214,7 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 					<td><textarea class="code" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][end]" rows="2" cols="25" style="width: 95%;"></textarea></td>
 					<td><input type="text" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][access]" value="" class="code" style="width: 95%;" /></td>
 					<td><input type="text" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][order]" value="" style="width: 95%;" /></td>
+					<td><input type="checkbox" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][visual]" value="" style="width: 95%;" /></td>
 				</tr>
 			</table>
 			
@@ -283,6 +294,10 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 					$b['end']    = stripslashes( $b['end'] );
 					$b['access'] = esc_html( $b['access'] );
 					$b['order']  = intval( $b['order'] );
+					if ( isset( $b['visual'] ) )
+						$b['visual'] = intval( $b['visual'] );
+					else
+						$b['visual'] = 0;
 					$buttons[]   = $b;
 				}
 		}
