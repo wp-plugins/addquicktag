@@ -5,7 +5,7 @@
  * Text Domain: addquicktag
  * Domain Path: /languages
  * Description: Allows you to easily add custom Quicktags to the editor.
- * Version:	 2.0.0 Alpha
+ * Version:	 2.0.0 Beta
  * Author:	  Frank Bültge
  * Author URI: http://bueltge.de
  * License:	GPLv3
@@ -61,12 +61,12 @@ class Add_Quicktag {
 		
 		// load translation files
 		add_action( 'admin_init', array( $this, 'localize_plugin' ) );
-		
+		// Include settings
 		require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class-settings.php';
 		$add_quicktag_settings = Add_Quicktag_Settings :: get_object();
-		// ToDo
-		//require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class-tinymce.php';
-		//$add_quicktag_2_tinymce = Add_Quicktag_2_TinyMce :: get_object();
+		// Include solution for TinyMCe
+		require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class-tinymce.php';
+		$add_quicktag_2_tinymce = Add_Quicktag_2_TinyMce :: get_object();
 		
 		add_action( 'wp_print_scripts', array( $this, 'print_scripts' ) );
 		
@@ -113,7 +113,7 @@ class Add_Quicktag {
 	 * @return  void
 	 */
 	public function admin_enqueue_scripts ( $where ) {
-		var_dump($where);
+		
 		if ( ! in_array( $where, self :: $admin_pages_for_js ) )
 			return;
 		

@@ -43,12 +43,15 @@ class Add_Quicktag_2_TinyMce extends Add_Quicktag {
 	}
 	
 	public function add_externel_buttons( $plugins ) {
+		
 		if ( FALSE == is_array($plugins) )
 			$plugins = array();
 		
-		$url = plugins_url('/tinymce/editor_plugin.js', __FILE__);
+		$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
+		
+		$url = plugins_url('/tinymce/editor_plugin' . $suffix . '.js', __FILE__);
 		$plugins = array_merge( $plugins, array( self :: $option_string => $url ) );
-		var_dump($plugins);
+		
 		return $plugins;
 	}
 	
