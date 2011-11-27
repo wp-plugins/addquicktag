@@ -4,7 +4,7 @@
  * Plugin URI:  http://bueltge.de/wp-addquicktags-de-plugin/120/
  * Text Domain: addquicktag
  * Domain Path: /languages
- * Description: Allows you to easily add custom Quicktags to the editor.
+ * Description: Allows you to easily add custom Quicktags to the html- and visual-editor.
  * Version:	 2.0.0 Beta
  * Author:	  Frank Bültge
  * Author URI: http://bueltge.de
@@ -51,13 +51,17 @@ class Add_Quicktag {
 	static private $plugin;
 	
 	function __construct() {
+		
+		if ( ! is_admin() )
+			return;
+		
 		// get string of plugin
 		self :: $plugin = plugin_basename( dirname(__FILE__) . '/addquicktag.php' );
 		
 		// on uninstall remove capability from roles
 		register_uninstall_hook( __FILE__, array('Add_Quicktag', 'uninstall' ) );
 		// in deactivate delete all settings in database
-		register_deactivation_hook( __FILE__, array('Add_Quicktag', 'uninstall' ) );
+		// register_deactivation_hook( __FILE__, array('Add_Quicktag', 'uninstall' ) );
 		
 		// load translation files
 		add_action( 'admin_init', array( $this, 'localize_plugin' ) );
@@ -71,22 +75,25 @@ class Add_Quicktag {
 		add_action( 'wp_print_scripts', array( $this, 'print_scripts' ) );
 		
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts') );
-		// add settings link
-		add_filter( 'plugin_action_links',   array( $this, 'plugin_action_links' ), 10, 2 );
+		
 	}
 	
 	public function uninstall() {
 		
 		delete_option( self :: $option_string );
+		delete_site_option( self :: $option_string );
 	}
 	
 	public function print_scripts() {
 		global $current_screen;
 		
-		if ( ! in_array( $current_screen -> id, self :: $admin_ids_for_js ) )
+		if ( isset( $current_screen -> id ) && ! in_array( $current_screen -> id, self :: $admin_ids_for_js ) )
 			return;
 		
-		$options = get_option( self :: $option_string );
+		if ( is_plugin_active_for_network( $this -> get_plugin_string() ) )
+			$options = get_site_option( self :: $option_string );
+		else
+			$options = get_option( self :: $option_string );
 		
 		if ( ! $options )
 			return;
@@ -112,7 +119,7 @@ class Add_Quicktag {
 	 * @access  public
 	 * @return  void
 	 */
-	public function admin_enqueue_scripts ( $where ) {
+	public function admin_enqueue_scripts( $where ) {
 		
 		if ( ! in_array( $where, self :: $admin_pages_for_js ) )
 			return;
@@ -138,7 +145,7 @@ class Add_Quicktag {
 	 * @access  public
 	 * @return  $classobj
 	 */
-	public function get_object () {
+	public function get_object() {
 		
 		if ( NULL === self :: $classobj ) {
 			self :: $classobj = new self;
@@ -202,23 +209,6 @@ class Add_Quicktag {
 		return self :: $option_string;
 	}
 	
-	/**
-	 * Add settings link on plugins.php in backend
-	 * 
-	 * @uses	plugin_basename
-	 * @access  public
-	 * @param   array $links, string $file
-	 * @since   2.0.0
-	 * @return  string $links
-	 */
-	public function plugin_action_links( $links, $file ) {
-		
-		if ( plugin_basename( dirname(__FILE__).'/addquicktag.php' ) === $file ) {
-			$links[] = '<a href="options-general.php?page=addquicktag/inc/class-settings.php">' . __('Settings') . '</a>';
-		}
-	
-		return $links;
-	}
 	
 } // end class
 
