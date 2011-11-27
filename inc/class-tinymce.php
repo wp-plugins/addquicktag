@@ -6,11 +6,16 @@
  * @subpackage AddQuicktag 2 TinyMce
  */
 
+if ( ! function_exists( 'add_action' ) ) {
+	echo "Hi there!  I'm just a part of plugin, not much I can do when called directly.";
+	exit;
+}
+
 class Add_Quicktag_2_TinyMce extends Add_Quicktag {
 	
 	static private $classobj = NULL;
 	
-	static private $option_string      = 'rmnlQuicktagSettings_tmce';
+	static private $option_string = 'rmnlQuicktagSettings_tmce';
 	
 	/**
 	 * Handler for the action 'init'. Instantiates this class.
@@ -55,7 +60,7 @@ class Add_Quicktag_2_TinyMce extends Add_Quicktag {
 		return $plugins;
 	}
 	
-	public function extend_editor_buttons( $buttons, $editor_id ) {
+	public function extend_editor_buttons( $buttons, $editor_id = FALSE ) {
 		
 		return array_merge( array( self :: $option_string ), $buttons );
 	}

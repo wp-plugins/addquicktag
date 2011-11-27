@@ -6,6 +6,11 @@
  * @subpackage AddQuicktag Settings
  */
 
+if ( ! function_exists( 'add_action' ) ) {
+	echo "Hi there!  I'm just a part of plugin, not much I can do when called directly.";
+	exit;
+}
+
 class Add_Quicktag_Settings extends Add_Quicktag {
 	
 	static private $classobj = NULL;
@@ -32,7 +37,6 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 		return self :: $classobj;
 	}
 	
-	
 	/**
 	 * Constructor, init on defined hooks of WP and include second class
 	 * 
@@ -44,18 +48,32 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 	public function __construct() {
 		
 		// textdomain from parent class
-		$this -> textdomain    = parent :: get_textdomain();
+		self :: $textdomain    = parent :: get_textdomain();
 		$this -> option_string = parent :: get_option_string();
 		$this -> plugin        = parent :: get_plugin_string();
 		
-		register_uninstall_hook( __FILE__, array( 'Add_Quicktag_Settings', 'unregister_settings' ) );
+		register_uninstall_hook( __FILE__,       array( 'Add_Quicktag_Settings', 'unregister_settings' ) );
 		// settings for an active multisite
 		if ( is_plugin_active_for_network( $this -> plugin ) ) {
-			add_action( 'network_admin_menu', array( $this, 'add_settings_page' ) );
+			add_action( 'network_admin_menu',    array( $this, 'add_settings_page' ) );
+			// add settings link
+			add_filter( 'network_admin_plugin_action_links', array( $this, 'network_admin_plugin_action_links' ), 10, 2 );
+			// save settings on network
+			add_action( 'network_admin_edit_' . $this -> option_string, array( $this, 'save_network_settings_page' ) );
+			// return message for update settings
+			add_action( 'network_admin_notices', array( $this, 'get_network_admin_notices' ) );
 		} else {
-			add_action( 'admin_menu',         array( $this, 'add_settings_page' ) );
+			add_action( 'admin_menu',            array( $this, 'add_settings_page' ) );
+			// add settings link
+			add_filter( 'plugin_action_links',   array( $this, 'plugin_action_links' ), 10, 2 );
+			// use settings API
+			add_action( 'admin_init',            array( $this, 'register_settings' ) );
 		}
-		add_action( 'admin_init',             array( $this, 'register_settings' ) );
+		
+		add_action( 'addquicktag_settings_page', array( $this, 'get_plugin_infos' ) );
+		// ToDO
+		//require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'class-imexport.php';
+		//$add_quicktag_im_export = Add_Quicktag_Im_Export :: get_object();
 	}
 	
 	
@@ -68,14 +86,13 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 	 */
 	public function get_textdomain() {
 		
-		return $this -> textdomain;
+		return self :: $textdomain;
 	}
-	
 	
 	/**
 	 * Add settings link on plugins.php in backend
 	 * 
-	 * @uses   plugin_basename
+	 * @uses   
 	 * @access public
 	 * @param  array $links, string $file
 	 * @since  2.0.0
@@ -83,12 +100,28 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 	 */
 	public function plugin_action_links( $links, $file ) {
 		
-		if ( plugin_basename( dirname(__FILE__).'/addquicktag.php' ) == $file  )
-			$links[] = '<a href="options-general.php?page='. $this -> option_string . '_group">' . __('Settings') . '</a>';
+		if ( parent :: get_plugin_string() == $file  )
+			$links[] = '<a href="options-general.php?page=addquicktag/inc/class-settings.php">' . __('Settings') . '</a>';
 		
 		return $links;
 	}
 	
+	/**
+	 * Add settings link on plugins.php on network admin in backend
+	 * 
+	 * @uses   
+	 * @access public
+	 * @param  array $links, string $file
+	 * @since  2.0.0
+	 * @return string $links
+	 */
+	public function network_admin_plugin_action_links( $links, $file ) {
+		
+		if ( parent :: get_plugin_string() == $file  )
+			$links[] = '<a href="settings.php?page=addquicktag/inc/class-settings.php">' . __('Settings') . '</a>';
+		
+		return $links;
+	}
 	
 	/**
 	 * Add settings page in WP backend
@@ -107,7 +140,7 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 				parent :: get_plugin_data( 'Name' ),
 				'manage_options',
 				plugin_basename(__FILE__),
-				array( $this, 'get_network_settings_page' )
+				array( $this, 'get_settings_page' )
 			);
 		} else {
 			add_options_page(
@@ -124,22 +157,31 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 	/**
 	 * Return form and markup on settings page
 	 * 
-	 * @uses settings_fields, normalize_whitespace
+	 * @uses settings_fields, normalize_whitespace, is_plugin_active_for_network, get_site_option, get_option
 	 * @access public	
 	 * @since 0.0.2
 	 * @return void
 	 */
-	public function get_settings_page () {
+	public function get_settings_page() {
 		
-		screen_icon('options-general'); ?>
+		?>
 		<div class="wrap">
+		<?php screen_icon('options-general'); ?>
 		<h2><?php echo parent :: get_plugin_data( 'Name' ); ?></h2>
 		<h3><?php _e('Add or delete Quicktag buttons', $this -> get_textdomain() ); ?></h3>
-		
-		<form method="post" action="options.php">
+		<?php
+		if ( is_plugin_active_for_network( $this -> plugin ) )
+			$action = 'edit.php?action=' . $this -> option_string;
+		else
+			$action = 'options.php';
+		?>
+		<form method="post" action="<?php echo $action; ?>">
 			<?php
 			settings_fields( $this -> option_string . '_group' );
-			$options = get_option( $this -> option_string );
+			if ( is_plugin_active_for_network( $this -> plugin ) )
+				$options = get_site_option( $this -> option_string );
+			else
+				$options = get_option( $this -> option_string );
 			
 			if ( ! $options )
 				$options['buttons'] = array();
@@ -214,7 +256,7 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 					<td><textarea class="code" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][end]" rows="2" cols="25" style="width: 95%;"></textarea></td>
 					<td><input type="text" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][access]" value="" class="code" style="width: 95%;" /></td>
 					<td><input type="text" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][order]" value="" style="width: 95%;" /></td>
-					<td><input type="checkbox" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][visual]" value="" style="width: 95%;" /></td>
+					<td><input type="checkbox" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][visual]" value="1" style="width: 95%;" /></td>
 				</tr>
 			</table>
 			
@@ -225,11 +267,19 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 	
 		</form>
 		
-		<?php $this -> get_plugin_infos(); ?>
+		<?php do_action( 'addquicktag_settings_page' ); ?>
 		</div>
 		<?php
 	}
 	
+	/*
+	 * Return informations about the plugin
+	 * 
+	 * @uses   _e,esc_attr_e
+	 * @access public
+	 * @since  2.0.0
+	 * @return void
+	 */
 	public function get_plugin_infos() {
 		?>
 		<h3><?php _e( 'Like this plugin?', $this -> get_textdomain() ); ?></h3>
@@ -252,25 +302,47 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 		<?php
 	}
 	
-	/**
-	 * ToDo: build settigns page with network options for network, with raw for active in blog x
+	/*
+	 * Save network settings
+	 * 
+	 * @uses   update_site_option, wp_redirect, add_query_arg, network_admin_url
+	 * @access public
+	 * @since  2.0.0
+	 * @return void
 	 */
-	public function get_network_settings_page() {
+	public function save_network_settings_page() {
+		// validate options
+		$value = $this -> validate_settings( $_POST[$this -> option_string] );
+		// update options
+		update_site_option( $this -> option_string, $value );
+		// redirect to settings page in network
+		wp_redirect(
+			add_query_arg( 
+				array('page' => 'addquicktag/inc/class-settings.php', 'updated' => 'true'),
+				network_admin_url( 'settings.php' )
+			)
+		);
+		exit();
+	}
+	
+	/*
+	 * Retrun string vor update message
+	 * 
+	 * @uses   
+	 * @access public
+	 * @since  2.0.0
+	 * @return string $notice
+	 */
+	public function get_network_admin_notices() {
 		
-		screen_icon('options-general'); ?>
-		<div class="wrap">
-		<h2><?php echo Add_Quicktag :: get_plugin_data( 'Name' ); ?></h2>
-		
-		<form method="post" action="settings.php">
-			<h3><?php _e('Add or delete Quicktag buttons', $this -> get_textdomain() ); ?></h3>
-			<p>ToDo for next release.<br />Build settigns page with network options for network, with raw for active in blog x</p>
-			<?php wp_nonce_field( 'siteoptions' ); ?>
-		</form>
-		
-		<?php $this -> get_plugin_infos(); ?>
-		
-		</div>
-		<?php
+		// if updated and the right page
+		if ( isset( $_GET['updated'] ) && 
+			 'settings_page_addquicktag/inc/class-settings-network' === $GLOBALS['current_screen'] -> id
+			) {
+			$message = __( 'Options saved.', $this -> get_textdomain() );
+			$notice  = '<div id="message" class="updated"><p>' .$message . '</p></div>';
+			echo $notice;
+		}
 	}
 	
 	/**

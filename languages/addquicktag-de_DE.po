@@ -23,7 +23,7 @@ msgstr ""
 #: addquicktag.php:0
 #@ addquicktag
 msgid "AddQuicktag"
-msgstr ""
+msgstr "AddQuicktag"
 
 #. translators: plugin header field 'PluginURI'
 #: addquicktag.php:0
@@ -43,120 +43,139 @@ msgstr ""
 msgid "http://bueltge.de"
 msgstr ""
 
-#. translators: plugin header field 'Version'
-#: addquicktag.php:0
-#@ addquicktag
-msgid "2.0.0 Alpha"
-msgstr ""
-
-#: addquicktag.php:180
-#: inc/class.settings.php:87
-#: inc/class.settings.php:106
-#: inc/class.settings.php:114
+#: inc/class-settings.php:95
+#: inc/class-settings.php:112
+#: inc/class-settings.php:130
+#: inc/class-settings.php:138
 #@ default
 #@ addquicktag
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: inc/class.settings.php:137
-#: inc/class.settings.php:237
+#: inc/class-settings.php:161
+#: inc/class-settings.php:290
 #@ addquicktag
 msgid "Add or delete Quicktag buttons"
 msgstr "Ergänze oder lösche Quicktag Buttons"
 
-#: inc/class.settings.php:147
+#: inc/class-settings.php:181
+#: inc/class-settings.php:308
 #@ addquicktag
 msgid "Button Label*"
 msgstr "Button Name*"
 
-#: inc/class.settings.php:148
+#: inc/class-settings.php:182
+#: inc/class-settings.php:309
 #@ addquicktag
 msgid "Title Attribute"
 msgstr "Title Attribut"
 
-#: inc/class.settings.php:149
+#: inc/class-settings.php:183
+#: inc/class-settings.php:310
 #@ addquicktag
 msgid "Start Tag(s)*"
 msgstr "Start Tag(s)*"
 
-#: inc/class.settings.php:150
+#: inc/class-settings.php:184
+#: inc/class-settings.php:311
 #@ addquicktag
 msgid "End Tag(s)"
 msgstr "Ende Tag(s)"
 
-#: inc/class.settings.php:151
+#: inc/class-settings.php:185
+#: inc/class-settings.php:312
 #@ addquicktag
 msgid "Access Key"
 msgstr "Zugriffstaste"
 
-#: inc/class.settings.php:193
+#: inc/class-settings.php:245
+#: inc/class-settings.php:372
 #@ addquicktag
 msgid "Fill in the fields below to add or edit the quicktags. Fields with * are required. To delete a tag simply empty all fields."
 msgstr "Ergänze neue Buttons, in dem die unteren Felder ausgefüllt werden. Felder mit * sind Pflichtfelder, müssen ausgefüllt werden. Um einen Button zu löschen, einfach die Felder des Buttons leeren und speichern."
 
-#: inc/class.settings.php:195
+#: inc/class-settings.php:247
+#: inc/class-settings.php:374
 #@ default
 msgid "Save Changes"
 msgstr ""
 
-#: inc/class.settings.php:207
+#: inc/class-settings.php:259
 #@ addquicktag
 msgid "Like this plugin?"
 msgstr "Du magst das Plugin?"
 
-#: inc/class.settings.php:208
+#: inc/class-settings.php:260
 #@ addquicktag
 msgid "Here's how you can give back:"
 msgstr "Über folgende Möglichkeiten kannst du etwas zurück geben:"
 
-#: inc/class.settings.php:210
+#: inc/class-settings.php:262
 #@ addquicktag
 msgid "The Plugin on the WordPress plugin repository"
 msgstr "Das Plugin im offiziellen WordPress Repository"
 
-#: inc/class.settings.php:210
+#: inc/class-settings.php:262
 #@ addquicktag
 msgid "Give the plugin a good rating."
 msgstr "Gib dem Plugin eine gute Wertung"
 
-#: inc/class.settings.php:211
+#: inc/class-settings.php:263
 #@ addquicktag
 msgid "Donate via PayPal"
 msgstr "Spende via Paypal"
 
-#: inc/class.settings.php:211
+#: inc/class-settings.php:263
 #@ addquicktag
 msgid "Donate a few euros."
 msgstr "Spende einige Euros"
 
-#: inc/class.settings.php:212
+#: inc/class-settings.php:264
 #@ addquicktag
 msgid "Frank Bültge's Amazon Wish List"
 msgstr "Frank Bültge's Amazon Wunschliste"
 
-#: inc/class.settings.php:212
+#: inc/class-settings.php:264
 #@ addquicktag
 msgid "Get me something from my wish list."
 msgstr "Suche dir was aus und lass mir ein Objekt meiner Wunschliste zukommen."
 
-#: inc/class.settings.php:215
+#: inc/class-settings.php:267
 #@ addquicktag
 msgid "About this plugin"
 msgstr "Über das Plugin"
 
-#: inc/class.settings.php:217
+#: inc/class-settings.php:269
 #@ addquicktag
 msgid "Version:"
 msgstr "Version:"
 
-#: inc/class.settings.php:221
+#: inc/class-settings.php:273
 #@ addquicktag
 msgid "Description:"
 msgstr "Beschreibung:"
 
+#. translators: plugin header field 'Version'
+#: addquicktag.php:0
+#@ addquicktag
+msgid "2.0.0 Beta"
+msgstr ""
+
+#: inc/class-settings.php:186
+#: inc/class-settings.php:313
+#@ addquicktag
+msgid "Order"
+msgstr "Reihenfolge"
+
+#: inc/class-settings.php:187
+#: inc/class-settings.php:314
+#@ addquicktag
+msgid "Visual"
+msgstr "Visuell"
+
 #. translators: plugin header field 'Description'
 #: addquicktag.php:0
 #@ addquicktag
-msgid "Allows you to easily add custom Quicktags to the editor."
-msgstr "Erlaubt das einfache Hinzufügen von Quicktags zum Editor."
+msgid "Allows you to easily add custom Quicktags to the html- and visual-editor."
+msgstr "Erlaubt das einfache Hinzufügen von Quicktags zum html- und visuellen Editor."
 

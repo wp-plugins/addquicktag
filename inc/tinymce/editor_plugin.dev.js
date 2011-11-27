@@ -11,7 +11,9 @@
 	// Load plugin specific language pack
 	tinymce.PluginManager.requireLangPack('rmnlQuicktagSettings_tmce' );
 	
-	// http://www.tinymce.com/wiki.php/API3:class.tinymce.ui.ListBox
+	/*
+	 * @see  http://www.tinymce.com/wiki.php/API3:class.tinymce.ui.ListBox
+	 */
 	tinymce.create('tinymce.plugins.AddQuicktag', {
 		createControl: function(n, cm) {
 			switch (n) {
