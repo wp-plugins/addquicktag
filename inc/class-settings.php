@@ -20,6 +20,8 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 	static private $option_string;
 	// string for plugin file
 	static private $plugin;
+	// string for nonce fields
+	static public $nonce_string;
 	
 	/**
 	 * Handler for the action 'init'. Instantiates this class.
@@ -47,10 +49,14 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 	 */
 	public function __construct() {
 		
+		if ( ! is_admin() )
+			return NULL;
+		
 		// textdomain from parent class
 		self :: $textdomain    = parent :: get_textdomain();
 		$this -> option_string = parent :: get_option_string();
 		$this -> plugin        = parent :: get_plugin_string();
+		$this -> nonce_string  = 'addquicktag_nonce';
 		
 		register_uninstall_hook( __FILE__,       array( 'Add_Quicktag_Settings', 'unregister_settings' ) );
 		// settings for an active multisite
@@ -70,10 +76,10 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 			add_action( 'admin_init',            array( $this, 'register_settings' ) );
 		}
 		
-		add_action( 'addquicktag_settings_page', array( $this, 'get_plugin_infos' ) );
+		add_action( 'addquicktag_settings_page_sidebar', array( $this, 'get_plugin_infos' ) );
+		add_action( 'addquicktag_settings_page_sidebar', array( $this, 'get_about_plugin' ) );
 		// ToDO
-		//require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'class-imexport.php';
-		//$add_quicktag_im_export = Add_Quicktag_Im_Export :: get_object();
+		require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'class-imexport.php';
 	}
 	
 	
@@ -166,108 +172,150 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 		
 		?>
 		<div class="wrap">
-		<?php screen_icon('options-general'); ?>
-		<h2><?php echo parent :: get_plugin_data( 'Name' ); ?></h2>
-		<h3><?php _e('Add or delete Quicktag buttons', $this -> get_textdomain() ); ?></h3>
-		<?php
-		if ( is_plugin_active_for_network( $this -> plugin ) )
-			$action = 'edit.php?action=' . $this -> option_string;
-		else
-			$action = 'options.php';
-		?>
-		<form method="post" action="<?php echo $action; ?>">
+			<?php screen_icon('options-general'); ?>
+			<h2><?php echo parent :: get_plugin_data( 'Name' ); ?></h2>
+			
+			<h3><?php _e('Add or delete Quicktag buttons', $this -> get_textdomain() ); ?></h3>
 			<?php
-			settings_fields( $this -> option_string . '_group' );
 			if ( is_plugin_active_for_network( $this -> plugin ) )
-				$options = get_site_option( $this -> option_string );
+				$action = 'edit.php?action=' . $this -> option_string;
 			else
-				$options = get_option( $this -> option_string );
-			
-			if ( ! $options )
-				$options['buttons'] = array();
-			
-			// sort array by order value
-			$tmp = array();
-			foreach( $options['buttons'] as $order ) {
-				$tmp[] = $order['order'];
-			}
-			array_multisort( $tmp, SORT_ASC, $options['buttons'] );
+				$action = 'options.php';
 			?>
-			
-			<table class="widefat">
-				<tr>
-					<th class="row-title"><?php _e('Button Label*', $this -> get_textdomain() ); ?></th>
-					<th class="row-title"><?php _e('Title Attribute', $this -> get_textdomain() ); ?></th>
-					<th class="row-title"><?php _e('Start Tag(s)*', $this -> get_textdomain() ); ?></th>
-					<th class="row-title"><?php _e('End Tag(s)', $this -> get_textdomain() ); ?></th>
-					<th class="row-title" style="width:5%;"><?php _e('Access Key', $this -> get_textdomain() ); ?></th>
-					<th class="row-title" style="width:5%;"><?php _e('Order', $this -> get_textdomain() ); ?></th>
-					<th class="row-title" style="width:5%;"><?php _e('Visual', $this -> get_textdomain() ); ?></th>
-				</tr>
+			<form method="post" action="<?php echo $action; ?>">
 				<?php
-				if ( empty($options['buttons']) )
+				settings_fields( $this -> option_string . '_group' );
+				
+				if ( is_plugin_active_for_network( $this -> plugin ) )
+					$options = get_site_option( $this -> option_string );
+				else
+					$options = get_option( $this -> option_string );
+				
+				if ( ! $options )
 					$options['buttons'] = array();
-				$class = '';
-				for ( $i = 0; $i < count( $options['buttons'] ); $i++ ) {
-					$class = ( ' class="alternate"' == $class ) ? '' : ' class="alternate"';
-					$b           = $options['buttons'][$i];
-					$b['text']   = htmlentities( stripslashes($b['text']), ENT_COMPAT, get_option('blog_charset') );
-					$b['title']  = htmlentities( stripslashes($b['title']), ENT_COMPAT, get_option('blog_charset') );
-					$b['start']  = htmlentities( $b['start'], ENT_COMPAT, get_option('blog_charset') );
-					$b['end']    = htmlentities( $b['end'], ENT_COMPAT, get_option('blog_charset') );
-					if ( ! isset( $b['access'] ) )
-						$b['access'] = '';
-					$b['access'] = htmlentities( $b['access'], ENT_COMPAT, get_option('blog_charset') );
-					if ( ! isset( $b['order'] ) )
-						$b['order'] = 0;
-					$b['order'] = intval( $b['order'] );
-					if ( ! isset( $b['visual'] ) )
-						$b['visual'] = 0;
-					$b['visual'] = intval( $b['visual'] );
-					if ( 1 == $b['visual'] )
-						$checked = ' checked="checked"';
-					else 
-						$checked = '';
-					$nr          = $i + 1;
-				echo '
-				<tr>
-					<td><input type="text" name="' . $this -> option_string . '[buttons][' . $i 
-					. '][text]" value="' . $b['text'] . '" style="width: 95%;" /></td>
-					<td><input type="text" name="' . $this -> option_string . '[buttons][' . $i . '][title]" value="' 
-					. $b['title'] . '" style="width: 95%;" /></td>
-					<td><textarea class="code" name="' . $this -> option_string . '[buttons][' . $i 
-					. '][start]" rows="2" cols="25" style="width: 95%;">' . $b['start'] . '</textarea></td>
-					<td><textarea class="code" name="' . $this -> option_string . '[buttons][' . $i 
-					. '][end]" rows="2" cols="25" style="width: 95%;">' . $b['end'] . '</textarea></td>
-					<td><input type="text" name="' . $this -> option_string . '[buttons][' . $i 
-					. '][access]" value="' . $b['access'] . '" style="width: 95%;" /></td>
-					<td><input type="text" name="' . $this -> option_string . '[buttons][' . $i 
-					. '][order]" value="' . $b['order'] . '" style="width: 95%;" /></td>
-					<td><input type="checkbox" name="' . $this -> option_string . '[buttons][' . $i 
-					. '][visual]" value="1"' . $checked . ' style="width: 95%;" /></td>
-				</tr>
-				';
+				
+				if ( 1 < count($options['buttons']) ) {
+					// sort array by order value
+					$tmp = array();
+					foreach( $options['buttons'] as $order ) {
+						$tmp[] = $order['order'];
+					}
+					array_multisort( $tmp, SORT_ASC, $options['buttons'] );
 				}
 				?>
-				<tr>
-					<td><input type="text" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][text]" value="" style="width: 95%;" /></td>
-					<td><input type="text" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][title]" value="" style="width: 95%;" /></td>
-					<td><textarea class="code" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][start]" rows="2" cols="25" style="width: 95%;"></textarea></td>
-					<td><textarea class="code" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][end]" rows="2" cols="25" style="width: 95%;"></textarea></td>
-					<td><input type="text" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][access]" value="" class="code" style="width: 95%;" /></td>
-					<td><input type="text" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][order]" value="" style="width: 95%;" /></td>
-					<td><input type="checkbox" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][visual]" value="1" style="width: 95%;" /></td>
-				</tr>
-			</table>
-			
-			<p><?php _e( 'Fill in the fields below to add or edit the quicktags. Fields with * are required. To delete a tag simply empty all fields.', $this -> get_textdomain() ); ?></p>
-			<p class="submit">
-				<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
-			</p>
-	
-		</form>
+				
+				<table class="widefat">
+					<tr>
+						<th class="row-title"><?php _e('Button Label*', $this -> get_textdomain() ); ?></th>
+						<th class="row-title"><?php _e('Title Attribute', $this -> get_textdomain() ); ?></th>
+						<th class="row-title"><?php _e('Start Tag(s)*', $this -> get_textdomain() ); ?></th>
+						<th class="row-title"><?php _e('End Tag(s)', $this -> get_textdomain() ); ?></th>
+						<th class="row-title" style="width:5%;"><?php _e('Access Key', $this -> get_textdomain() ); ?></th>
+						<th class="row-title" style="width:5%;"><?php _e('Order', $this -> get_textdomain() ); ?></th>
+						<th class="row-title" style="width:5%;"><?php _e('Visual', $this -> get_textdomain() ); ?></th>
+					</tr>
+					<?php
+					if ( empty($options['buttons']) )
+						$options['buttons'] = array();
+					$class = '';
+					for ( $i = 0; $i < count( $options['buttons'] ); $i++ ) {
+						$class = ( ' class="alternate"' == $class ) ? '' : ' class="alternate"';
+						$b           = $options['buttons'][$i];
+						$b['text']   = htmlentities( stripslashes($b['text']), ENT_COMPAT, get_option('blog_charset') );
+						$b['title']  = htmlentities( stripslashes($b['title']), ENT_COMPAT, get_option('blog_charset') );
+						$b['start']  = htmlentities( $b['start'], ENT_COMPAT, get_option('blog_charset') );
+						$b['end']    = htmlentities( $b['end'], ENT_COMPAT, get_option('blog_charset') );
+						if ( ! isset( $b['access'] ) )
+							$b['access'] = '';
+						$b['access'] = htmlentities( $b['access'], ENT_COMPAT, get_option('blog_charset') );
+						if ( ! isset( $b['order'] ) )
+							$b['order'] = 0;
+						$b['order'] = intval( $b['order'] );
+						if ( ! isset( $b['visual'] ) )
+							$b['visual'] = 0;
+						$b['visual'] = intval( $b['visual'] );
+						if ( 1 == $b['visual'] )
+							$checked = ' checked="checked"';
+						else 
+							$checked = '';
+						$nr          = $i + 1;
+					echo '
+					<tr>
+						<td><input type="text" name="' . $this -> option_string . '[buttons][' . $i 
+						. '][text]" value="' . $b['text'] . '" style="width: 95%;" /></td>
+						<td><input type="text" name="' . $this -> option_string . '[buttons][' . $i . '][title]" value="' 
+						. $b['title'] . '" style="width: 95%;" /></td>
+						<td><textarea class="code" name="' . $this -> option_string . '[buttons][' . $i 
+						. '][start]" rows="2" cols="25" style="width: 95%;">' . $b['start'] . '</textarea></td>
+						<td><textarea class="code" name="' . $this -> option_string . '[buttons][' . $i 
+						. '][end]" rows="2" cols="25" style="width: 95%;">' . $b['end'] . '</textarea></td>
+						<td><input type="text" name="' . $this -> option_string . '[buttons][' . $i 
+						. '][access]" value="' . $b['access'] . '" style="width: 95%;" /></td>
+						<td><input type="text" name="' . $this -> option_string . '[buttons][' . $i 
+						. '][order]" value="' . $b['order'] . '" style="width: 95%;" /></td>
+						<td><input type="checkbox" name="' . $this -> option_string . '[buttons][' . $i 
+						. '][visual]" value="1"' . $checked . ' style="width: 95%;" /></td>
+					</tr>
+					';
+					}
+					?>
+					<tr>
+						<td><input type="text" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][text]" value="" style="width: 95%;" /></td>
+						<td><input type="text" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][title]" value="" style="width: 95%;" /></td>
+						<td><textarea class="code" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][start]" rows="2" cols="25" style="width: 95%;"></textarea></td>
+						<td><textarea class="code" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][end]" rows="2" cols="25" style="width: 95%;"></textarea></td>
+						<td><input type="text" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][access]" value="" class="code" style="width: 95%;" /></td>
+						<td><input type="text" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][order]" value="" style="width: 95%;" /></td>
+						<td><input type="checkbox" name="<?php echo $this -> option_string; ?>[buttons][<?php echo $i; ?>][visual]" value="1" style="width: 95%;" /></td>
+					</tr>
+				</table>
+				
+				<p><?php _e( 'Fill in the fields below to add or edit the quicktags. Fields with * are required. To delete a tag simply empty all fields.', $this -> get_textdomain() ); ?></p>
+				<p class="submit">
+					<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
+				</p>
 		
-		<?php do_action( 'addquicktag_settings_page' ); ?>
+			</form>
+			
+			<div class="metabox-holder has-right-sidebar">
+				
+				<div class="inner-sidebar">
+					<?php do_action( 'addquicktag_settings_page_sidebar' ); ?>
+				</div> <!-- .inner-sidebar -->
+				
+				<div id="post-body">
+					<div id="post-body-content">
+						<?php do_action( 'addquicktag_settings_page' ); ?>
+					</div> <!-- #post-body-content -->
+				</div> <!-- #post-body -->
+				
+			</div> <!-- .metabox-holder -->
+			
+		</div>
+		<?php
+	}
+	
+	/*
+	 * Return informations to donate
+	 * 
+	 * @uses   _e,esc_attr_e
+	 * @access public
+	 * @since  2.0.0
+	 * @return void
+	 */
+	public function get_plugin_infos() {
+		?>
+		<div class="postbox">
+			
+			<h3><span><?php _e( 'Like this plugin?', $this -> get_textdomain() ); ?></span></h3>
+			<div class="inside">
+				<p><?php _e( 'Here\'s how you can give back:', $this -> get_textdomain() ); ?></p>
+				<ul>
+					<li><a href="http://wordpress.org/extend/plugins/addquicktag/" title="<?php esc_attr_e( 'The Plugin on the WordPress plugin repository', $this -> get_textdomain() ); ?>"><?php _e( 'Give the plugin a good rating.', $this -> get_textdomain() ); ?></a></li>
+					<li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=6069955" title="<?php esc_attr_e( 'Donate via PayPal', $this -> get_textdomain() ); ?>"><?php _e( 'Donate a few euros.', $this -> get_textdomain() ); ?></a></li>
+					<li><a href="http://www.amazon.de/gp/registry/3NTOGEK181L23/ref=wl_s_3" title="<?php esc_attr_e( 'Frank Bültge\'s Amazon Wish List', $this -> get_textdomain() ); ?>"><?php _e( 'Get me something from my wish list.', $this -> get_textdomain() ); ?></a></li>
+				</ul>
+			</div>
 		</div>
 		<?php
 	}
@@ -280,25 +328,22 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 	 * @since  2.0.0
 	 * @return void
 	 */
-	public function get_plugin_infos() {
+	public function get_about_plugin() {
 		?>
-		<h3><?php _e( 'Like this plugin?', $this -> get_textdomain() ); ?></h3>
-		<p><?php _e( 'Here\'s how you can give back:', $this -> get_textdomain() ); ?></p>
-		<ul>
-			<li><a href="http://wordpress.org/extend/plugins/addquicktag/" title="<?php esc_attr_e( 'The Plugin on the WordPress plugin repository', $this -> get_textdomain() ); ?>"><?php _e( 'Give the plugin a good rating.', $this -> get_textdomain() ); ?></a></li>
-			<li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=6069955" title="<?php esc_attr_e( 'Donate via PayPal', $this -> get_textdomain() ); ?>"><?php _e( 'Donate a few euros.', $this -> get_textdomain() ); ?></a></li>
-			<li><a href="http://www.amazon.de/gp/registry/3NTOGEK181L23/ref=wl_s_3" title="<?php esc_attr_e( 'Frank Bültge\'s Amazon Wish List', $this -> get_textdomain() ); ?>"><?php _e( 'Get me something from my wish list.', $this -> get_textdomain() ); ?></a></li>
-		</ul>
-		
-		<h3><?php _e( 'About this plugin', $this -> get_textdomain() ); ?></h3>
-		<p>
-			<strong><?php _e( 'Version:', $this -> get_textdomain() ); ?></strong>
-			<?php echo parent :: get_plugin_data( 'Version' ); ?>
-		</p>
-		<p>
-			<strong><?php _e( 'Description:', $this -> get_textdomain() ); ?></strong>
-			<?php echo parent :: get_plugin_data( 'Description' ); ?>
-		</p>
+		<div class="postbox">
+			
+			<h3><span><?php _e( 'About this plugin', $this -> get_textdomain() ); ?></span></h3>
+			<div class="inside">
+				<p>
+					<strong><?php _e( 'Version:', $this -> get_textdomain() ); ?></strong>
+					<?php echo parent :: get_plugin_data( 'Version' ); ?>
+				</p>
+				<p>
+					<strong><?php _e( 'Description:', $this -> get_textdomain() ); ?></strong>
+					<?php echo parent :: get_plugin_data( 'Description' ); ?>
+				</p>
+			</div>
+		</div>
 		<?php
 	}
 	
