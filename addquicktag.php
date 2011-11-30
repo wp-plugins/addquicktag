@@ -5,7 +5,7 @@
  * Text Domain: addquicktag
  * Domain Path: /languages
  * Description: Allows you to easily add custom Quicktags to the html- and visual-editor.
- * Version:	 2.0.0 Beta
+ * Version:	 2.0.0
  * Author:	  Frank Bültge
  * Author URI: http://bueltge.de
  * License:	GPLv3
@@ -98,12 +98,14 @@ class Add_Quicktag {
 		if ( ! $options )
 			return;
 		
-		// sort array by order value
-		$tmp = array();
-		foreach( $options['buttons'] as $order ) {
-			$tmp[] = $order['order'];
+		if ( 1 < count($options['buttons']) ) {
+			// sort array by order value
+			$tmp = array();
+			foreach( $options['buttons'] as $order ) {
+				$tmp[] = $order['order'];
+			}
+			array_multisort( $tmp, SORT_ASC, $options['buttons'] );
 		}
-		array_multisort( $tmp, SORT_ASC, $options['buttons'] );
 		?>
 		<script type="text/javascript">
 			var addquicktag_tags = <?php echo json_encode( $options ); ?>;
