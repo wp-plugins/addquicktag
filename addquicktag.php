@@ -56,7 +56,7 @@ class Add_Quicktag {
 			return;
 		
 		// get string of plugin
-		self :: $plugin = plugin_basename( dirname(__FILE__) . '/addquicktag.php' );
+		self :: $plugin = plugin_basename( __FILE__ );
 		
 		// on uninstall remove capability from roles
 		register_uninstall_hook( __FILE__, array('Add_Quicktag', 'uninstall' ) );
