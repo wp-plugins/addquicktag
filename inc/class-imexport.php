@@ -187,17 +187,6 @@ class Add_Quicktag_Im_Export extends Add_Quicktag_Settings {
 		// create array from xml
 		$button = array();
 		foreach ( $matches -> quicktag as $key ) {
-			/*
-			$button[] = array(
-				$key -> text  -> getName()  => $key -> text,
-				$key -> title -> getName()  => $key -> title,
-				$key -> start -> getName()  => $key -> start,
-				$key -> end -> getName()    => $key -> end,
-				$key -> access -> getName() => $key -> access,
-				$key -> order -> getName()  => $key -> order,
-				$key -> visual -> getName() => $key -> visual,
-			);
-			*/	
 			foreach ($key as $value) {
 				$buttons[$value -> getName()] = $value;
 			}
