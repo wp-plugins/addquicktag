@@ -67,10 +67,9 @@ class Add_Quicktag {
 		add_action( 'admin_init', array( $this, 'localize_plugin' ) );
 		// Include settings
 		require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class-settings.php';
-		$add_quicktag_settings = Add_Quicktag_Settings :: get_object();
+		
 		// Include solution for TinyMCe
 		require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class-tinymce.php';
-		$add_quicktag_2_tinymce = Add_Quicktag_2_TinyMce :: get_object();
 		
 		add_action( 'wp_print_scripts', array( $this, 'print_scripts' ) );
 		
@@ -90,7 +89,7 @@ class Add_Quicktag {
 		if ( isset( $current_screen -> id ) && ! in_array( $current_screen -> id, self :: $admin_ids_for_js ) )
 			return;
 		
-		if ( is_plugin_active_for_network( $this -> get_plugin_string() ) )
+		if ( is_multisite() && is_plugin_active_for_network( $this -> get_plugin_string() ) )
 			$options = get_site_option( self :: $option_string );
 		else
 			$options = get_option( self :: $option_string );

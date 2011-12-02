@@ -1,3 +1,5 @@
-tinyMCE.addI18n('en.rmnlQuicktagSettings_tmce',{
-	addquicktag_select_error : 'keine Qicktags erkannt'
+tinyMCE.addI18n('de.aqtwe',{
+aqtwe_select_header : 'weitere Formate',
+aqtwe_select_error : 'keine Qicktags erkannt'
 });
+
