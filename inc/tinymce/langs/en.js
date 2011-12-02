@@ -1,4 +1,5 @@
-tinyMCE.addI18n('en.rmnlQuicktagSettings_tmce',{
-	addquicktag_select_error : 'no Qicktags found'
+tinyMCE.addI18n('en.aqtwe',{
+aqtwe_select_header : 'further styles',
+aqtwe_select_error : 'no Qicktags found'
 });
 

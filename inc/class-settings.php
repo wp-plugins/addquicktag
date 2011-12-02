@@ -60,7 +60,7 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 		
 		register_uninstall_hook( __FILE__,       array( 'Add_Quicktag_Settings', 'unregister_settings' ) );
 		// settings for an active multisite
-		if ( is_plugin_active_for_network( $this -> plugin ) ) {
+		if ( is_multisite() && is_plugin_active_for_network( $this -> plugin ) ) {
 			add_action( 'network_admin_menu',    array( $this, 'add_settings_page' ) );
 			// add settings link
 			add_filter( 'network_admin_plugin_action_links', array( $this, 'network_admin_plugin_action_links' ), 10, 2 );
@@ -139,7 +139,7 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 	 */
 	public function add_settings_page () {
 		
-		if ( is_plugin_active_for_network( $this -> plugin ) ) {
+		if ( is_multisite() && is_plugin_active_for_network( $this -> plugin ) ) {
 			add_submenu_page(
 				'settings.php',
 				parent :: get_plugin_data( 'Name' ) . ' ' . __( 'Settings', $this -> get_textdomain() ),
@@ -177,7 +177,7 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 			
 			<h3><?php _e('Add or delete Quicktag buttons', $this -> get_textdomain() ); ?></h3>
 			<?php
-			if ( is_plugin_active_for_network( $this -> plugin ) )
+			if ( is_multisite() && is_plugin_active_for_network( $this -> plugin ) )
 				$action = 'edit.php?action=' . $this -> option_string;
 			else
 				$action = 'options.php';
@@ -186,7 +186,7 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 				<?php
 				settings_fields( $this -> option_string . '_group' );
 				
-				if ( is_plugin_active_for_network( $this -> plugin ) )
+				if ( is_multisite() && is_plugin_active_for_network( $this -> plugin ) )
 					$options = get_site_option( $this -> option_string );
 				else
 					$options = get_option( $this -> option_string );
@@ -472,4 +472,4 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 	}
 	
 }
-?>
+$add_quicktag_settings = Add_Quicktag_Settings :: get_object();

@@ -66,3 +66,4 @@ class Add_Quicktag_2_TinyMce extends Add_Quicktag {
 	}
 	
 } // end class
+$add_quicktag_2_tinymce = Add_Quicktag_2_TinyMce :: get_object();
