@@ -127,14 +127,23 @@ class Add_Quicktag {
 		
 		$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
 		
-		wp_enqueue_script(
-			self :: get_textdomain() . '_script', 
-			plugins_url( '/js/add-quicktags' . $suffix. '.js', __FILE__ ), 	
-			array( 'jquery', 'quicktags' ),
-			'',
-			TRUE
-		);
-		
+		if ( version_compare( $GLOBALS['wp_version'], '3.3alpha', '>=' ) ) {
+			wp_enqueue_script(
+				self :: get_textdomain() . '_script', 
+				plugins_url( '/js/add-quicktags' . $suffix. '.js', __FILE__ ), 	
+				array( 'jquery', 'quicktags' ),
+				'',
+				TRUE
+			);
+		} else {
+			wp_enqueue_script(
+				self :: get_textdomain() . '_script', 
+				plugins_url( '/js/add-quicktags_32' . $suffix. '.js', __FILE__ ), 	
+				array( 'jquery', 'quicktags' ),
+				'',
+				TRUE
+			);
+		}
 		// Alternative to JSON function
 		// wp_localize_script( self :: get_textdomain() . '_script', 'addquicktag_tags', get_option( self :: $option_string ) );
 	}
