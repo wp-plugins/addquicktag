@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: quicktag, editor, tinymce, add buttons, button, buttons, visual editor
 Requires at least: 3.3
 Tested up to: 3.3
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 
 This plugin make it easy, Quicktags add to the editor. It is possible to ex- and import your Quicktags.
 
@@ -48,8 +48,14 @@ See also [the official website](http://bueltge.de/wp-addquicktags-de-plugin/120 
 = Acknowledgements =
 **Thanks to**
 
-* [Frank Bültge](http://bueltge.de) for german language file ;)
-* [Brian Flores](http://www.inmotionhosting.com/) for serbian translation
+* Yuuich on [www.u-1.net](http://www.u-1.net/ "Yuuich") for translate the plugin in japanese
+* Neil on [www.wmfield.idv.tw](http://www.wmfield.idv.tw/ "Yuuich") for translate the plugin in chinese
+* [Jean-Michel MEYER](http://www.li-an.fr/blog "Jean-Michel MEYER") for translate in french
+* [Gianni Diurno](http://gidibao.net/ "Gianni Diurno") for italien translation
+* Josef Klimosz on [http://blog.rudice.cz/](http://blog.rudice.cz/ "Josef Klimosz") for the czech language files
+* [Lagg3r](lagg3r.com.ar "Lagg3r") for spanish translation
+* Michal Maciejewski for polish translation
+* Fat Cow for the belarussian language files
 
 = Licence =
 Good news, this plugin is free for everyone! Since it's released under the GPL, you can use it free of charge on your personal or commercial blog. But if you enjoy this plugin, you can thank me and leave a [small donation](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6069955 "Paypal Donate link") for the time I've spent writing and supporting this plugin. And I really don't want to know how many hours of my life this plugin has already eaten ;)
@@ -59,13 +65,15 @@ The plugin comes with various translations, please refer to the [WordPress Codex
 
 
 == Changelog ==
+= 2.0.1 =
+* Bugfix on JS for WP smaller 3.3; use quickbuttons clean on html-editor with core-buttons
+
 = 2.0.0 =
 * complete redesign, new code from the first line
 * add function for add quicktags on html and visual editor
 * works also on Multisite Network
 * new settings page
 * add fallback in JS to use this new version also in WordPress smaller 3.3
-* add serbian language files
 
 = v1.6.5 (02/02/2011) =
 * changes for admin-hints
