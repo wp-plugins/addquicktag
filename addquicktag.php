@@ -5,10 +5,10 @@
  * Text Domain: addquicktag
  * Domain Path: /languages
  * Description: Allows you to easily add custom Quicktags to the html- and visual-editor.
- * Version:	 2.0.0
- * Author:	  Frank Bültge
- * Author URI: http://bueltge.de
- * License:	GPLv3
+ * Version:	    2.0.1
+ * Author:      Frank Bültge
+ * Author URI:  http://bueltge.de
+ * License:     GPLv3
  */
 
 /**

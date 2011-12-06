@@ -21,7 +21,8 @@ jQuery( document ).ready( function( $ ) {
 			if ( typeof tags[i].end    == 'undefined' ) tags[i].end = '';
 			if ( typeof tags[i].access == 'undefined' ) tags[i].access = '';
 			
-			edButtons[i] = new edButton(
+			wpaqNr = edButtons.length;
+			edButtons[wpaqNr] = new edButton(
 				// id, display, tagStart, tagEnd, access_key, title
 				tags[i].text.toLowerCase(), tags[i].text, tags[i].start, tags[i].end, tags[i].access, tags[i].title
 			);
@@ -30,8 +31,8 @@ jQuery( document ).ready( function( $ ) {
 				wpaqBut = wpaqBut.previousSibling;
 			}
 			wpaqBut         = wpaqBut.cloneNode( true );
-			wpaqBut.id      = 'ed_' + i;
-			wpaqBut._idx    = i; //store our current index at element itself
+			wpaqBut.id      = 'ed_' + wpaqNr;
+			wpaqBut._idx    = wpaqNr; //store our current index at element itself
 			wpaqBut.value   = tags[i].text;
 			wpaqBut.title   = tags[i].title;
 			wpaqBut.onclick = function() { edInsertTag( edCanvas, this._idx ); return false; }
