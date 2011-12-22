@@ -13,10 +13,6 @@ This plugin make it easy, Quicktags add to the html - and visual-editor.. It is 
 
 WP-AddQuicktag for WordPress is in originally by [Roel Meurders](http://roel.meurders.nl/ "Roel Meurders"). The versions of the Repo to AddQuicktag are newer versions, completly rewrite with version 2.0.0 and more functionalities.
 
-**Version before WordPress smaller 3.0**
-
-If you will use this plugin with an older version of WordPress, please use an older version of this plugin, smaller version 2.0.0 - you find it in the [repo](http://wordpress.org/extend/plugins/addquicktag/download/). But i will not support this version. The version 2.0.0 and higher was rewrite with all new posibilties of the WordPress Core.
-
 **More Plugins**
 
 Please see also my [Premium Plugins](http://wpplugins.com/author/malo.conny/). Maybe you find an solution for your requirement.
@@ -36,7 +32,9 @@ You may also be interested in WordPress tips and tricks at [WP Engineer](http://
 1. Activate the plugin through the 'Plugins' menu in WordPress or for the Network, if you will use in Multisite for all Sites
 1. Got to 'Settings' menu and configure the plugin
 
-See also [the official website](http://bueltge.de/wp-addquicktags-de-plugin/120 "AddQuicktag").
+**Version before WordPress smaller 3.0**
+
+If you will use this plugin with an older version of WordPress, please use an older version of this plugin, smaller version 2.0.0 - you find it in the [repo](http://wordpress.org/extend/plugins/addquicktag/download/). But i will not support this version. The version 2.0.0 and higher was rewrite with all new posibilties of the WordPress Core.
 
 
 == Screenshots ==
