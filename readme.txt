@@ -6,14 +6,12 @@ Requires at least: 3.0
 Tested up to: 3.3
 Stable tag: 2.0.2
 
-This plugin make it easy, Quicktags add to the editor. It is possible to ex- and import your Quicktags.
+This plugin make it easy, Quicktags add to the html - and visual-editor.
 
 == Description ==
-This plugin make it easy, Quicktags add to the editor. It is possible to ex- and import your Quicktags.
+This plugin make it easy, Quicktags add to the html - and visual-editor.. It is possible to ex- and import your Quicktags.
 
-WP-AddQuicktag for WordPress is in originally by [Roel Meurders](http://roel.meurders.nl/ "Roel Meurders"). AddQuicktag is an newer version, completly rewrite with version 2.0.0 and more functionalities.
-
-Requires WordPress 3.0 and PHP 5.
+WP-AddQuicktag for WordPress is in originally by [Roel Meurders](http://roel.meurders.nl/ "Roel Meurders"). The versions of the Repo to AddQuicktag are newer versions, completly rewrite with version 2.0.0 and more functionalities.
 
 **Version before WordPress smaller 3.0**
 
@@ -29,9 +27,13 @@ You may also be interested in WordPress tips and tricks at [WP Engineer](http://
 
 
 == Installation ==
+= Requirements =
+* WordPress version 3.0 and later (tested at 3.3 and 3.2.1)
+
+= Installation =
 1. Unpack the download-package
 1. Upload the files to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
+1. Activate the plugin through the 'Plugins' menu in WordPress or for the Network, if you will use in Multisite for all Sites
 1. Got to 'Settings' menu and configure the plugin
 
 See also [the official website](http://bueltge.de/wp-addquicktags-de-plugin/120 "AddQuicktag").
@@ -48,7 +50,7 @@ See also [the official website](http://bueltge.de/wp-addquicktags-de-plugin/120 
 = Acknowledgements =
 **Thanks to**
 
-* German Translation by [Frank Bültge](http://bueltge.de)
+* German Translation by [myself](http://bueltge.de) ;)
 * French translation by [Jean-Michel MEYER](http://www.li-an.fr/blog)
 
 = Licence =
