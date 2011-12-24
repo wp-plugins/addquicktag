@@ -5,7 +5,7 @@
  * Text Domain: addquicktag
  * Domain Path: /languages
  * Description: Allows you to easily add custom Quicktags to the html- and visual-editor.
- * Version:	    2.0.1
+ * Version:	    2.0.2
  * Author:      Frank Bültge
  * Author URI:  http://bueltge.de
  * License:     GPLv3
@@ -60,7 +60,7 @@ class Add_Quicktag {
 		
 		// on uninstall remove capability from roles
 		register_uninstall_hook( __FILE__, array('Add_Quicktag', 'uninstall' ) );
-		// in deactivate delete all settings in database
+		// on deactivate delete all settings in database
 		// register_deactivation_hook( __FILE__, array('Add_Quicktag', 'uninstall' ) );
 		
 		// load translation files
@@ -70,9 +70,9 @@ class Add_Quicktag {
 		
 		// Include solution for TinyMCe
 		require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class-tinymce.php';
-		
-		add_action( 'wp_print_scripts', array( $this, 'print_scripts' ) );
-		
+		// print json in head
+		add_action( 'admin_enqueue_scripts', array( $this, 'print_scripts' ) );
+		// inlcude scripts
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts') );
 		
 	}
