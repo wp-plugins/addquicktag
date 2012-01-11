@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: quicktag, editor, tinymce, add buttons, button, buttons, visual editor
 Requires at least: 3.0
 Tested up to: 3.3
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 
 This plugin make it easy, Quicktags add to the html - and visual-editor.
 
@@ -12,6 +12,23 @@ This plugin make it easy, Quicktags add to the html - and visual-editor.
 This plugin make it easy, Quicktags add to the html - and visual-editor.. It is possible to ex- and import your Quicktags.
 
 WP-AddQuicktag for WordPress is in originally by [Roel Meurders](http://roel.meurders.nl/ "Roel Meurders"). The versions of the Repo to AddQuicktag are newer versions, completly rewrite with version 2.0.0 and more functionalities.
+
+The plugin add the quicktag on default to post types `post` and `page`. If you will also the plugin for other post types you can use a filter; see the follow example or an example plugin in the [Gist 1595155](https://gist.github.com/1595155).
+
+	// add custom function to filter hook 'addquicktag_post_types'
+	add_filter( 'addquicktag_post_types', 'my_addquicktag_post_types' );
+	/**
+	 * Return array $post_types with custom post types
+	 * 
+	 * @param   $post_type Array
+	 * @return  $post_type Array
+	 */
+	function my_addquicktag_post_types( $post_types ) {
+		
+		$post_types[] = 'my_custom_post_type';
+		
+		return $post_types;
+	}
 
 **More Plugins**
 
@@ -24,7 +41,7 @@ You may also be interested in WordPress tips and tricks at [WP Engineer](http://
 
 == Installation ==
 = Requirements =
-* WordPress version 3.0 and later (tested at 3.3 and 3.2.1)
+* WordPress version 3.0 and later (tested at 3.3 (nightly build) and 3.2.1)
 
 = Installation =
 1. Unpack the download-package
@@ -59,6 +76,10 @@ The plugin comes with various translations, please refer to the [WordPress Codex
 
 
 == Changelog ==
+= 2.0.3 =
+* Add Filter 'addquicktag_post_types' for use the plugin also on custom post types
+* Update readme and add an example for this filter; also an Gist for use faster
+
 = 2.0.2 =
 * change hook for include styles and scriptes for compatibility in WP 3.4
 
