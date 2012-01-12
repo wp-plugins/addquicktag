@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: AddQuicktag v1.5.7\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-12-15 15:35+0100\n"
+"PO-Revision-Date: 2012-01-12 10:01+0100\n"
 "Last-Translator: Li-An <lian00@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -77,7 +77,7 @@ msgstr "Fin du(des) tag(s)"
 # @ addquicktag
 #: inc/class-settings.php:213
 msgid "Access Key"
-msgstr "Zugriffstaste"
+msgstr "Clef d'accés"
 
 # @ addquicktag
 #: inc/class-settings.php:273
@@ -97,37 +97,37 @@ msgstr "Vous aimez ce plugin ?"
 # @ addquicktag
 #: inc/class-settings.php:312
 msgid "Here's how you can give back:"
-msgstr "Über folgende Möglichkeiten kannst du etwas zurück geben:"
+msgstr "Voilà comment vous pouvez remercier:"
 
 # @ addquicktag
 #: inc/class-settings.php:314
 msgid "The Plugin on the WordPress plugin repository"
-msgstr "Das Plugin im offiziellen WordPress Repository"
+msgstr "Le plugin sur le dépôt officiel de plugins Wordress"
 
 # @ addquicktag
 #: inc/class-settings.php:314
 msgid "Give the plugin a good rating."
-msgstr "Gib dem Plugin eine gute Wertung"
+msgstr "Donnez au plugin une bonne note."
 
 # @ addquicktag
 #: inc/class-settings.php:315
 msgid "Donate via PayPal"
-msgstr "Spende via Paypal"
+msgstr "Faire une donation via Paypal"
 
 # @ addquicktag
 #: inc/class-settings.php:315
 msgid "Donate a few euros."
-msgstr "Spende einige Euros"
+msgstr "Donner quelques euros."
 
 # @ addquicktag
 #: inc/class-settings.php:316
 msgid "Frank Bültge's Amazon Wish List"
-msgstr "Frank Bültge's Amazon Wunschliste"
+msgstr "La liste d'envies de Frank Bültge sur Amazon"
 
 # @ addquicktag
 #: inc/class-settings.php:316
 msgid "Get me something from my wish list."
-msgstr "Suche dir was aus und lass mir ein Objekt meiner Wunschliste zukommen."
+msgstr "Offrez moi quelque chose à partir de ma liste d'envie."
 
 # @ addquicktag
 #: inc/class-settings.php:335
@@ -141,23 +141,23 @@ msgstr "Version:"
 # @ addquicktag
 #: inc/class-settings.php:342
 msgid "Description:"
-msgstr "Beschreibung:"
+msgstr "Description:"
 
 # @ addquicktag
 #: inc/class-settings.php:214
 msgid "Order"
-msgstr "Reihenfolge"
+msgstr "Ordre"
 
 # @ addquicktag
 #: inc/class-settings.php:215
 msgid "Visual"
-msgstr "Visuell"
+msgstr "Visuel"
 
 # @ addquicktag
 #. translators: plugin header field 'Description'
 #: addquicktag.php:0
 msgid "Allows you to easily add custom Quicktags to the html- and visual-editor."
-msgstr "Erlaubt das einfache Hinzufügen von Quicktags zum html- und visuellen Editor."
+msgstr "Vous permets d'ajouter facilement les quicktags personnalisés à l'éditeur visuel et html."
 
 # @ addquicktag
 #. translators: plugin header field 'Version'
@@ -173,22 +173,22 @@ msgstr "Exporter"
 # @ addquicktag
 #: inc/class-imexport.php:66
 msgid "When you click the button below the plugin will create an XML file for you to save to your computer."
-msgstr "Wenn du unten auf Export-Datei herunterladen klickst, wird das Plugin eine XML-Datei für dich erstellen, die du auf deinem Computer speichern kannst."
+msgstr "En cliquant sur le bouton ci-dessous, le plugin créera un fichier XML à sauvegarder sur votre ordinateur."
 
 # @ addquicktag
 #: inc/class-imexport.php:67
 msgid "This format, a custom XML, will contain your options from quicktags."
-msgstr "Dieses Format, ein benutzerdefniertes XML, beinhaltet Einstellungen der Quicktags."
+msgstr "Ce format, un XML personnalisé, contiendra vos options de quicktags."
 
 # @ addquicktag
 #: inc/class-imexport.php:68
 msgid "Once you’ve saved the download file, you can use the Import function in another WordPress installation to import this site."
-msgstr "Nachdem die heruntergeladene Datei gespeichert wurde, kannst du die Import-Funktion in einer anderen WordPress Installation nutzen."
+msgstr "Une fois sauvegardé le fichier à télécharger, vous pouvez utiliser la fonction d'import dans une autre installation Wordpress pour importer ces données."
 
 # @ addquicktag
 #: inc/class-imexport.php:72
 msgid "Download Export File"
-msgstr "Export-Datei herunterladen"
+msgstr "Télécharger le fichier d'export"
 
 # @ addquicktag
 #: inc/class-imexport.php:80
@@ -198,7 +198,7 @@ msgstr "Importer"
 # @ addquicktag
 #: inc/class-imexport.php:82
 msgid "If you have quicktags from other installs, the plugin can import those into this site. To get started, choose a file to import."
-msgstr "Wenn du Quicktags von einer anderen WordPress Installation hast, dann kann das Plugin diese Einstellungen importieren. Zum Starten des Imports wähle eine Datei und klicke auf Datei aktualisieren und importieren."
+msgstr "Si vous avez les quicktags d'autres installations, le plugin peut importer ceux-ci dans le site courant. Pour commencer, choisissez un fichier à importer."
 
 # @ addquicktag
 #: inc/class-imexport.php:87
