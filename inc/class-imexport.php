@@ -182,6 +182,7 @@ class Add_Quicktag_Im_Export extends Add_Quicktag_Settings {
 			$filename = $_FILES['xml']['tmp_name'];
 		
 		$filename = preg_replace( "/\<\!\[CDATA\[(.*?)\]\]\>/ies", "'[CDATA]' . base64_encode('$1') . '[/CDATA]'", $filename );
+		$filename = utf8_encode( $filename );
 		$matches  = simplexml_load_file( $filename );
 		
 		// create array from xml

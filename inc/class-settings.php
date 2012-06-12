@@ -198,7 +198,9 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 					// sort array by order value
 					$tmp = array();
 					foreach( $options['buttons'] as $order ) {
-						$tmp[] = $order['order'];
+						if ( isset( $order['order'] ) )
+							$tmp[] = $order['order'];
+						$tmp[] = 0;
 					}
 					array_multisort( $tmp, SORT_ASC, $options['buttons'] );
 				}
@@ -409,8 +411,10 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 					$b['title']  = esc_html( $b['title'] );
 					$b['start']  = stripslashes( $b['start'] );
 					$b['end']    = stripslashes( $b['end'] );
-					$b['access'] = esc_html( $b['access'] );
-					$b['order']  = intval( $b['order'] );
+					if ( isset( $b['access'] ) )
+						$b['access'] = esc_html( $b['access'] );
+					if ( isset( $b['order'] ) )
+						$b['order']  = intval( $b['order'] );
 					if ( isset( $b['visual'] ) )
 						$b['visual'] = intval( $b['visual'] );
 					else
