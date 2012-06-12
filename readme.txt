@@ -78,6 +78,10 @@ The plugin comes with various translations, please refer to the [WordPress Codex
 
 
 == Changelog ==
+= 2.0.4 =
+* Add fix for use older settings from previous versions
+* Unicode fix for upload XML file
+
 = 2.0.3 =
 * Add Filter 'addquicktag_post_types' for use the plugin also on custom post types
 * Update readme and add an example for this filter; also an Gist for use faster
