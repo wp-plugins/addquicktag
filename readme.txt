@@ -67,6 +67,7 @@ If you will use this plugin with an older version of WordPress, please use an ol
 
 * German Translation by [myself](http://bueltge.de) ;)
 * French translation by [Jean-Michel MEYER](http://www.li-an.fr/blog)
+* Japanese translation by [Yuuichi](http://www.u-1.net/2011/12/29/2498/)
 
 = Licence =
 Good news, this plugin is free for everyone! Since it's released under the GPL, you can use it free of charge on your personal or commercial blog. But if you enjoy this plugin, you can thank me and leave a [small donation](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6069955 "Paypal Donate link") for the time I've spent writing and supporting this plugin. And I really don't want to know how many hours of my life this plugin has already eaten ;)
