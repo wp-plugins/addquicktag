@@ -200,7 +200,8 @@ class Add_Quicktag_Settings extends Add_Quicktag {
 					foreach( $options['buttons'] as $order ) {
 						if ( isset( $order['order'] ) )
 							$tmp[] = $order['order'];
-						$tmp[] = 0;
+						else
+							$tmp[] = 0;
 					}
 					array_multisort( $tmp, SORT_ASC, $options['buttons'] );
 				}
