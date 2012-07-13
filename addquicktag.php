@@ -5,7 +5,7 @@
  * Text Domain: addquicktag
  * Domain Path: /languages
  * Description: Allows you to easily add custom Quicktags to the html- and visual-editor.
- * Version:	    2.1.0
+ * Version:     2.2.0
  * Author:      Frank Bültge
  * Author URI:  http://bueltge.de
  * License:     GPLv3
@@ -46,9 +46,13 @@ class Add_Quicktag {
 	
 	static private $option_string      = 'rmnlQuicktagSettings';
 	// use filter 'addquicktag_pages' for add custom pages
-	static private $admin_pages_for_js = array( 'post.php', 'comment.php' );
+	static private $admin_pages_for_js = array(
+		'post.php', 'post-new.php', 'comment.php', 'edit-comments.php'
+	);
 	// use filter 'addquicktag_post_types' for add custom post_types
-	static private $post_types_for_js  = array( 'post', 'page', 'comment' );
+	static private $post_types_for_js  = array(
+		'post', 'page', 'comment', 'edit-comments'
+	);
 	
 	static private $plugin;
 	
@@ -73,18 +77,17 @@ class Add_Quicktag {
 		
 		// load translation files
 		add_action( 'admin_init', array( $this, 'localize_plugin' ) );
+		
 		// Include settings
 		require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class-settings.php';
 		// Include solution for TinyMCE
 		require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class-tinymce.php';
 		
-		// filter for custom post types
-		self::$post_types_for_js  = apply_filters( 'addquicktag_post_types', self::$post_types_for_js );
-		$admin_pages_for_js       = apply_filters( 'addquicktag_pages', self::$admin_pages_for_js );
-		foreach ( $admin_pages_for_js as $page ) {
+		foreach ( $this->get_admin_pages_for_js() as $page ) {
 			add_action( 'admin_print_scripts-' . $page, array( $this, 'print_scripts' ) );
 			add_action( 'admin_print_scripts-' . $page, array( $this, 'admin_enqueue_scripts') );
 		}
+		
 	}
 	
 	/**
@@ -111,7 +114,7 @@ class Add_Quicktag {
 		if ( isset( $current_screen->id ) && 
 			 ! in_array( 
 				$current_screen->id,
-				self :: $post_types_for_js
+				$this->get_post_types_for_js()
 			 )
 			)
 			return NULL;
@@ -137,7 +140,9 @@ class Add_Quicktag {
 		}
 		?>
 		<script type="text/javascript">
-			var addquicktag_tags = <?php echo json_encode( $options ); ?>;
+			var addquicktag_tags = <?php echo json_encode( $options ); ?>,
+				addquicktag_post_type = <?php echo json_encode( $current_screen->id ); ?>,
+				addquicktag_pt_for_js = <?php echo json_encode( $this->get_post_types_for_js() ); ?>;
 		</script>
 		<?php
 	}
@@ -156,7 +161,7 @@ class Add_Quicktag {
 		if ( isset( $current_screen->id ) && 
 			 ! in_array( 
 				$current_screen->id,
-				self :: $post_types_for_js
+				$this->get_post_types_for_js()
 			 )
 			)
 			return NULL;
@@ -241,7 +246,31 @@ class Add_Quicktag {
 	 */
 	public function get_plugin_string() {
 		
-		return self :: $plugin;
+		return self::$plugin;
+	}
+	
+	/**
+	 * Retrun allowed post types for include scripts
+	 * 
+	 * @since   2.1.1
+	 * @access  public
+	 * @return  Array
+	 */
+	public function get_post_types_for_js() {
+		
+		return apply_filters( 'addquicktag_post_types', self::$post_types_for_js );
+	}
+	
+	/**
+	 * Retrun allowed post types for include scripts
+	 * 
+	 * @since   2.1.1
+	 * @access  public
+	 * @return  Array
+	 */
+	public function get_admin_pages_for_js() {
+		
+		return apply_filters( 'addquicktag_pages', self::$admin_pages_for_js );
 	}
 	
 	/**
@@ -253,7 +282,7 @@ class Add_Quicktag {
 	 */
 	public function get_textdomain() {
 		
-		return self :: get_plugin_data( 'TextDomain' );
+		return self::get_plugin_data( 'TextDomain' );
 	}
 	
 	/**
