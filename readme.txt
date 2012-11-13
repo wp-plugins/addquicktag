@@ -1,5 +1,5 @@
 === AddQuicktag ===
-Contributors: Bueltge
+Contributors: Bueltge, inpsyde
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6069955
 Tags: quicktag, editor, tinymce, add buttons, button, buttons, visual editor
 Requires at least: 3.0
@@ -52,12 +52,9 @@ If you need the functionality, that the Quicktags of this plugin works on the Qu
 = Bugs, technical hints or contribute =
 Please give me feedback, contribute and file technical bugs on [GitHub Repo](https://github.com/bueltge/AddQuicktag).
 
-= More Plugins =
-Please see also my [Premium Plugins](http://wpplugins.com/author/malo.conny/). Maybe you find an solution for your requirement.
+**Made by [Inpsyde](http://inpsyde.com) &middot; We love WordPress**
 
-= Interested in WordPress tips and tricks =
-You may also be interested in WordPress tips and tricks at [WP Engineer](http://wpengineer.com/) or for german people [bueltge.de](http://bueltge.de/) 
-
+Have a look at the premium plugins in our [market](http://marketpress.com).
 
 == Installation ==
 = Requirements =
