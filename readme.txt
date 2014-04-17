@@ -3,12 +3,16 @@ Contributors: Bueltge, inpsyde
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6069955
 Tags: quicktag, editor, tinymce, add buttons, button, buttons, visual editor
 Requires at least: 3.0
-Tested up to: 3.7-alpha
+Tested up to: 3.8.3
 Stable tag: 2.2.2
 
 This plugin make it easy, Quicktags add to the html - and visual-editor.
 
 == Description ==
+
+= WordPress 3.9 Hint =
+*Currently don't work the plugin with WordPress 3.9 and the visual editor. See this [thread](http://wordpress.org/support/topic/not-working-in-wordpress-39?replies=2#post-5466033) for more information.*
+
 This plugin make it easy, Quicktags add to the html - and visual-editor.. It is possible to ex- and import your Quicktags.
 
 WP-AddQuicktag for WordPress is in originally by [Roel Meurders](http://roel.meurders.nl/ "Roel Meurders"). The versions of the Repo to AddQuicktag are newer versions, completly rewrite with version 2.0.0 and more functionalities.
