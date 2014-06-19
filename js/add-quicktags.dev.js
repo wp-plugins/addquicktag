@@ -78,6 +78,10 @@ jQuery(document).ready(function ($) {
 				// Check the Code buttons, if inside the json
 				var code_buttons = addquicktag_tags['code_buttons'];
 
+				// exit if code_buttons is not valid
+				if ( typeof code_buttons == 'undefined' )
+					return ;
+
 				// Vallback, if WP core don't set the var
 				if ( typeof typenow == 'undefined' )
 					typenow = '';
