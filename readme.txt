@@ -148,6 +148,9 @@ The plugin comes with various translations, please refer to the [WordPress Codex
 
 
 == Changelog ==
+= 2.3.2 (06/20/2014) =
+* Bugfix Javascript to add quicktags
+
 = 2.3.1 (06/19/2014) =
 * Fix JavaScript error on code_buttons
 
