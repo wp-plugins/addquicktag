@@ -39,10 +39,9 @@ If you will use this plugin with an older version of WordPress, please use an ol
 
 
 == Screenshots ==
-1. Settings area in WordPress 3.3
-2. Settings area in WordPress Network of an Multisite install 3.3
-3. HTML Editor with new Quicktags
-4. Visual editor with new Quicktags
+1. Settings area in WordPress 4.0-alpha
+2. HTML Editor with new Quicktags
+3. Visual editor with new Quicktags
 
 
 == Other Notes ==
@@ -148,6 +147,14 @@ The plugin comes with various translations, please refer to the [WordPress Codex
 
 
 == Changelog ==
+= 2.3.3 (06/26/2014) =
+* Fix PHP notice on different installs
+* Update french and german language files
+* Update description, hint on the settings page
+* Order setting works now also on the visual drop down menu
+* Update readme
+* Update screenshots for the new version, possibilities
+
 = 2.3.2 (06/20/2014) =
 * Bugfix Javascript to add quicktags
 
